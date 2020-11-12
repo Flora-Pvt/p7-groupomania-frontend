@@ -37,9 +37,20 @@ const styles = {
   link: {
     textDecoration: "underline",
   },
+  customErrors: {
+    color: "orangered",
+    fontSize: "0.8rem",
+    marginTop: 10,
+  },
+  button: {
+    position: "relative",
+  },
+  progress: {
+    position: "absolute",
+  },
 };
 
-export class login extends Component {
+class login extends Component {
   constructor() {
     super();
     this.state = {
@@ -62,7 +73,7 @@ export class login extends Component {
     };
 
     axios
-      .post("http://localhost:3000/api/gifs/", userData)
+      .post("http://localhost:3000/api/auth/login", userData)
       .then((res) => {
         console.log(res.data);
         this.setState({ loading: false });
@@ -104,9 +115,10 @@ export class login extends Component {
           >
             <TextField
               className={classes.field}
-              required
-              id="outlined-required"
-              label="Adresse mail"              
+              id="email"
+              name="email"
+              type="email"
+              label="Adresse mail*"
               variant="outlined"
               helperText={errors.email}
               error={errors.email ? true : false}
@@ -115,16 +127,21 @@ export class login extends Component {
             />
             <TextField
               className={classes.field}
-              id="outlined-password-input"
-              label="Mot de passe*"
+              id="password"
+              name="password"
               type="password"
-              autoComplete="current-password"
+              label="Mot de passe*"
               variant="outlined"
               helperText={errors.password}
               error={errors.password ? true : false}
               value={this.state.password}
               onChange={this.handleChange}
             />
+            {errors.general && (
+              <Typography variant="body2" className={classes.customErrors}>
+                {errors.general}
+              </Typography>
+            )}
             <Button
               type="submit"
               variant="contained"
