@@ -19,7 +19,7 @@ export class home extends Component {
 
   render() {
     let recentGifsMarkup = this.state.gifs ? (
-      this.state.gifs.map((gif) => <Gif gif={gif} />)
+      this.state.gifs.map((gif) => <Gif gif={gif} key={gif.gifId} />)
     ) : (
       <p>Loading...</p>
     );
