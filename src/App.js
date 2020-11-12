@@ -1,33 +1,30 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
+import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 
 // Components
 import Navbar from "./components/Navbar";
+import AuthRoute from "./utils/AuthRoute";
+import themeObject from "./utils/theme";
 
 // Pages
 import home from "./pages/home";
 import login from "./pages/login";
 import signup from "./pages/signup";
-import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
-import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: "#ff7961",
-      main: "#f44336",
-      dark: "#ba000d",
-      contrastText: "#fff",
-    },
-    secondary: {
-      light: "#757ce8",
-      main: "#3f50b5",
-      dark: "#002884",
-      contrastText: "#000",
-    },
-  },
-});
+const theme = themeObject;
+
+let authenticated;
+const token = localStorage.auth;
+if (token) {
+  authenticated = true;
+} else {
+  authenticated = false;
+  if (window.location.href !== "http://localhost:3001/login") {
+    window.location.href = "/login";
+  }
+}
 
 class App extends Component {
   render() {
@@ -41,10 +38,20 @@ class App extends Component {
                 <Route exact path="/" component={home} />
               </Switch>
               <Switch>
-                <Route exact path="/login" component={login} />
+                <AuthRoute
+                  exact
+                  path="/login"
+                  component={login}
+                  authenticated={authenticated}
+                />
               </Switch>
               <Switch>
-                <Route exact path="/signup" component={signup} />
+                <AuthRoute
+                  exact
+                  path="/signup"
+                  component={signup}
+                  authenticated={authenticated}
+                />
               </Switch>
             </div>
           </Router>

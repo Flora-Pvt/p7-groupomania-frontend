@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import axios from "axios";
+
 import Gif from "../components/Gif"
 
 export class home extends Component {

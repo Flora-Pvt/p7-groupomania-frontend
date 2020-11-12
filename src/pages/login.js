@@ -12,43 +12,9 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-const styles = {
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  flex: {
-    display: "flex",
-    alignItems: "center",
-    marginTop: 20,
-    marginLeft: -50,
-  },
-  media: {
-    width: 50,
-  },
-  root: {
-    width: "40ch",
-  },
-  field: {
-    width: "40ch",
-    marginBottom: 20,
-  },
-  link: {
-    textDecoration: "underline",
-  },
-  customErrors: {
-    color: "orangered",
-    fontSize: "0.8rem",
-    marginTop: 10,
-  },
-  button: {
-    position: "relative",
-  },
-  progress: {
-    position: "absolute",
-  },
-};
+const styles = (theme) => ({
+  ...theme.styling,
+});
 
 class login extends Component {
   constructor() {
@@ -63,6 +29,7 @@ class login extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+
     this.setState({
       loading: true,
     });
@@ -75,7 +42,7 @@ class login extends Component {
     axios
       .post("http://localhost:3000/api/auth/login", userData)
       .then((res) => {
-        console.log(res.data);
+        localStorage.setItem("auth", `Bearer ${res.data.token}`);
         this.setState({ loading: false });
         this.props.history.push("/");
       })
@@ -155,7 +122,7 @@ class login extends Component {
               )}
             </Button>
             <p>
-              Dont have an account ? sign up{" "}
+              Don't have an account ? login{" "}
               <Link to="/signup" className={classes.link}>
                 here
               </Link>
