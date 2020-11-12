@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import axios from "axios";
+
 import Gif from "../components/Gif"
 
 export class home extends Component {
@@ -19,7 +20,7 @@ export class home extends Component {
 
   render() {
     let recentGifsMarkup = this.state.gifs ? (
-      this.state.gifs.map((gif) => <Gif gif={gif} />)
+      this.state.gifs.map((gif) => <Gif gif={gif} key={gif.gifId} />)
     ) : (
       <p>Loading...</p>
     );

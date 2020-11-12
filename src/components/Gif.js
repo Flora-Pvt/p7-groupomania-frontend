@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime"
 
 // Material UI
 import Card from "@material-ui/core/Card";
@@ -25,18 +27,21 @@ const styles = {
 
 export class Gif extends Component {
   render() {
+    dayjs.extend(relativeTime)
+
     const {
       classes,
       gif: {
         gifId,
         title,
         url,
-        createdAtFormed,
+        createdAt,
         User: { firstName, lastName },
       },
     } = this.props;
+    
     return (
-      <Card key={gifId} className={classes.root}>
+      <Card className={classes.root}>
         <CardHeader
           action={
             <IconButton aria-label="settings">
@@ -45,7 +50,7 @@ export class Gif extends Component {
           }
           title={title}
           subheader={
-            "par " + firstName + " " + lastName + " - " + createdAtFormed
+            "par " + firstName + " " + lastName + " - " + dayjs(createdAt).fromNow()
           }
           component={Link}
           to={`/gifs/${gifId}`}
