@@ -59,6 +59,23 @@ export const getUserData = () => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
+export const updateUser = (userEdit) => (dispatch) => {
+  dispatch({ type: LOADING_USER });
+  const auth = JSON.parse(localStorage.getItem("auth"));
+  const userId = auth.userId;
+  axios
+    .put("http://localhost:3000/api/auth/" + userId, userEdit)
+    .then(() => {
+      dispatch(getUserData());
+    })
+    .catch((err) => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.data,
+      });
+    });
+};
+
 export const uploadImage = (formData) => (dispatch) => {
   dispatch({ type: LOADING_USER });
   const auth = JSON.parse(localStorage.getItem("auth"));

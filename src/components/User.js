@@ -1,8 +1,9 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 import AppIcon from "../images/icon-transparent.png";
+import EditUser from "./UserEdit"
 
 // Material UI
 import Card from "@material-ui/core/Card";
@@ -10,7 +11,6 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardActions from "@material-ui/core/CardActions";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import EditIcon from "@material-ui/icons/Edit";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Button from "@material-ui/core/Button";
@@ -22,9 +22,12 @@ import Paper from "@material-ui/core/Paper";
 import { connect } from "react-redux";
 import { logoutUser, uploadImage } from "../redux/network/userNetwork";
 
-const styles = {
-
-};
+const styles = (theme) => ({
+  ...theme.styling,
+  actions: {
+    justifyContent: "space-between"
+  }
+});
 
 export class User extends Component {
   handleImageChange = (event) => {
@@ -60,19 +63,14 @@ export class User extends Component {
             className={classes.cardheader}
             avatar={
               <Avatar src={AppIcon} alt="avatar" className={classes.avatar} />
-            }
-            action={
-              <IconButton aria-label="settings">
-                <MoreHorizIcon />
-              </IconButton>
-            }
+            }            
             title={firstName + " " + lastName}
             subheader={officePosition + " " + email}
             component={Link}
             to={`/auth/${userId}`}
             color="inherit"
           />
-          <CardActions disableSpacing>
+          <CardActions className={classes.actions}>
             <input
               type="file"
               id="imageInput"
@@ -81,12 +79,13 @@ export class User extends Component {
             />
             <Tooltip title="Edit" placement="right">
               <IconButton onClick={this.handleEditPicture} className="button">
-                <EditIcon color="primary" marginTop="5" />
+                <EditIcon color="primary" />
               </IconButton>
             </Tooltip>
             <IconButton onClick={this.handleLogout}>
               <ExitToAppIcon aria-label="logout" color="primary" />
             </IconButton>
+            <EditUser />
           </CardActions>
         </Card>
       ) : (

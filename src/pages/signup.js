@@ -110,7 +110,7 @@ class signup extends Component {
               id="officePosition"
               name="officePosition"
               type="text"
-              label="Rôle*"
+              label="Rôle dans l'entreprise*"
               variant="outlined"
               helperText={errors.officePosition}
               error={errors.officePosition ? true : false}
