@@ -3,6 +3,7 @@ import Grid from "@material-ui/core/Grid";
 import axios from "axios";
 
 import Gif from "../components/Gif"
+import User from "../components/User"
 
 export class home extends Component {
   state = {
@@ -26,11 +27,11 @@ export class home extends Component {
     );
 
     return (
-      <Grid container spacing={10}>
+      <Grid container>
         <Grid item sm={3} xs={12}>
-          <p>Content...</p>
+          <User/>
         </Grid>
-        <Grid item sm={9} xs={12}>
+        <Grid item sm={8} xs={12}>
           {recentGifsMarkup}
         </Grid>
       </Grid>

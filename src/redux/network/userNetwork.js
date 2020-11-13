@@ -4,6 +4,7 @@ import {
   CLEAR_ERRORS,
   LOADING_UI,
   SET_UNAUTHENTICATED,
+  LOADING_USER,
 } from "../types";
 import axios from "axios";
 
@@ -44,6 +45,7 @@ export const signupUser = (newUserData, history) => (dispatch) => {
 };
 
 export const getUserData = () => (dispatch) => {
+  dispatch({ type: LOADING_USER })
   const auth = JSON.parse(localStorage.getItem("auth"));
   const userId = auth.userId;
   axios
