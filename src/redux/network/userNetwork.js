@@ -45,7 +45,7 @@ export const signupUser = (newUserData, history) => (dispatch) => {
 };
 
 export const getUserData = () => (dispatch) => {
-  dispatch({ type: LOADING_USER })
+  dispatch({ type: LOADING_USER });
   const auth = JSON.parse(localStorage.getItem("auth"));
   const userId = auth.userId;
   axios
@@ -57,6 +57,23 @@ export const getUserData = () => (dispatch) => {
       });
     })
     .catch((err) => console.log(err));
+};
+
+export const uploadImage = (formData) => (dispatch) => {
+  dispatch({ type: LOADING_USER });
+  const auth = JSON.parse(localStorage.getItem("auth"));
+  const userId = auth.userId;
+  axios
+    .post("http://localhost:3000/api/auth/" + userId, formData)
+    .then(() => {
+      dispatch(getUserData());
+    })
+    .catch((err) => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.data,
+      });
+    });
 };
 
 export const logoutUser = () => (dispatch) => {
