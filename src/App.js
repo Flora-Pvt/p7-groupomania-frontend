@@ -6,6 +6,8 @@ import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 // Redux
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { SET_AUTHENTICATED, SET_UNAUTHENTICATED } from "./redux/types";
+import { getUserData } from "./redux/network/userNetwork";
 
 // Components
 import Navbar from "./components/Navbar";
@@ -16,15 +18,18 @@ import themeObject from "./utils/theme";
 import home from "./pages/home";
 import login from "./pages/login";
 import signup from "./pages/signup";
+import axios from "axios";
 
 const theme = themeObject;
 
-let authenticated;
-const token = localStorage.auth;
+const auth = JSON.parse(localStorage.getItem("auth"));
+const token = auth.token;
 if (token) {
-  authenticated = true;
+  store.dispatch({ type: SET_AUTHENTICATED });
+  axios.defaults.headers.common["Authorization"] = token;
+  store.dispatch(getUserData());
 } else {
-  authenticated = false;
+  store.dispatch({ type: SET_UNAUTHENTICATED });
   if (window.location.href !== "http://localhost:3001/login") {
     window.location.href = "/login";
   }
@@ -46,7 +51,6 @@ class App extends Component {
                   exact
                   path="/login"
                   component={login}
-                  authenticated={authenticated}
                 />
               </Switch>
               <Switch>
@@ -54,7 +58,6 @@ class App extends Component {
                   exact
                   path="/signup"
                   component={signup}
-                  authenticated={authenticated}
                 />
               </Switch>
             </div>

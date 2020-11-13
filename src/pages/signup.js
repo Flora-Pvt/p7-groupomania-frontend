@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import axios from "axios";
 import AppIcon from "../images/icon-transparent.png";
 
 // Material UI
@@ -11,6 +10,10 @@ import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
+
+// Redux
+import { connect } from "react-redux";
+import { signupUser } from "../redux/network/userNetwork";
 
 const styles = (theme) => ({
   ...theme.styling,
@@ -25,17 +28,18 @@ class signup extends Component {
       officePosition: "",
       email: "",
       password: "",
-      confirmPassword: "",
-      loading: false,
       errors: {},
     };
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.UI.errors) {
+      this.setState({ errors: nextProps.UI.errors });
+    }
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
-    this.setState({
-      loading: true,
-    });
 
     const newUserData = {
       firstName: this.state.firstName,
@@ -45,19 +49,7 @@ class signup extends Component {
       password: this.state.password,
     };
 
-    axios
-      .post("http://localhost:3000/api/auth/signup", newUserData)
-      .then((res) => {
-        localStorage.setItem("auth", `Bearer ${res.data.token}`);
-        this.setState({ loading: false });
-        this.props.history.push("/");
-      })
-      .catch((err) => {
-        this.setState({
-          errors: err.response.data,
-          loading: false,
-        });
-      });
+    this.props.signupUser(newUserData, this.props.history);
   };
 
   handleChange = (event) => {
@@ -67,8 +59,11 @@ class signup extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-    const { errors, loading } = this.state;
+    const {
+      classes,
+      UI: { loading },
+    } = this.props;
+    const { errors } = this.state;
 
     return (
       <Grid container spacing={10} className={classes.form}>
@@ -113,13 +108,13 @@ class signup extends Component {
             <TextField
               className={classes.field}
               id="officePosition"
-              name="officePosition*"
+              name="officePosition"
               type="text"
-              label="Rôle*"
+              label="Rôle dans l'entreprise*"
               variant="outlined"
-              helperText={errors.email}
-              error={errors.email ? true : false}
-              value={this.state.email}
+              helperText={errors.officePosition}
+              error={errors.officePosition ? true : false}
+              value={this.state.officePosition}
               onChange={this.handleChange}
             />
             <TextField
@@ -144,18 +139,6 @@ class signup extends Component {
               helperText={errors.password}
               error={errors.password ? true : false}
               value={this.state.password}
-              onChange={this.handleChange}
-            />
-            <TextField
-              className={classes.field}
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              label="Mot de passe*"
-              variant="outlined"
-              helperText={errors.confirmPassword}
-              error={errors.confirmPassword ? true : false}
-              value={this.state.confirmPassword}
               onChange={this.handleChange}
             />
             {errors.general && (
@@ -190,6 +173,21 @@ class signup extends Component {
 
 signup.propTypes = {
   classes: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired,
+  signupUser: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(signup);
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI,
+});
+
+const mapActionsToProps = {
+  signupUser,
+};
+
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(withStyles(styles)(signup));

@@ -5,10 +5,16 @@ body {
     sans-serif;
   background-color: rgb(245, 245, 245);
 }
+
 .container {
-  margin: 80px auto 0 auto;
-  max-width: 1200px;
+  margin: 80px auto;
+  width: 90%;
 }
+
+.MuiGrid-container {
+  justify-content: space-between;
+}
+
 .nav-container {
   margin: auto;
 }
