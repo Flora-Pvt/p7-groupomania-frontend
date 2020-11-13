@@ -11,9 +11,8 @@ import CardActions from "@material-ui/core/CardActions";
 import Avatar from "@material-ui/core/Avatar";
 import IconButton from "@material-ui/core/IconButton";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
-import StarsIcon from "@material-ui/icons/Stars";
-import MailIcon from "@material-ui/icons/Mail";
 import EditIcon from "@material-ui/icons/Edit";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import Button from "@material-ui/core/Button";
 import Tooltip from "@material-ui/core/Tooltip";
 import Typography from "@material-ui/core/Typography";
@@ -24,9 +23,7 @@ import { connect } from "react-redux";
 import { logoutUser, uploadImage } from "../redux/network/userNetwork";
 
 const styles = {
-  avatar: {
-    position: "fixed",
-  },
+
 };
 
 export class User extends Component {
@@ -40,6 +37,10 @@ export class User extends Component {
   handleEditPicture = () => {
     const fileInput = document.getElementById("imageInput");
     fileInput.click();
+  };
+
+  handleLogout = () => {
+    this.props.logoutUser();
   };
 
   render() {
@@ -58,23 +59,7 @@ export class User extends Component {
           <CardHeader
             className={classes.cardheader}
             avatar={
-              <Fragment>
-                <Avatar src={AppIcon} alt="avatar" className={classes.avatar} />
-                <input
-                  type="file"
-                  id="imageInput"
-                  hidden="hidden"
-                  onChange={this.handleImageChange}
-                />
-                <Tooltip title="Edit" placement="right">
-                  <IconButton
-                    onClick={this.handleEditPicture}
-                    className="button"
-                  >
-                    <EditIcon color="primary" marginTop="5" />
-                  </IconButton>
-                </Tooltip>
-              </Fragment>
+              <Avatar src={AppIcon} alt="avatar" className={classes.avatar} />
             }
             action={
               <IconButton aria-label="settings">
@@ -88,11 +73,19 @@ export class User extends Component {
             color="inherit"
           />
           <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites">
-              <StarsIcon />
-            </IconButton>
-            <IconButton aria-label="share">
-              <MailIcon />
+            <input
+              type="file"
+              id="imageInput"
+              hidden="hidden"
+              onChange={this.handleImageChange}
+            />
+            <Tooltip title="Edit" placement="right">
+              <IconButton onClick={this.handleEditPicture} className="button">
+                <EditIcon color="primary" marginTop="5" />
+              </IconButton>
+            </Tooltip>
+            <IconButton onClick={this.handleLogout}>
+              <ExitToAppIcon aria-label="logout" color="primary" />
             </IconButton>
           </CardActions>
         </Card>
