@@ -82,7 +82,6 @@ export class userEdit extends Component {
   };
 
   render() {
-    // const avatar = this.state.avatar;
     const { classes } = this.props;
 
     return (

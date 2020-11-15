@@ -13,6 +13,7 @@ export const loginUser = (userData, history) => (dispatch) => {
   axios
     .post("http://localhost:3000/api/auth/login", userData)
     .then((auth) => {
+      localStorage.setItem("userId", JSON.stringify(auth.data.userId));
       setAuthorizationHeader(auth);
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
@@ -31,6 +32,7 @@ export const signupUser = (newUserData, history) => (dispatch) => {
   axios
     .post("http://localhost:3000/api/auth/signup", newUserData)
     .then((auth) => {
+      localStorage.setItem("userId", JSON.stringify(auth.data.userId));
       setAuthorizationHeader(auth);
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
@@ -46,8 +48,7 @@ export const signupUser = (newUserData, history) => (dispatch) => {
 
 export const getUserData = () => (dispatch) => {
   dispatch({ type: LOADING_USER });
-  const auth = JSON.parse(localStorage.getItem("auth"));
-  const userId = auth.userId;
+  const userId = JSON.parse(localStorage.getItem("userId"));
   axios
     .get("http://localhost:3000/api/auth/" + userId)
     .then((res) => {
@@ -61,8 +62,8 @@ export const getUserData = () => (dispatch) => {
 
 export const updateUser = (userEdit) => (dispatch) => {
   dispatch({ type: LOADING_USER });
-  const auth = JSON.parse(localStorage.getItem("auth"));
-  const userId = auth.userId;
+  const userId = JSON.parse(localStorage.getItem("userId"));
+
   axios
     .put("http://localhost:3000/api/auth/" + userId, userEdit)
     .then(() => {
@@ -77,13 +78,13 @@ export const updateUser = (userEdit) => (dispatch) => {
 };
 
 export const logoutUser = () => (dispatch) => {
-  localStorage.removeItem("auth");
+  localStorage.removeItem("userId");
   delete axios.defaults.headers.common["Authorization"];
   dispatch({ type: SET_UNAUTHENTICATED });
 };
 
 const setAuthorizationHeader = (auth) => {
   const token = `Bearer ${auth.data.token}`;
-  localStorage.setItem("auth", JSON.stringify(auth.data));
+  localStorage.setItem("token", JSON.stringify(auth.data.token));
   axios.defaults.headers.common["Authorization"] = token;
 };

@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
 import MyButton from "../utils/MyButton";
+import DeleteGif from "../components/DeleteGif";
 
 // Material UI
 import Card from "@material-ui/core/Card";
@@ -13,12 +14,10 @@ import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardActions from "@material-ui/core/CardActions";
-import IconButton from "@material-ui/core/IconButton";
-import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import StarIcon from "@material-ui/icons/Star";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import ChatIcon from "@material-ui/icons/Chat";
-import ChatBubbleOutlineIcon from '@material-ui/icons/ChatBubbleOutline';
+import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 
 import { connect } from "react-redux";
 import { likeGif, unlikeGif } from "../redux/network/gifNetwork";
@@ -57,7 +56,15 @@ export class Gif extends Component {
 
     const {
       classes,
-      gif: { gifId, title, url, createdAt, Likes, Comments },
+      gif: {
+        gifId,
+        title,
+        url,
+        createdAt,
+        Likes,
+        Comments,
+        User: { userId },
+      },
       user: {
         credentials: { firstName, lastName, avatar },
         authenticated,
@@ -91,6 +98,11 @@ export class Gif extends Component {
         </MyButton>
       );
 
+    const deleteButton = authenticated &&
+      JSON.parse(localStorage.getItem("userId")) === userId && (
+        <DeleteGif gifId={gifId} />
+      );
+
     return (
       <Card className={classes.root}>
         <CardHeader
@@ -102,9 +114,7 @@ export class Gif extends Component {
             )
           }
           action={
-            <IconButton aria-label="settings">
-              <MoreHorizIcon />
-            </IconButton>
+              [deleteButton]
           }
           title={title}
           subheader={
@@ -115,8 +125,6 @@ export class Gif extends Component {
             " - " +
             dayjs(createdAt).fromNow()
           }
-          component={Link}
-          to={`/gifs/${gifId}`}
           color="inherit"
         />
         <CardMedia

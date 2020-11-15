@@ -22,11 +22,10 @@ import axios from "axios";
 
 const theme = themeObject;
 
-if (JSON.parse(localStorage.getItem("auth"))) {
-  const auth = JSON.parse(localStorage.getItem("auth"));
-  const token = auth.token;
+if (JSON.parse(localStorage.getItem("token"))) {
+  const token = JSON.parse(localStorage.getItem("token"));
   store.dispatch({ type: SET_AUTHENTICATED });
-  axios.defaults.headers.common["Authorization"] = token;
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   store.dispatch(getUserData());
 } else {
   store.dispatch({ type: SET_UNAUTHENTICATED });

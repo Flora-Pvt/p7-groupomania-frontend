@@ -1,4 +1,4 @@
-import { SET_GIFS, LOADING_GIFS, LIKE_GIF, UNLIKE_GIF } from "../types";
+import { SET_GIFS, LOADING_GIFS, DELETE_GIF, LIKE_GIF, UNLIKE_GIF } from "../types";
 import axios from "axios";
 
 // Get all GIFS
@@ -20,13 +20,26 @@ export const getGifs = () => (dispatch) => {
     );
 };
 
+// Delete GIF
+export const deleteGif = (gifId) => (dispatch) => {
+  axios
+    .delete("http://localhost:3000/api/gifs/" + gifId)
+    .then((res) => {
+      dispatch({
+        type: DELETE_GIF,
+        payload: gifId,
+      });
+    })
+    .catch((err) => console.log(err));
+};
+
 // Like GIF
 export const likeGif = (gifId) => (dispatch) => {
-  const auth = JSON.parse(localStorage.getItem("auth"));
+  const userId = JSON.parse(localStorage.getItem("userId"));
 
   const like = {
     gifId: gifId,
-    userId: auth.userId,
+    userId: userId,
   };
 
   axios
@@ -42,11 +55,11 @@ export const likeGif = (gifId) => (dispatch) => {
 
 // Unlike GIF
 export const unlikeGif = (gifId) => (dispatch) => {
-  const auth = JSON.parse(localStorage.getItem("auth"));
+  const userId = JSON.parse(localStorage.getItem("userId"));
 
   axios
     .delete("http://localhost:3000/api/likes/" + gifId, {data: {
-      userId: auth.userId}})
+      userId: userId}})
     .then((res) => {
       dispatch({
         type: UNLIKE_GIF,
