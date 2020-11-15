@@ -3,6 +3,7 @@ import {
   SET_AUTHENTICATED,
   SET_UNAUTHENTICATED,
   LOADING_USER,
+  LIKE_GIF,
 } from "../types";
 
 const initialState = {
@@ -33,6 +34,17 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading: true,
+      };
+    case LIKE_GIF:
+      return {
+        ...state,
+        likes: [
+          ...state.likes,
+          {
+            userId: state.credentials.userId,
+            gifId: action.payload.gifId,
+          },
+        ],
       };
     default:
       return state;

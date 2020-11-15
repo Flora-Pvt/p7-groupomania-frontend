@@ -12,7 +12,7 @@ const middleware = [thunk];
 
 const reducers = combineReducers({
   user: userReducer,
-  gif: gifReducer,
+  gifs: gifReducer,
   comment: commentReducer,
   UI: uiReducer,
 });

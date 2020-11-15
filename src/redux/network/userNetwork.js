@@ -76,23 +76,6 @@ export const updateUser = (userEdit) => (dispatch) => {
     });
 };
 
-/* export const uploadImage = (formData) => (dispatch) => {
-  dispatch({ type: LOADING_USER });
-  const auth = JSON.parse(localStorage.getItem("auth"));
-  const userId = auth.userId;
-  axios
-    .post("http://localhost:3000/api/auth/" + userId, formData)
-    .then(() => {
-      dispatch(getUserData());
-    })
-    .catch((err) => {
-      dispatch({
-        type: SET_ERRORS,
-        payload: err.data,
-      });
-    });
-}; */
-
 export const logoutUser = () => (dispatch) => {
   localStorage.removeItem("auth");
   delete axios.defaults.headers.common["Authorization"];

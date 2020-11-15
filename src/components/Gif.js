@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import withStyles from "@material-ui/core/styles/withStyles";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime"
+import PropTypes from 'prop-types';
 
 // Material UI
 import Card from "@material-ui/core/Card";
@@ -13,6 +14,8 @@ import IconButton from "@material-ui/core/IconButton";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import StarsIcon from "@material-ui/icons/Stars";
 import MailIcon from "@material-ui/icons/Mail";
+
+import { connect } from 'react-redux';
 
 const styles = {
   root: {
@@ -75,4 +78,14 @@ export class Gif extends Component {
   }
 }
 
-export default withStyles(styles)(Gif);
+Gif.propTypes = {
+  user: PropTypes.object.isRequired,
+  gif: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps)(withStyles(styles)(Gif));

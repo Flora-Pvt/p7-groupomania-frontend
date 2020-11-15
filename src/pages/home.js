@@ -1,27 +1,24 @@
 import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
-import axios from "axios";
+import PropTypes from "prop-types";
 
-import Gif from "../components/Gif"
-import User from "../components/User"
+import Gif from "../components/Gif";
+import User from "../components/User";
+
+import { connect } from "react-redux";
+import { getGifs } from "../redux/network/gifNetwork";
 
 export class home extends Component {
-  state = {
-    gifs: null,
-  };
-
+  
   componentDidMount() {
-    axios
-      .get("http://localhost:3000/api/gifs/")
-      .then((res) => {
-        this.setState({ gifs: res.data });
-      })
-      .catch((err) => console.log(err));
+    this.props.getGifs();
   }
 
   render() {
-    let recentGifsMarkup = this.state.gifs ? (
-      this.state.gifs.map((gif) => <Gif gif={gif} key={gif.gifId} />)
+    console.log(this.props);
+    const { gifs, loading } = this.props.gifs;
+    let recentGifsMarkup = !loading ? (
+      gifs.map((gif) => <Gif gif={gif} key={gif.gifId} />)
     ) : (
       <p>Loading...</p>
     );
@@ -29,7 +26,7 @@ export class home extends Component {
     return (
       <Grid container>
         <Grid item sm={3} xs={12}>
-          <User/>
+          <User />
         </Grid>
         <Grid item sm={8} xs={12}>
           {recentGifsMarkup}
@@ -39,4 +36,13 @@ export class home extends Component {
   }
 }
 
-export default home;
+home.propTypes = {
+  getGifs: PropTypes.func.isRequired,
+  gifs: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => ({
+  gifs: state.gifs,
+});
+
+export default connect(mapStateToProps, { getGifs })(home);
