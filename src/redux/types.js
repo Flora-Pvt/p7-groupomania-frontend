@@ -8,6 +8,7 @@ export const LOADING_USER = "LOADING_USER"
 export const SET_GIFS = "SET_GIFS"
 export const LOADING_GIFS = "LOADING_GIFS"
 export const LIKE_GIF = "LIKE_GIF"
+export const UNLIKE_GIF = "UNLIKE_GIF"
 
 // UI reducer types
 export const SET_ERRORS = "SET_ERRORS"

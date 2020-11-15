@@ -52,7 +52,6 @@ export class userEdit extends Component {
   componentDidMount() {
     const { credentials } = this.props;
     this.mapUserDetailsToState(credentials);
-    console.log(credentials.avatar);
   }
 
   handleChange = (event) => {

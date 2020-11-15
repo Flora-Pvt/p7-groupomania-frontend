@@ -15,7 +15,6 @@ export class home extends Component {
   }
 
   render() {
-    console.log(this.props);
     const { gifs, loading } = this.props.gifs;
     let recentGifsMarkup = !loading ? (
       gifs.map((gif) => <Gif gif={gif} key={gif.gifId} />)
