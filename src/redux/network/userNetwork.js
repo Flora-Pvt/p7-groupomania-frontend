@@ -76,7 +76,7 @@ export const updateUser = (userEdit) => (dispatch) => {
     });
 };
 
-export const uploadImage = (formData) => (dispatch) => {
+/* export const uploadImage = (formData) => (dispatch) => {
   dispatch({ type: LOADING_USER });
   const auth = JSON.parse(localStorage.getItem("auth"));
   const userId = auth.userId;
@@ -91,7 +91,7 @@ export const uploadImage = (formData) => (dispatch) => {
         payload: err.data,
       });
     });
-};
+}; */
 
 export const logoutUser = () => (dispatch) => {
   localStorage.removeItem("auth");

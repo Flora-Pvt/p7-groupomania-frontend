@@ -22,9 +22,9 @@ import axios from "axios";
 
 const theme = themeObject;
 
-const auth = JSON.parse(localStorage.getItem("auth"));
-const token = auth.token;
-if (token) {
+if (JSON.parse(localStorage.getItem("auth"))) {
+  const auth = JSON.parse(localStorage.getItem("auth"));
+  const token = auth.token;
   store.dispatch({ type: SET_AUTHENTICATED });
   axios.defaults.headers.common["Authorization"] = token;
   store.dispatch(getUserData());
@@ -47,18 +47,10 @@ class App extends Component {
                 <Route exact path="/" component={home} />
               </Switch>
               <Switch>
-                <AuthRoute
-                  exact
-                  path="/login"
-                  component={login}
-                />
+                <AuthRoute exact path="/login" component={login} />
               </Switch>
               <Switch>
-                <AuthRoute
-                  exact
-                  path="/signup"
-                  component={signup}
-                />
+                <AuthRoute exact path="/signup" component={signup} />
               </Switch>
             </div>
           </Router>
