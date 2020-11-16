@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
-import MyButton from "../utils/MyButton";
+import MyButton from "../../utils/MyButton";
 
 // Material UI
 import TextField from "@material-ui/core/TextField";
@@ -16,7 +16,7 @@ import Button from "@material-ui/core/Button";
 
 // Redux
 import { connect } from "react-redux";
-import { postGif, clearErrors } from "../redux/network/gifNetwork";
+import { postGif, clearErrors } from "../../redux/network/gifNetwork";
 
 const styles = (theme) => ({
   ...theme.styling,

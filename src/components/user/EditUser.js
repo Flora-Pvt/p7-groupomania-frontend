@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
-import MyButton from "../utils/MyButton";
-import AppIcon from "../images/icon-transparent.png";
+import MyButton from "../../utils/MyButton";
+import AppIcon from "../../images/icon-transparent.png";
 
 // Material UI
 import Avatar from "@material-ui/core/Avatar";
@@ -16,7 +16,7 @@ import Button from "@material-ui/core/Button";
 
 // Redux
 import { connect } from "react-redux";
-import { updateUser } from "../redux/network/userNetwork";
+import { updateUser } from "../../redux/network/userNetwork";
 
 const styles = (theme) => ({
   ...theme.styling,

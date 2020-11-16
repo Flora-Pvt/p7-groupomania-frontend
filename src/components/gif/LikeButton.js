@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
-import MyButton from "../utils/MyButton";
+import MyButton from "../../utils/MyButton";
 import PropTypes from "prop-types";
 
 // Material UI
@@ -9,7 +9,7 @@ import StarBorderIcon from "@material-ui/icons/StarBorder";
 
 // Redux
 import { connect } from "react-redux";
-import { likeGif, unlikeGif } from "../redux/network/gifNetwork";
+import { likeGif, unlikeGif } from "../../redux/network/gifNetwork";
 
 export class LikeButton extends Component {
   likedGif = () => {

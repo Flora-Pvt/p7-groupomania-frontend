@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
 
-import Gif from "../components/Gif";
-import User from "../components/User";
+import Gif from "../components/gif/Gif";
+import User from "../components/user/User";
 
 import { connect } from "react-redux";
 import { getGifs } from "../redux/network/gifNetwork";

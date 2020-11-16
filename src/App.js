@@ -10,7 +10,7 @@ import { SET_AUTHENTICATED, SET_UNAUTHENTICATED } from "./redux/types";
 import { getUserData } from "./redux/network/userNetwork";
 
 // Components
-import Navbar from "./components/Navbar";
+import Navbar from "./components/layout/Navbar";
 import AuthRoute from "./utils/AuthRoute";
 import themeObject from "./utils/theme";
 

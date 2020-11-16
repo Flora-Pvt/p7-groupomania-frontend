@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
-import AppIcon from "../images/icon-transparent.png";
+import AppIcon from "../../images/icon-transparent.png";
 import EditUser from "./EditUser";
-import MyButton from "../utils/MyButton";
+import MyButton from "../../utils/MyButton";
 
 // Material UI
+import withStyles from "@material-ui/core/styles/withStyles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import CardActions from "@material-ui/core/CardActions";
@@ -18,7 +18,7 @@ import Paper from "@material-ui/core/Paper";
 
 // Redux
 import { connect } from "react-redux";
-import { logoutUser } from "../redux/network/userNetwork";
+import { logoutUser } from "../../redux/network/userNetwork";
 
 const styles = (theme) => ({
   ...theme.styling,

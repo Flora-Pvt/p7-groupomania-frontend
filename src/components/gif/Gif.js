@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import AppIcon from "../images/icon-transparent.png";
+import AppIcon from "../../images/icon-transparent.png";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
-import MyButton from "../utils/MyButton";
+import MyButton from "../../utils/MyButton";
 import DeleteGif from "./DeleteGif";
 import GifDialog from "./GifDialog";
 import LikeButton from "./LikeButton";

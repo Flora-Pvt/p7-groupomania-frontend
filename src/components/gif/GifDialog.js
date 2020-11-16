@@ -1,11 +1,12 @@
 import React, { Component, Fragment } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
-import MyButton from "../utils/MyButton";
+import MyButton from "../../utils/MyButton";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
-import AppIcon from "../images/icon-transparent.png";
+import AppIcon from "../../images/icon-transparent.png";
 import LikeButton from "./LikeButton";
+import Comment from "./Comment";
 
 // Material UI
 import Card from "@material-ui/core/Card";
@@ -23,7 +24,7 @@ import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 
 // Redux
 import { connect } from "react-redux";
-import { getOneGif } from "../redux/network/gifNetwork";
+import { getOneGif } from "../../redux/network/gifNetwork";
 
 const styles = (theme) => ({
   ...theme.styling,
@@ -86,6 +87,7 @@ export class GifDialog extends Component {
           color="inherit"
         />
         <CardMedia className={classes.media} image={url} />
+        <Comment comments={Comments} />
       </Card>
     );
 
