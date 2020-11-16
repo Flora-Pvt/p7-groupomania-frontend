@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { SET_GIFS, LOADING_GIFS, POST_GIF, DELETE_GIF, LIKE_GIF, UNLIKE_GIF } from "../types";
+import { SET_GIFS, SET_GIF, LOADING_GIFS, POST_GIF, DELETE_GIF, LIKE_GIF, UNLIKE_GIF } from "../types";
 
 const initialState = {
   gifs: [],
@@ -20,6 +20,11 @@ export default function (state = initialState, action) {
         gifs: action.payload,
         loading: false,
       };
+      case SET_GIF:
+        return {
+          ...state,
+          gif: action.payload,
+        };
       case POST_GIF:
         return {
           ...state,

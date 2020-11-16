@@ -29,7 +29,7 @@ if (JSON.parse(localStorage.getItem("token"))) {
   store.dispatch(getUserData());
 } else {
   store.dispatch({ type: SET_UNAUTHENTICATED });
-  if (window.location.href !== "http://localhost:3001/login") {
+  if (window.location.href !== "http://localhost:3000/login") {
     window.location.href = "/login";
   }
 }

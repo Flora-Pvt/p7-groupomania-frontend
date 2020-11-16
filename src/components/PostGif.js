@@ -16,7 +16,7 @@ import Button from "@material-ui/core/Button";
 
 // Redux
 import { connect } from "react-redux";
-import { postGif } from "../redux/network/gifNetwork";
+import { postGif, clearErrors } from "../redux/network/gifNetwork";
 
 const styles = (theme) => ({
   ...theme.styling,
@@ -36,8 +36,8 @@ export class PostGif extends Component {
         errors: nextProps.UI.errors,
       });
     }
-    if(!nextProps.UI.errors && !nextProps.UI.loading){
-      this.setState({title: "", image: ""})
+    else if(!nextProps.UI.errors && !nextProps.UI.loading){
+      this.setState({title: "", image: "", open: false, errors: {}})
     }
   }
 
@@ -46,7 +46,8 @@ export class PostGif extends Component {
   };
 
   handleClose = () => {
-    this.setState({ open: false, errors: {} });
+    this.props.clearErrors()
+    this.setState({open: false, errors: {}})
   };
 
   handleChange = (event) => {
@@ -157,6 +158,7 @@ export class PostGif extends Component {
 
 PostGif.propTypes = {
   postGif: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   UI: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
@@ -165,6 +167,6 @@ const mapStateToProps = (state) => ({
   UI: state.UI,
 });
 
-export default connect(mapStateToProps, { postGif })(
+export default connect(mapStateToProps, { postGif, clearErrors })(
   withStyles(styles)(PostGif)
 );

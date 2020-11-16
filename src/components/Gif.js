@@ -6,7 +6,8 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
 import MyButton from "../utils/MyButton";
-import DeleteGif from "../components/DeleteGif";
+import DeleteGif from "./DeleteGif";
+import GifDialog from "./GifDialog";
 
 // Material UI
 import Card from "@material-ui/core/Card";
@@ -64,11 +65,9 @@ export class Gif extends Component {
         Likes,
         Comments,
         userId,
+        User: { firstName, lastName, avatar },
       },
-      user: {
-        credentials: { firstName, lastName, avatar },
-        authenticated,
-      },
+      user: { authenticated },
     } = this.props;
 
     const likeButton = !authenticated ? (
@@ -87,16 +86,15 @@ export class Gif extends Component {
       </MyButton>
     );
 
-    const commentButton =
-      !Comments ? (
-        <MyButton tip="commentaires" aria-label="commentaires">
-          <ChatBubbleOutlineIcon color="primary" />
-        </MyButton>
-      ) : (
-        <MyButton tip="commentaires" aria-label="commentaires">
-          <ChatIcon color="primary" />
-        </MyButton>
-      );
+    const commentButton = !Comments ? (
+      <MyButton tip="commentaires" aria-label="commentaires">
+        <ChatBubbleOutlineIcon color="primary" />
+      </MyButton>
+    ) : (
+      <MyButton tip="commentaires" aria-label="commentaires">
+        <ChatIcon color="primary" />
+      </MyButton>
+    );
 
     const deleteButton = authenticated &&
       JSON.parse(localStorage.getItem("userId")) === userId && (
@@ -113,9 +111,7 @@ export class Gif extends Component {
               <Avatar src={AppIcon} alt="avatar" className={classes.avatar} />
             )
           }
-          action={
-              [deleteButton]
-          }
+          action={[deleteButton]}
           title={title}
           subheader={
             "par " +
@@ -138,6 +134,7 @@ export class Gif extends Component {
           {Likes ? <span>{Likes.length}</span> : <span>0</span>}
           {commentButton}
           {Comments ? <span>{Comments.length}</span> : <span>0</span>}
+          <GifDialog gifId={gifId} userId={userId} />
         </CardActions>
       </Card>
     );
