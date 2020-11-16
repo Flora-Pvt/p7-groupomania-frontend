@@ -5,6 +5,7 @@ import MyButton from "../utils/MyButton";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import AppIcon from "../images/icon-transparent.png";
+import LikeButton from "./LikeButton";
 
 // Material UI
 import Card from "@material-ui/core/Card";
@@ -17,6 +18,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import UnfoldMore from "@material-ui/icons/UnfoldMore";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
+import ChatIcon from "@material-ui/icons/Chat";
+import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 
 // Redux
 import { connect } from "react-redux";
@@ -49,9 +52,19 @@ export class GifDialog extends Component {
   render() {
     const {
       classes,
-      gif: { userId, title, url, createdAt },
+      gif: { userId, title, url, createdAt, Likes, Comments },
       UI: { loading },
     } = this.props;
+
+    const commentButton = !Comments ? (
+      <MyButton tip="commentaires" aria-label="commentaires">
+        <ChatBubbleOutlineIcon color="primary" />
+      </MyButton>
+    ) : (
+      <MyButton tip="commentaires" aria-label="commentaires">
+        <ChatIcon color="primary" />
+      </MyButton>
+    );
 
     const dialogMarkup = loading ? (
       <CircularProgress size={200} thickness={2} />
@@ -92,8 +105,12 @@ export class GifDialog extends Component {
           fullWidth
           maxWidth="sm"
         >
-          <DialogContent >{dialogMarkup}</DialogContent>
+          <DialogContent>{dialogMarkup}</DialogContent>
           <DialogActions>
+            <LikeButton />
+            {Likes ? <span>{Likes.length}</span> : <span>0</span>}
+            {commentButton}
+            {Comments ? <span>{Comments.length}</span> : <span>0</span>}
             <Button onClick={this.handleClose} color="primary">
               Fermer
             </Button>

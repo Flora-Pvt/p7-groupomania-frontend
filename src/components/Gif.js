@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import withStyles from "@material-ui/core/styles/withStyles";
 import AppIcon from "../images/icon-transparent.png";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -8,20 +7,20 @@ import PropTypes from "prop-types";
 import MyButton from "../utils/MyButton";
 import DeleteGif from "./DeleteGif";
 import GifDialog from "./GifDialog";
+import LikeButton from "./LikeButton";
 
 // Material UI
+import withStyles from "@material-ui/core/styles/withStyles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardActions from "@material-ui/core/CardActions";
-import StarIcon from "@material-ui/icons/Star";
-import StarBorderIcon from "@material-ui/icons/StarBorder";
 import ChatIcon from "@material-ui/icons/Chat";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 
+// Redux
 import { connect } from "react-redux";
-import { likeGif, unlikeGif } from "../redux/network/gifNetwork";
 
 const styles = {
   root: {
@@ -35,23 +34,6 @@ const styles = {
 };
 
 export class Gif extends Component {
-  likedGif = () => {
-    if (
-      this.props.user.likes &&
-      this.props.user.likes.find((like) => like.gifId === this.props.gif.gifId)
-    ) {
-      return true;
-    } else return false;
-  };
-
-  likeGif = () => {
-    this.props.likeGif(this.props.gif.gifId);
-  };
-
-  unlikeGif = () => {
-    this.props.unlikeGif(this.props.gif.gifId);
-  };
-
   render() {
     dayjs.extend(relativeTime);
 
@@ -69,22 +51,6 @@ export class Gif extends Component {
       },
       user: { authenticated },
     } = this.props;
-
-    const likeButton = !authenticated ? (
-      <MyButton tip="Aimer">
-        <Link to="/login">
-          <StarBorderIcon color="primary" />
-        </Link>
-      </MyButton>
-    ) : this.likedGif() ? (
-      <MyButton tip="Ne plus aimer" onClick={this.unlikeGif}>
-        <StarIcon color="primary" />
-      </MyButton>
-    ) : (
-      <MyButton tip="Aimer" onClick={this.likeGif}>
-        <StarBorderIcon color="primary" />
-      </MyButton>
-    );
 
     const commentButton = !Comments ? (
       <MyButton tip="commentaires" aria-label="commentaires">
@@ -130,7 +96,7 @@ export class Gif extends Component {
           to={`/gifs/${gifId}`}
         />
         <CardActions disableSpacing>
-          {likeButton}
+          <LikeButton gifId={gifId} />
           {Likes ? <span>{Likes.length}</span> : <span>0</span>}
           {commentButton}
           {Comments ? <span>{Comments.length}</span> : <span>0</span>}
@@ -144,8 +110,6 @@ export class Gif extends Component {
 Gif.propTypes = {
   user: PropTypes.object.isRequired,
   gif: PropTypes.object.isRequired,
-  likeGif: PropTypes.func.isRequired,
-  unlikeGif: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
@@ -153,12 +117,4 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-const mapActionsToProps = {
-  likeGif,
-  unlikeGif,
-};
-
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(withStyles(styles)(Gif));
+export default connect(mapStateToProps)(withStyles(styles)(Gif));

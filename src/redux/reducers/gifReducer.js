@@ -1,5 +1,13 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { SET_GIFS, SET_GIF, LOADING_GIFS, POST_GIF, DELETE_GIF, LIKE_GIF, UNLIKE_GIF } from "../types";
+import {
+  SET_GIFS,
+  SET_GIF,
+  LOADING_GIFS,
+  POST_GIF,
+  DELETE_GIF,
+  LIKE_GIF,
+  UNLIKE_GIF,
+} from "../types";
 
 const initialState = {
   gifs: [],
@@ -20,26 +28,19 @@ export default function (state = initialState, action) {
         gifs: action.payload,
         loading: false,
       };
-      case SET_GIF:
-        return {
-          ...state,
-          gif: action.payload,
-        };
-      case POST_GIF:
-        return {
-          ...state,
-          gifs: [action.payload,
-          ...state.gifs],
-        };
-    case DELETE_GIF:
-      let index = state.gifs.findIndex((gif) => gif.gifId === action.payload);
-      state.gifs.splice(index, 1);
+    case SET_GIF:
       return {
         ...state,
+        gif: action.payload,
+      };
+    case POST_GIF:
+      return {
+        ...state,
+        gifs: [action.payload, ...state.gifs],
       };
     case LIKE_GIF:
     case UNLIKE_GIF:
-      index = state.gifs.findIndex(
+      let index = state.gifs.findIndex(
         (gif) => gif.gifId === action.payload.gifId
       );
       state.gifs[index] = action.payload;
@@ -49,6 +50,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
       };
+    case DELETE_GIF:
+      index = state.gifs.findIndex((gif) => gif.gifId === action.payload);
+      state.gifs.splice(index, 1);
+      return {
+        ...state,
+      };
+
     default:
       return state;
   }
