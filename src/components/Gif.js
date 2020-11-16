@@ -63,7 +63,7 @@ export class Gif extends Component {
         createdAt,
         Likes,
         Comments,
-        User: { userId },
+        userId,
       },
       user: {
         credentials: { firstName, lastName, avatar },
@@ -88,7 +88,7 @@ export class Gif extends Component {
     );
 
     const commentButton =
-      Comments.length === 0 ? (
+      !Comments ? (
         <MyButton tip="commentaires" aria-label="commentaires">
           <ChatBubbleOutlineIcon color="primary" />
         </MyButton>
@@ -135,9 +135,9 @@ export class Gif extends Component {
         />
         <CardActions disableSpacing>
           {likeButton}
-          <span>{Likes.length}</span>
+          {Likes ? <span>{Likes.length}</span> : <span>0</span>}
           {commentButton}
-          <span>{Comments.length}</span>
+          {Comments ? <span>{Comments.length}</span> : <span>0</span>}
         </CardActions>
       </Card>
     );

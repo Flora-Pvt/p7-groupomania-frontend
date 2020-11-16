@@ -62,6 +62,7 @@ export const getUserData = () => (dispatch) => {
 
 export const updateUser = (userEdit) => (dispatch) => {
   dispatch({ type: LOADING_USER });
+
   const userId = JSON.parse(localStorage.getItem("userId"));
 
   axios

@@ -4,9 +4,7 @@ import PropTypes from "prop-types";
 import MyButton from "../utils/MyButton";
 import AppIcon from "../images/icon-transparent.png";
 
-import { connect } from "react-redux";
-import { updateUser } from "../redux/network/userNetwork";
-
+// Material UI
 import Avatar from "@material-ui/core/Avatar";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
@@ -15,6 +13,10 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import EditIcon from "@material-ui/icons/Edit";
 import Button from "@material-ui/core/Button";
+
+// Redux
+import { connect } from "react-redux";
+import { updateUser } from "../redux/network/userNetwork";
 
 const styles = (theme) => ({
   ...theme.styling,

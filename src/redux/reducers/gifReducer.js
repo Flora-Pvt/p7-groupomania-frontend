@@ -1,5 +1,5 @@
 /* eslint-disable import/no-anonymous-default-export */
-import { SET_GIFS, LOADING_GIFS, DELETE_GIF, LIKE_GIF, UNLIKE_GIF } from "../types";
+import { SET_GIFS, LOADING_GIFS, POST_GIF, DELETE_GIF, LIKE_GIF, UNLIKE_GIF } from "../types";
 
 const initialState = {
   gifs: [],
@@ -20,6 +20,12 @@ export default function (state = initialState, action) {
         gifs: action.payload,
         loading: false,
       };
+      case POST_GIF:
+        return {
+          ...state,
+          gifs: [action.payload,
+          ...state.gifs],
+        };
     case DELETE_GIF:
       let index = state.gifs.findIndex((gif) => gif.gifId === action.payload);
       state.gifs.splice(index, 1);
@@ -32,7 +38,7 @@ export default function (state = initialState, action) {
         (gif) => gif.gifId === action.payload.gifId
       );
       state.gifs[index] = action.payload;
-      if (state.gif.screamId === action.payload.gifId) {
+      if (state.gif.gifId === action.payload.gifId) {
         state.gif = action.payload;
       }
       return {

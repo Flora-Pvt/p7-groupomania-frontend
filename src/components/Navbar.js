@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import MyButton from "../utils/MyButton";
+import PostGif from "./PostGif";
 
 // Material UI
 import AppBar from "@material-ui/core/AppBar";
 import ToolBar from "@material-ui/core/ToolBar";
 import Button from "@material-ui/core/Button";
 
-import AddIcon from "@material-ui/icons/Add";
 import HomeIcon from "@material-ui/icons/Home";
 import Notifications from "@material-ui/icons/Notifications";
 
@@ -21,9 +21,7 @@ export class Navbar extends Component {
         <ToolBar className="nav-container">
           {authenticated ? (
             <Fragment>
-              <MyButton tip="Poster votre GIF !">
-                <AddIcon color="inherit" />
-              </MyButton>
+              <PostGif />
               <Link to="/">
                 <MyButton tip="Accueil">
                   <HomeIcon color="inherit" />

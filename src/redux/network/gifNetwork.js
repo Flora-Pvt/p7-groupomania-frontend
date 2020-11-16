@@ -1,4 +1,4 @@
-import { SET_GIFS, LOADING_GIFS, DELETE_GIF, LIKE_GIF, UNLIKE_GIF } from "../types";
+import { SET_GIFS, LOADING_GIFS, POST_GIF, DELETE_GIF, LIKE_GIF, UNLIKE_GIF, LOADING_UI, SET_ERRORS, CLEAR_ERRORS } from "../types";
 import axios from "axios";
 
 // Get all GIFS
@@ -16,6 +16,28 @@ export const getGifs = () => (dispatch) => {
       dispatch({
         type: SET_GIFS,
         payload: [],
+      })
+    );
+};
+
+// Post a GIF
+export const postGif = (newGif) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .post("http://localhost:3000/api/gifs", newGif)
+    .then((res) => {
+      dispatch({
+        type: POST_GIF,
+        payload: res.data,
+      });
+      dispatch({
+        type: CLEAR_ERRORS,
+      })
+    })
+    .catch((err) =>
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.data,
       })
     );
 };
