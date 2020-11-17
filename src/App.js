@@ -10,27 +10,28 @@ import { SET_AUTHENTICATED, SET_UNAUTHENTICATED } from "./redux/types";
 import { getUserData } from "./redux/network/userNetwork";
 
 // Components
-import Navbar from "./components/Navbar";
+import Navbar from "./components/layout/Navbar";
 import AuthRoute from "./utils/AuthRoute";
 import themeObject from "./utils/theme";
 
 // Pages
 import home from "./pages/home";
+import gif from "./pages/gif";
+import user from "./pages/user";
 import login from "./pages/login";
 import signup from "./pages/signup";
 import axios from "axios";
 
 const theme = themeObject;
 
-const auth = JSON.parse(localStorage.getItem("auth"));
-const token = auth.token;
-if (token) {
+if (JSON.parse(localStorage.getItem("token"))) {
+  const token = JSON.parse(localStorage.getItem("token"));
   store.dispatch({ type: SET_AUTHENTICATED });
-  axios.defaults.headers.common["Authorization"] = token;
+  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   store.dispatch(getUserData());
 } else {
   store.dispatch({ type: SET_UNAUTHENTICATED });
-  if (window.location.href !== "http://localhost:3001/login") {
+  if (window.location.href !== "http://localhost:3000/login") {
     window.location.href = "/login";
   }
 }
@@ -47,18 +48,16 @@ class App extends Component {
                 <Route exact path="/" component={home} />
               </Switch>
               <Switch>
-                <AuthRoute
-                  exact
-                  path="/login"
-                  component={login}
-                />
+                <AuthRoute exact path="/gif" component={gif} />
               </Switch>
               <Switch>
-                <AuthRoute
-                  exact
-                  path="/signup"
-                  component={signup}
-                />
+                <AuthRoute exact path="/user" component={user} />
+              </Switch>
+              <Switch>
+                <AuthRoute exact path="/login" component={login} />
+              </Switch>
+              <Switch>
+                <AuthRoute exact path="/signup" component={signup} />
               </Switch>
             </div>
           </Router>
