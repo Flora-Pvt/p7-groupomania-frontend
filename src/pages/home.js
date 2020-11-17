@@ -1,37 +1,24 @@
 import React, { Component } from "react";
-import Grid from "@material-ui/core/Grid";
+import Container from "@material-ui/core/Container";
 import PropTypes from "prop-types";
 
 import Gif from "../components/gif/Gif";
-import User from "../components/user/User";
 
 import { connect } from "react-redux";
 import { getGifs } from "../redux/network/gifNetwork";
 
 export class home extends Component {
-  
   componentDidMount() {
     this.props.getGifs();
   }
 
   render() {
-    const { gifs, loading } = this.props.gifs;
-    let recentGifsMarkup = !loading ? (
-      gifs.map((gif) => <Gif gif={gif} key={gif.gifId} />)
-    ) : (
-      <p>Loading...</p>
-    );
+    const { gifs } = this.props.gifs;
+    const recentGifsMarkup = gifs.map((gif) => (
+      <Gif gif={gif} key={gif.gifId} />
+    ));
 
-    return (
-      <Grid container>
-        <Grid item sm={3} xs={12}>
-          <User />
-        </Grid>
-        <Grid item sm={8} xs={12}>
-          {recentGifsMarkup}
-        </Grid>
-      </Grid>
-    );
+    return <Container maxWidth="lg">{recentGifsMarkup}</Container>;
   }
 }
 

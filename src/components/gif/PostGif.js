@@ -1,7 +1,6 @@
 import React, { Component, Fragment } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
-import MyButton from "../../utils/MyButton";
 
 // Material UI
 import TextField from "@material-ui/core/TextField";
@@ -13,41 +12,39 @@ import AddIcon from "@material-ui/icons/Add";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
 
 // Redux
 import { connect } from "react-redux";
-import { postGif, clearErrors } from "../../redux/network/gifNetwork";
+import { postGif } from "../../redux/network/gifNetwork";
 
 const styles = (theme) => ({
   ...theme.styling,
+  button: {
+    color: "white"
+  }, 
+  addImage: {
+    width: "100%",
+    minHeight: 250,
+    border: "solid black 1px",
+    borderRadius: 0,
+    marginTop: 30
+  }
 });
 
 export class PostGif extends Component {
   state = {
     title: "",
     image: "",
-    errors: {},
     open: false,
   };
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {
-      this.setState({
-        errors: nextProps.UI.errors,
-      });
-    }
-    else if(!nextProps.UI.errors && !nextProps.UI.loading){
-      this.setState({title: "", image: "", open: false, errors: {}})
-    }
-  }
 
   handleOpen = () => {
     this.setState({ open: true });
   };
 
   handleClose = () => {
-    this.props.clearErrors()
-    this.setState({open: false, errors: {}})
+    this.setState({open: false})
   };
 
   handleChange = (event) => {
@@ -81,7 +78,6 @@ export class PostGif extends Component {
   };
 
   render() {
-    const { errors } = this.state;
     const {
       classes,
       UI: { loading },
@@ -89,13 +85,13 @@ export class PostGif extends Component {
 
     return (
       <Fragment>
-        <MyButton
-          tip="Ajouter votre GIF !"
+        <Button 
           onClick={this.handleOpen}
           className={classes.button}
         >
-          <AddIcon color="primary" />
-        </MyButton>
+          <AddIcon />
+          Nouveau GIF
+        </Button>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -110,10 +106,7 @@ export class PostGif extends Component {
                 type="text"
                 label="Titre du GIF"
                 value={this.state.title}
-                placeholder="Titre du GIF"
                 onChange={this.handleChange}
-                error={errors.body ? true : false}
-                helperText={errors.body}
                 className={classes.TextField}
                 fullWidth
               />
@@ -127,13 +120,13 @@ export class PostGif extends Component {
                 files={this.state.image}
                 onChange={this.handleImageLoaded}
               />
-              <MyButton
+              <IconButton
                 tip="Ajouter l'image du GIF"
                 onClick={this.handleAddImage}
-                className="button"
+                className={classes.addImage}
               >
                 <AddPhotoAlternateIcon color="primary" />
-              </MyButton>
+              </IconButton>
             </form>
           </DialogContent>
           <DialogActions>
@@ -158,7 +151,6 @@ export class PostGif extends Component {
 
 PostGif.propTypes = {
   postGif: PropTypes.func.isRequired,
-  clearErrors: PropTypes.func.isRequired,
   UI: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
@@ -167,6 +159,6 @@ const mapStateToProps = (state) => ({
   UI: state.UI,
 });
 
-export default connect(mapStateToProps, { postGif, clearErrors })(
+export default connect(mapStateToProps, { postGif })(
   withStyles(styles)(PostGif)
 );

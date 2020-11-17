@@ -48,10 +48,10 @@ class App extends Component {
                 <Route exact path="/" component={home} />
               </Switch>
               <Switch>
-                <AuthRoute exact path="/gif" component={gif} />
+                <Route exact path="/gif/:id" component={gif} />
               </Switch>
               <Switch>
-                <AuthRoute exact path="/user" component={user} />
+                <Route exact path="/user" component={user} />
               </Switch>
               <Switch>
                 <AuthRoute exact path="/login" component={login} />

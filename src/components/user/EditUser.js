@@ -93,7 +93,7 @@ export class userEdit extends Component {
           onClick={this.handleOpen}
           className={classes.button}
         >
-          <EditIcon color="primary" />
+          <EditIcon color="secondary" />
         </MyButton>
         <Dialog
           open={this.state.open}
@@ -121,7 +121,7 @@ export class userEdit extends Component {
                   onClick={this.handleEditPicture}
                   className="button"
                 >
-                  <EditIcon color="primary" />
+                  <EditIcon color="secondary" />
                 </MyButton>
               </div>
               <TextField
@@ -136,10 +136,10 @@ export class userEdit extends Component {
             </form>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.handleClose} color="secondary">
               Annuler
             </Button>
-            <Button onClick={this.handleSubmit} color="primary">
+            <Button onClick={this.handleSubmit} color="secondary">
               Sauvegarder
             </Button>
           </DialogActions>

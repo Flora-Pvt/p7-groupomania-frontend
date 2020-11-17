@@ -3,16 +3,12 @@ import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
 const themeObject = createMuiTheme({
   palette: {
     secondary: {
-      light: '#757ce8',
-      main: '#3f50b5',
-      dark: '#002884',
+      main: '#ef5350',
       contrastText: '#fff',
     },
     primary: {
-      light: '#ff7961',
-      main: '#f44336',
-      dark: '#ba000d',
-      contrastText: '#000',
+      main: '#002984',
+      contrastText: '#fff',
     },
   },
   styling: {

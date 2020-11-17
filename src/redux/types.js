@@ -8,10 +8,13 @@ export const LOADING_USER = "LOADING_USER"
 export const SET_GIFS = "SET_GIFS"
 export const SET_GIF = "SET_GIF"
 export const LOADING_GIFS = "LOADING_GIFS"
+export const LOADING_GIF = "LOADING_GIF"
 export const POST_GIF = "POST_GIF"
 export const DELETE_GIF = "LOADING_GIFS"
 export const LIKE_GIF = "LIKE_GIF"
 export const UNLIKE_GIF = "UNLIKE_GIF"
+export const LOADING_COMMENTS = "LOADING_COMMENTS"
+export const SET_COMMENTS = "SET_COMMENTS"
 export const POST_COMMENT = "POST_COMMENT"
 
 // UI reducer types

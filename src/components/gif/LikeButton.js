@@ -1,12 +1,9 @@
 import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
-import MyButton from "../../utils/MyButton";
 import PropTypes from "prop-types";
 
 // Material UI
 import StarIcon from "@material-ui/icons/Star";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
-
 // Redux
 import { connect } from "react-redux";
 import { likeGif, unlikeGif } from "../../redux/network/gifNetwork";
@@ -30,24 +27,10 @@ export class LikeButton extends Component {
   };
 
   render() {
-    const {
-      user: { authenticated },
-    } = this.props;
-
-    const likeButton = !authenticated ? (
-      <Link to="/login">
-        <MyButton tip="Aimer">
-          <StarBorderIcon color="primary" />
-        </MyButton>
-      </Link>
-    ) : this.likedGif() ? (
-      <MyButton tip="Ne plus aimer" onClick={this.unlikeGif}>
-        <StarIcon color="primary" />
-      </MyButton>
+    const likeButton = this.likedGif() ? (
+        <StarIcon color="secondary" title="Ne plus aimer" onClick={this.unlikeGif}/>
     ) : (
-      <MyButton tip="Aimer" onClick={this.likeGif}>
-        <StarBorderIcon color="primary" />
-      </MyButton>
+        <StarBorderIcon title="Aimer" onClick={this.likeGif}/>
     );
     return <Fragment>{likeButton}</Fragment>;
   }

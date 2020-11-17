@@ -3,8 +3,11 @@ import {
   SET_GIFS,
   SET_GIF,
   LOADING_GIFS,
+  LOADING_GIF,
   POST_GIF,
   DELETE_GIF,
+  SET_COMMENTS,
+  LOADING_COMMENTS,
   POST_COMMENT,
   LIKE_GIF,
   UNLIKE_GIF,
@@ -13,6 +16,8 @@ import {
 const initialState = {
   gifs: [],
   gif: {},
+  user: {},
+  comments: [],
   loading: false,
 };
 
@@ -29,20 +34,37 @@ export default function (state = initialState, action) {
         gifs: action.payload,
         loading: false,
       };
+    case LOADING_GIF:
+      return {
+        ...state,
+        loading: true,
+      };
     case SET_GIF:
       return {
         ...state,
         gif: action.payload,
+        loading: false,
       };
     case POST_GIF:
       return {
         ...state,
         gif: {
           ...state.gif,
-        comments: [action.payload, ...state.gif.comments],
-      }
+          comments: [action.payload, ...state.gif.comments],
+        },
       };
-      case POST_COMMENT:
+      case LOADING_COMMENTS:
+      return {
+        ...state.comments,
+        loading: true,
+      };
+    case SET_COMMENTS:
+      return {
+        ...state.comments,
+        comments: action.payload,
+        loading: false,
+      };
+    case POST_COMMENT:
       return {
         ...state,
         gifs: [action.payload, ...state.gifs],

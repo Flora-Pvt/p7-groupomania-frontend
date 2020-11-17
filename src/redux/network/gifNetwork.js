@@ -2,13 +2,15 @@ import {
   SET_GIFS,
   SET_GIF,
   LOADING_GIFS,
+  LOADING_GIF,
   POST_GIF,
   DELETE_GIF,
   LIKE_GIF,
   UNLIKE_GIF,
+  SET_COMMENTS,
+  LOADING_COMMENTS,
   POST_COMMENT,
   LOADING_UI,
-  STOP_LOADING_UI,
   SET_ERRORS,
   CLEAR_ERRORS,
 } from "../types";
@@ -35,16 +37,13 @@ export const getGifs = () => (dispatch) => {
 
 // Get one GIF
 export const getOneGif = (gifId) => (dispatch) => {
-  dispatch({ type: LOADING_UI });
+  dispatch({ type: LOADING_GIF });
   axios
     .get("http://localhost:4000/api/gifs/" + gifId)
     .then((res) => {
       dispatch({
         type: SET_GIF,
         payload: res.data,
-      });
-      dispatch({
-        type: STOP_LOADING_UI,
       });
     })
     .catch((err) => console.log(err));
@@ -120,6 +119,25 @@ export const unlikeGif = (gifId) => (dispatch) => {
       });
     })
     .catch((err) => console.log(err));
+};
+
+// Get all comments
+export const getComments = (gifId) => (dispatch) => {
+  dispatch({ type: LOADING_COMMENTS });
+  axios
+    .get("http://localhost:4000/api/comments/" + gifId)
+    .then((res) => {
+      dispatch({
+        type: SET_COMMENTS,
+        payload: res.data,
+      });
+    })
+    .catch((err) =>
+      dispatch({
+        type: SET_COMMENTS,
+        payload: [],
+      })
+    );
 };
 
 // Post a comment

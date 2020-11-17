@@ -35,7 +35,6 @@ export class DeleteGif extends Component {
   };
 
   deleteGif = () => {
-    console.log(this.props)
     this.props.deleteGif(this.props.gifId);
     this.setState({ open: false });
   };

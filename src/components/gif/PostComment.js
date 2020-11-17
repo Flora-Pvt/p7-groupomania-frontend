@@ -1,42 +1,36 @@
 import React, { Component, Fragment } from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 
 // Material UI
+import withStyles from "@material-ui/core/styles/withStyles";
 import TextField from "@material-ui/core/TextField";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
 
 // Redux
 import { connect } from "react-redux";
-import { postComment, clearErrors } from "../../redux/network/gifNetwork";
+import { postComment } from "../../redux/network/gifNetwork";
 
 const styles = (theme) => ({
   ...theme.styling,
+  field: {
+    paddingBottom: 0,
+    width: "90%",
+    alignSelf: "center",
+  },
   buttons: {
-    justifyContent: "flex-end"
+    justifyContent: "flex-end",
+    paddingTop: 0,
+    width: "95%",
   }
 });
 
 export class PostComment extends Component {
   state = {
     content: "",
-    errors: {},
     open: false,
   };
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.UI.errors) {
-      this.setState({
-        errors: nextProps.UI.errors,
-      });
-    }
-     if (!nextProps.UI.errors && !nextProps.UI.loading) {
-      this.setState({ content: "", open: false, errors: {} });
-    }
-  }
 
   handleChange = (event) => {
     this.setState({
@@ -59,33 +53,24 @@ export class PostComment extends Component {
   };
 
   render() {
-    const { errors } = this.state;
-    const { classes, authenticated, UI: {loading} } = this.props;
+    const { classes, authenticated } = this.props;
     const commentFormMarkup = authenticated ? (
       <Fragment>
-          <CardContent>
+          <CardContent className={classes.field}>
             <form encType="multipart/form-data">
               <TextField
                 name="content"
                 type="text"
                 label="Poster votre commentaire"
                 value={this.state.content}                
-                onChange={this.handleChange}
-                error={errors.comment ? true : false}
-                helperText={errors.comment}                
+                onChange={this.handleChange}            
                 fullWidth
               />
             </form>
           </CardContent>
           <CardActions className={classes.buttons}>
-            <Button onClick={this.handleSubmit} color="primary">
-              Enregistrer
-              {loading && (
-                <CircularProgress
-                  size={30}
-                  className={classes.progressSpinner}
-                />
-              )}
+            <Button onClick={this.handleSubmit} color="secondary">
+              Poster
             </Button>
           </CardActions>
       </Fragment>
@@ -98,7 +83,6 @@ PostComment.propTypes = {
   gifId: PropTypes.number.isRequired,
   authenticated: PropTypes.bool.isRequired,
   postComment: PropTypes.func.isRequired,
-  clearErrors: PropTypes.func.isRequired,
   UI: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
@@ -108,6 +92,6 @@ const mapStateToProps = (state) => ({
   UI: state.UI,
 });
 
-export default connect(mapStateToProps, { postComment, clearErrors })(
+export default connect(mapStateToProps, { postComment })(
   withStyles(styles)(PostComment)
 );

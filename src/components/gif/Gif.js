@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import AppIcon from "../../images/icon-transparent.png";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
-import MyButton from "../../utils/MyButton";
 import DeleteGif from "./DeleteGif";
-import GifDialog from "./GifDialog";
 import LikeButton from "./LikeButton";
 
 // Material UI
@@ -14,26 +11,50 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
-import CardMedia from "@material-ui/core/CardMedia";
 import CardActions from "@material-ui/core/CardActions";
-import ChatIcon from "@material-ui/icons/Chat";
 import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 
 // Redux
 import { connect } from "react-redux";
+import { getOneGif } from "../../redux/network/gifNetwork";
 
 const styles = {
   root: {
-    maxWidth: 600,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "start",
+    maxWidth: 700,
+    margin: "auto",
     marginBottom: 20,
   },
+  header: {
+    width: "95%",
+  },
   media: {
-    maxWidth: 600,
-    minHeight: 400,
+    alignSelf: "center",
+    maxWidth: 700,
+  },
+  chatIcon: {
+    marginLeft: 10,
+    paddingTop: 5,
+    heigth: 33,
+    width: 24,
   },
 };
 
 export class Gif extends Component {
+  handleClick = (event) => {
+    if (
+      event.target.id == null ||
+      event.target.id === undefined ||
+      !event.target.id
+    ) {
+      event.preventDefault();
+    } else {
+      this.props.getOneGif(event.target.id);
+    }
+  };
+
   render() {
     dayjs.extend(relativeTime);
 
@@ -52,32 +73,18 @@ export class Gif extends Component {
       user: { authenticated },
     } = this.props;
 
-    const commentButton = !Comments ? (
-      <MyButton tip="commentaires" aria-label="commentaires">
-        <ChatBubbleOutlineIcon color="primary" />
-      </MyButton>
-    ) : (
-      <MyButton tip="commentaires" aria-label="commentaires">
-        <ChatIcon color="primary" />
-      </MyButton>
-    );
-
     const deleteButton = authenticated &&
       JSON.parse(localStorage.getItem("userId")) === userId && (
-        <DeleteGif gifId={gifId} />
+        <DeleteGif gifId={gifId} className={classes.delete} />
       );
 
     return (
       <Card className={classes.root}>
         <CardHeader
           avatar={
-            avatar ? (
-              <Avatar src={avatar} alt="avatar" className={classes.avatar} />
-            ) : (
-              <Avatar src={AppIcon} alt="avatar" className={classes.avatar} />
-            )
+            <Avatar src={avatar} alt="avatar" className={classes.avatar} />
           }
-          action={[deleteButton]}
+          action={deleteButton}
           title={title}
           subheader={
             "par " +
@@ -88,19 +95,22 @@ export class Gif extends Component {
             dayjs(createdAt).fromNow()
           }
           color="inherit"
+          className={classes.header}
         />
-        <CardMedia
-          className={classes.media}
-          image={url}
-          component={Link}
-          to={`/gifs/${gifId}`}
-        />
+        <Link to={"/gif/" + gifId} onClick={this.handleClick} >
+          <img src={url} alt="GIF" id={gifId} className={classes.media} />
+        </Link>
         <CardActions disableSpacing>
           <LikeButton gifId={gifId} />
           {Likes ? <span>{Likes.length}</span> : <span>0</span>}
-          {commentButton}
+          <Link
+            to={"/gif/" + gifId}
+            onClick={this.handleClick}
+            className={classes.chatIcon}
+          >
+            <ChatBubbleOutlineIcon id={gifId} />
+          </Link>
           {Comments ? <span>{Comments.length}</span> : <span>0</span>}
-          <GifDialog gifId={gifId} userId={userId} />
         </CardActions>
       </Card>
     );
@@ -117,4 +127,11 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps)(withStyles(styles)(Gif));
+const mapActionsToProps = {
+  getOneGif,
+};
+
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(withStyles(styles)(Gif));
