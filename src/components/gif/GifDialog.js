@@ -7,6 +7,7 @@ import dayjs from "dayjs";
 import AppIcon from "../../images/icon-transparent.png";
 import LikeButton from "./LikeButton";
 import Comment from "./Comment";
+import PostComment from "./PostComment";
 
 // Material UI
 import Card from "@material-ui/core/Card";
@@ -53,7 +54,7 @@ export class GifDialog extends Component {
   render() {
     const {
       classes,
-      gif: { userId, title, url, createdAt, Likes, Comments },
+      gif: { gifId, userId, title, url, createdAt, Likes, Comments },
       UI: { loading },
     } = this.props;
 
@@ -87,6 +88,7 @@ export class GifDialog extends Component {
           color="inherit"
         />
         <CardMedia className={classes.media} image={url} />
+        <PostComment gifId={gifId} />
         <Comment comments={Comments} />
       </Card>
     );

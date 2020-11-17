@@ -16,6 +16,8 @@ import themeObject from "./utils/theme";
 
 // Pages
 import home from "./pages/home";
+import gif from "./pages/gif";
+import user from "./pages/user";
 import login from "./pages/login";
 import signup from "./pages/signup";
 import axios from "axios";
@@ -44,6 +46,12 @@ class App extends Component {
             <div className="container">
               <Switch>
                 <Route exact path="/" component={home} />
+              </Switch>
+              <Switch>
+                <AuthRoute exact path="/gif" component={gif} />
+              </Switch>
+              <Switch>
+                <AuthRoute exact path="/user" component={user} />
               </Switch>
               <Switch>
                 <AuthRoute exact path="/login" component={login} />

@@ -6,8 +6,9 @@ import {
   DELETE_GIF,
   LIKE_GIF,
   UNLIKE_GIF,
+  POST_COMMENT,
   LOADING_UI,
-  STOP_LOADING_UI, 
+  STOP_LOADING_UI,
   SET_ERRORS,
   CLEAR_ERRORS,
 } from "../types";
@@ -37,7 +38,7 @@ export const getOneGif = (gifId) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   axios
     .get("http://localhost:4000/api/gifs/" + gifId)
-    .then((res) => {      
+    .then((res) => {
       dispatch({
         type: SET_GIF,
         payload: res.data,
@@ -59,9 +60,7 @@ export const postGif = (newGif) => (dispatch) => {
         type: POST_GIF,
         payload: res.data,
       });
-      dispatch({
-        type: CLEAR_ERRORS,
-      });
+      dispatch(dispatch(clearErrors()))
     })
     .catch((err) =>
       dispatch({
@@ -121,6 +120,27 @@ export const unlikeGif = (gifId) => (dispatch) => {
       });
     })
     .catch((err) => console.log(err));
+};
+
+// Post a comment
+export const postComment = (gifId, newComment) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  console.log(gifId, newComment)
+  axios
+    .post("http://localhost:4000/api/comments/" + gifId, newComment)
+    .then((res) => {
+      dispatch({
+        type: POST_COMMENT,
+        payload: res.data,
+      });
+      dispatch(clearErrors());
+    })
+    .catch((err) =>
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.data,
+      })
+    );
 };
 
 export const clearErrors = () => (dispatch) => {

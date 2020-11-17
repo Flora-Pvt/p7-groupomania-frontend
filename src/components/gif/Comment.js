@@ -27,7 +27,6 @@ const styles = (theme) => ({
 export class Comment extends Component {
   render() {
     const { classes, comments } = this.props;
-    console.log(this.props);
     return (
       <List className={classes.root}>
         {comments.map((comment) => {

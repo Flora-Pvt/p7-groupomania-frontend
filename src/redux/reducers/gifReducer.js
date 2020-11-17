@@ -5,6 +5,7 @@ import {
   LOADING_GIFS,
   POST_GIF,
   DELETE_GIF,
+  POST_COMMENT,
   LIKE_GIF,
   UNLIKE_GIF,
 } from "../types";
@@ -34,6 +35,14 @@ export default function (state = initialState, action) {
         gif: action.payload,
       };
     case POST_GIF:
+      return {
+        ...state,
+        gif: {
+          ...state.gif,
+        comments: [action.payload, ...state.gif.comments],
+      }
+      };
+      case POST_COMMENT:
       return {
         ...state,
         gifs: [action.payload, ...state.gifs],

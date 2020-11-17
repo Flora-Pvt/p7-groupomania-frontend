@@ -12,6 +12,7 @@ export const POST_GIF = "POST_GIF"
 export const DELETE_GIF = "LOADING_GIFS"
 export const LIKE_GIF = "LIKE_GIF"
 export const UNLIKE_GIF = "UNLIKE_GIF"
+export const POST_COMMENT = "POST_COMMENT"
 
 // UI reducer types
 export const LOADING_UI = "LOADING_UI"
