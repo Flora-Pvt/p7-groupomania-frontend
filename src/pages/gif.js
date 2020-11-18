@@ -30,40 +30,34 @@ const styles = (theme) => ({
     maxWidth: 800,
   },
   actions: {
-marginLeft: "5%"
-  }
+    marginLeft: "5%",
+  },
 });
 
 export class OneGif extends Component {
-  componentDidMount = () => {
-    console.log(this.props);
-    this.props.getComments(this.props.gif.gifId);
-  };
-
   render() {
     const {
       classes,
-      gif: {
-        gifId,
-        title,
-        url,
-        createdAt,
-        User: { avatar, firstName, lastName },
-        Comments,
-        Likes,
-        loading,
-      },
+      gif: { gifId, title, url, createdAt, User, Comments, Likes, loading },
     } = this.props;
 
-    const gifMarkup = !loading ? (
+    console.log(Likes)
+
+    if (!loading) {
+      this.props.getComments(gifId);
+    }
+
+    const gifMarkup = loading ? (
+      <p>Chargement...</p>
+    ) : this.props.gif ? (
       <Fragment>
         <CardHeader
-          avatar={<Avatar src={avatar} alt="avatar" />}
+          avatar={<Avatar src={User.avatar} alt="avatar" />}
           title={title}
           subheader={
             "@" +
-            firstName +
-            lastName +
+            User.firstName +
+            User.lastName +
             " - " +
             dayjs(createdAt).format("le DD.MM.YYYY à H:mm")
           }
@@ -72,25 +66,26 @@ export class OneGif extends Component {
         <img src={url} alt="GIF" className={classes.media} />
         <CardActions className={classes.actions}>
           <LikeButton />
-          {Likes ? <span>{Likes.length}</span> : <span>0</span>}
+          <span>{Likes.length}</span>
         </CardActions>
         <PostComment gifId={gifId} />
         <Comment comments={Comments} />
       </Fragment>
     ) : (
-      <p>Chargement...</p>
+      <p>Impossible de charger le GIF.</p>
     );
+
     return <Card className={classes.root}>{gifMarkup}</Card>;
   }
 }
 
 OneGif.propTypes = {
   gif: PropTypes.object.isRequired,
-  gifId: PropTypes.number.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
+  gifId: state.gifs.gif.gifId,
   gif: state.gifs.gif,
 });
 

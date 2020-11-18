@@ -21,6 +21,9 @@ const styles = (theme) => ({
   icone: {
     maxHeight: 30,
   },
+  row:{
+    display: "flex",
+  }
 });
 
 export class Navbar extends Component {
@@ -45,7 +48,7 @@ export class Navbar extends Component {
                   className={classes.icone}
                 />
               </Link>
-              <div edge="end">
+              <div className={classes.row} edge="end">
                 <Link to="/user" aria-label="chemin vers la page de profil">
                   <Avatar title="Voir mon profil" src={avatar} alt="avatar" />
                 </Link>

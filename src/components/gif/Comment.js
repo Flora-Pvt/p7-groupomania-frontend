@@ -27,46 +27,53 @@ const styles = (theme) => ({
 });
 
 export class Comment extends Component {
-
-
   render() {
     const { classes, comments } = this.props;
 
     const { loading } = this.props.comments;
 
     const commentsMarkup = !loading ? (
-      <Fragment>
-        {" "}
-        {comments.map((comment) => {
-          const { commentId, content, createdAt, User: {avatar, firstName, lastName} } = comment;
-          return (
-            <Fragment key={commentId}>
-              <ListItem alignItems="flex-start">
-                <ListItemAvatar>
-                  <Avatar src={avatar} alt="Avatar" />
-                </ListItemAvatar>
-                <ListItemText
-                  secondary={
-                    <React.Fragment>
-                      <Typography
-                        component="span"
-                        variant="body2"
-                        className={classes.inline}
-                        color="textPrimary"
-                      >
-                        {firstName} {lastName} -
-                      </Typography>
-                      {dayjs(createdAt).fromNow()}
-                    </React.Fragment>
-                  }
-                  primary={content}
-                />
-              </ListItem>
-              <Divider variant="inset" component="li" />
-            </Fragment>
-          );
-        })}
-      </Fragment>
+      comments ? (
+        <Fragment>
+          {" "}
+          {comments.map((comment) => {
+            const {
+              commentId,
+              content,
+              createdAt,
+              User,
+            } = comment;
+            return (
+              <Fragment key={commentId}>
+                <ListItem alignItems="flex-start">
+                  <ListItemAvatar>
+                    <Avatar src={User.avatar} alt="Avatar" />
+                  </ListItemAvatar>
+                  <ListItemText
+                    secondary={
+                      <React.Fragment>
+                        <Typography
+                          component="span"
+                          variant="body2"
+                          className={classes.inline}
+                          color="textPrimary"
+                        >
+                          {User.firstName} {User.lastName} -
+                        </Typography>
+                        {dayjs(createdAt).fromNow()}
+                      </React.Fragment>
+                    }
+                    primary={content}
+                  />
+                </ListItem>
+                <Divider variant="inset" component="li" />
+              </Fragment>
+            );
+          })}
+        </Fragment>
+      ) : (
+        <p>Impossible de charger les commentaires...</p>
+      )
     ) : (
       <p>Chargement...</p>
     );

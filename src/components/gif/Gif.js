@@ -102,7 +102,7 @@ export class Gif extends Component {
         </Link>
         <CardActions disableSpacing>
           <LikeButton gifId={gifId} />
-          {Likes ? <span>{Likes.length}</span> : <span>0</span>}
+          <span>{Likes.length}</span>
           <Link
             to={"/gif/" + gifId}
             onClick={this.handleClick}
@@ -110,7 +110,7 @@ export class Gif extends Component {
           >
             <ChatBubbleOutlineIcon id={gifId} />
           </Link>
-          {Comments ? <span>{Comments.length}</span> : <span>0</span>}
+          <span>{Comments.length}</span>
         </CardActions>
       </Card>
     );
