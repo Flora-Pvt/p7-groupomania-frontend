@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import dayjs from "dayjs";
 import LikeButton from "../components/gif/LikeButton";
 import Comment from "../components/gif/Comment";
-import PostComment from "../components/gif/PostComment";
+import CommentForm from "../components/gif/CommentForm";
 
 // Material UI
 import Card from "@material-ui/core/Card";
@@ -49,7 +49,7 @@ export class OneGif extends Component {
 
     const gifMarkup = loading ? (
       <p>Chargement...</p>
-    ) : this.props.gif ? (
+    ) : User ? (
       <Fragment>
         <CardHeader
           avatar={<Avatar src={User.avatar} alt="avatar" />}
@@ -68,7 +68,7 @@ export class OneGif extends Component {
           <LikeButton />
           <span>{Likes.length}</span>
         </CardActions>
-        <PostComment gifId={gifId} />
+        <CommentForm gifId={gifId} />
         <Comment comments={Comments} />
       </Fragment>
     ) : (

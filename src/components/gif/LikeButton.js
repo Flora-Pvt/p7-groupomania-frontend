@@ -10,8 +10,6 @@ import { likeGif, unlikeGif } from "../../redux/network/gifNetwork";
 
 export class LikeButton extends Component {
   likedGif = () => {
-    console.log(this.props.user.likes)
-    console.log(this.props.gifId)
     if (
       this.props.user.likes &&
       this.props.user.likes.find((like) => like.gifId === this.props.gifId)
@@ -29,7 +27,6 @@ export class LikeButton extends Component {
   };
 
   render() {
-    console.log(this.likedGif())
     const likeButton = this.likedGif() ? (
         <StarIcon color="secondary" title="Ne plus aimer" onClick={this.unlikeGif}/>
     ) : (

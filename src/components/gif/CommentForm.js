@@ -26,7 +26,7 @@ const styles = (theme) => ({
   }
 });
 
-export class PostComment extends Component {
+export class CommentForm extends Component {
   state = {
     content: "",
     open: false,
@@ -79,7 +79,7 @@ export class PostComment extends Component {
   }
 }
 
-PostComment.propTypes = {
+CommentForm.propTypes = {
   gifId: PropTypes.number.isRequired,
   authenticated: PropTypes.bool.isRequired,
   postComment: PropTypes.func.isRequired,
@@ -93,5 +93,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { postComment })(
-  withStyles(styles)(PostComment)
+  withStyles(styles)(CommentForm)
 );

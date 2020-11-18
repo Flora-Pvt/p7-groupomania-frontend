@@ -2,13 +2,14 @@ import React, { Component } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import AppIcon from "../images/icon-transparent.png";
 
 // Material UI
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import IconButton from "@material-ui/core/IconButton";
+import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 // Redux
@@ -23,6 +24,7 @@ class signup extends Component {
   constructor() {
     super();
     this.state = {
+      image: "",
       firstName: "",
       lastName: "",
       officePosition: "",
@@ -38,24 +40,42 @@ class signup extends Component {
     }
   }
 
-  handleSubmit = (event) => {
-    event.preventDefault();
-
-    const newUserData = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      officePosition: this.state.officePosition,
-      email: this.state.email,
-      password: this.state.password,
-    };
-
-    this.props.signupUser(newUserData, this.props.history);
-  };
-
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
+  };
+
+  handleImageLoaded = (event) => {
+    this.setState({
+      image: event.target.files[0],
+    });
+  };
+
+  handleAddImage = () => {
+    const fileInput = document.getElementById("image");
+    fileInput.click();
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    const image = this.state.image;
+    const firstName = JSON.stringify(this.state.firstName);
+    const lastName = JSON.stringify(this.state.lastName);
+    const officePosition = JSON.stringify(this.state.officePosition);
+    const email = JSON.stringify(this.state.email);
+    const password = JSON.stringify(this.state.password);
+
+    const newUserData = new FormData();
+    newUserData.append("image", image);
+    newUserData.append("firstName", firstName);
+    newUserData.append("lastName", lastName);
+    newUserData.append("officePosition", officePosition);
+    newUserData.append("email", email);
+    newUserData.append("password", password);
+
+    this.props.signupUser(newUserData, this.props.history);
   };
 
   render() {
@@ -68,19 +88,31 @@ class signup extends Component {
     return (
       <Grid container spacing={10} className={classes.form}>
         <Grid item className={classes.flex}>
-          <img
-            src={AppIcon}
-            alt="logo d'une planète"
-            className={classes.media}
-          />
           <Typography variant="h4">Sign up</Typography>
         </Grid>
         <Grid item>
           <form
+            encType="multipart/form-data"
             onSubmit={this.handleSubmit}
-            noValidate
             className={classes.root}
           >
+            <input
+              id="image"
+              name="image"
+              type="file"
+              label="Image"
+              hidden="hidden"
+              accept="image/*"
+              files={this.state.image}
+              onChange={this.handleImageLoaded}
+            />
+            <IconButton
+              tip="Ajouter l'image du GIF"
+              onClick={this.handleAddImage}
+              className={classes.addImage}
+            >
+              <AddPhotoAlternateIcon color="primary" />
+            </IconButton>
             <TextField
               className={classes.field}
               id="firstName"

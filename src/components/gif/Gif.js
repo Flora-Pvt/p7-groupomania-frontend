@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
-import DeleteGif from "./DeleteGif";
+import DeleteButton from "./DeleteButton";
 import LikeButton from "./LikeButton";
 
 // Material UI
@@ -75,7 +75,7 @@ export class Gif extends Component {
 
     const deleteButton = authenticated &&
       JSON.parse(localStorage.getItem("userId")) === userId && (
-        <DeleteGif gifId={gifId} className={classes.delete} />
+        <DeleteButton gifId={gifId} className={classes.delete} />
       );
 
     return (

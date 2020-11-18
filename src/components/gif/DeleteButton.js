@@ -21,7 +21,7 @@ const styles = {
   },
 };
 
-export class DeleteGif extends Component {
+export class DeleteButton extends Component {
   state = {
     open: false,
   };
@@ -73,10 +73,10 @@ export class DeleteGif extends Component {
   }
 }
 
-DeleteGif.propTypes = {
+DeleteButton.propTypes = {
   deleteGif: PropTypes.func.isRequired,
   gifId: PropTypes.number.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
-export default connect(null, { deleteGif })(withStyles(styles)(DeleteGif));
+export default connect(null, { deleteGif })(withStyles(styles)(DeleteButton));

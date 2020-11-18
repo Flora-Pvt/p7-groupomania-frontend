@@ -32,7 +32,7 @@ const styles = (theme) => ({
   }
 });
 
-export class PostGif extends Component {
+export class GifForm extends Component {
   state = {
     title: "",
     image: "",
@@ -67,8 +67,8 @@ export class PostGif extends Component {
   handleSubmit = () => {
     const userId = localStorage.getItem("userId");
     const title = JSON.stringify(this.state.title);
-
     const image = this.state.image;
+    
     const newGif = new FormData();
     newGif.append("image", image);
     newGif.append("userId", userId);
@@ -149,7 +149,7 @@ export class PostGif extends Component {
   }
 }
 
-PostGif.propTypes = {
+GifForm.propTypes = {
   postGif: PropTypes.func.isRequired,
   UI: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
@@ -160,5 +160,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect(mapStateToProps, { postGif })(
-  withStyles(styles)(PostGif)
+  withStyles(styles)(GifForm)
 );

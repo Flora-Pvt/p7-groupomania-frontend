@@ -5,6 +5,7 @@ import {
   SET_UNAUTHENTICATED,
   LOADING_USER,
   LIKE_GIF,
+  UNLIKE_GIF
 } from "../types";
 
 const initialState = {
@@ -46,6 +47,13 @@ export default function (state = initialState, action) {
             gifId: action.payload.gifId,
           },
         ],
+      };
+      case UNLIKE_GIF:
+      return {
+        ...state,
+        likes: state.likes.filter(
+          (like) => like.gifId !== action.payload.gifId
+        )
       };
     default:
       return state;
