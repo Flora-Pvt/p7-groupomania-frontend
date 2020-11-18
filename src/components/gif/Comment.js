@@ -14,14 +14,12 @@ import Avatar from "@material-ui/core/Avatar";
 
 // Redux
 import { connect } from "react-redux";
-import { getComments } from "../../redux/network/gifNetwork";
 
 const styles = (theme) => ({
   ...theme.styling,
   root: {
-    width: "100%",
-    maxWidth: "36ch",
-    backgroundColor: theme.palette.background.paper,
+    width: "95%",
+    alignSelf: "center",
   },
   inline: {
     display: "inline",
@@ -29,30 +27,23 @@ const styles = (theme) => ({
 });
 
 export class Comment extends Component {
-  componentDidMount = (gifId) => {
-    this.props.getComments(gifId);
-  };
+
 
   render() {
-    const {
-      classes,
-      comments,
-    } = this.props;
+    const { classes, comments } = this.props;
 
-    const {
-      loading,
-    } = this.props.comments;
+    const { loading } = this.props.comments;
 
     const commentsMarkup = !loading ? (
       <Fragment>
         {" "}
         {comments.map((comment) => {
-          const { commentId, content, createdAt } = comment;
+          const { commentId, content, createdAt, User: {avatar, firstName, lastName} } = comment;
           return (
             <Fragment key={commentId}>
               <ListItem alignItems="flex-start">
                 <ListItemAvatar>
-                  <Avatar alt="Avatar" />
+                  <Avatar src={avatar} alt="Avatar" />
                 </ListItemAvatar>
                 <ListItemText
                   secondary={
@@ -63,7 +54,7 @@ export class Comment extends Component {
                         className={classes.inline}
                         color="textPrimary"
                       >
-                        Prénom Nom -
+                        {firstName} {lastName} -
                       </Typography>
                       {dayjs(createdAt).fromNow()}
                     </React.Fragment>
@@ -92,11 +83,4 @@ const mapStateToProps = (state) => ({
   comments: state.gifs.comments,
 });
 
-const mapActionsToProps = {
-  getComments,
-};
-
-export default connect(
-  mapStateToProps,
-  mapActionsToProps
-)(withStyles(styles)(Comment));
+export default connect(mapStateToProps)(withStyles(styles)(Comment));

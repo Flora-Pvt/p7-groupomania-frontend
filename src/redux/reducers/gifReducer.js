@@ -16,7 +16,6 @@ import {
 const initialState = {
   gifs: [],
   gif: {},
-  user: {},
   comments: [],
   loading: false,
 };
@@ -53,14 +52,14 @@ export default function (state = initialState, action) {
           comments: [action.payload, ...state.gif.comments],
         },
       };
-      case LOADING_COMMENTS:
+    case LOADING_COMMENTS:
       return {
-        ...state.comments,
+        ...state,
         loading: true,
       };
     case SET_COMMENTS:
       return {
-        ...state.comments,
+        ...state,
         comments: action.payload,
         loading: false,
       };

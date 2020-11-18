@@ -14,6 +14,7 @@ import CardActions from "@material-ui/core/CardActions";
 
 // Redux
 import { connect } from "react-redux";
+import { getComments } from "../redux/network/gifNetwork";
 
 const styles = (theme) => ({
   ...theme.styling,
@@ -28,23 +29,31 @@ const styles = (theme) => ({
     alignSelf: "center",
     maxWidth: 800,
   },
+  actions: {
+marginLeft: "5%"
+  }
 });
 
 export class OneGif extends Component {
+  componentDidMount = () => {
+    console.log(this.props);
+    this.props.getComments(this.props.gif.gifId);
+  };
+
   render() {
-    const { classes } = this.props;
     const {
+      classes,
       gif: {
-        loading,
         gifId,
         title,
         url,
         createdAt,
-        Likes,
+        User: { avatar, firstName, lastName },
         Comments,
-        User: { firstName, lastName, avatar },
+        Likes,
+        loading,
       },
-    } = this.props.gifs;
+    } = this.props;
 
     const gifMarkup = !loading ? (
       <Fragment>
@@ -61,7 +70,7 @@ export class OneGif extends Component {
           color="inherit"
         />
         <img src={url} alt="GIF" className={classes.media} />
-        <CardActions>
+        <CardActions className={classes.actions}>
           <LikeButton />
           {Likes ? <span>{Likes.length}</span> : <span>0</span>}
         </CardActions>
@@ -77,6 +86,7 @@ export class OneGif extends Component {
 
 OneGif.propTypes = {
   gif: PropTypes.object.isRequired,
+  gifId: PropTypes.number.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
@@ -84,4 +94,11 @@ const mapStateToProps = (state) => ({
   gif: state.gifs.gif,
 });
 
-export default connect(mapStateToProps)(withStyles(styles)(OneGif));
+const mapActionsToProps = {
+  getComments,
+};
+
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(withStyles(styles)(OneGif));
