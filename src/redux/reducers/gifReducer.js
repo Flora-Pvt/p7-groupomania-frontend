@@ -51,11 +51,36 @@ export default function (state = initialState, action) {
       };
     case DELETE_GIF:
       let index = state.gifs.findIndex((gif) => gif.gifId === action.payload);
-      state.gifs.splice(index, 1)
+      state.gifs.splice(index, 1);
       return {
         ...state,
-        gifs : state.gifs
+        gifs: state.gifs,
       };
+
+    case LIKE_GIF:
+      let gifToLikeIndex = state.gifs.findIndex(
+        (gif) => gif.gifId === action.payload.gifId
+      );
+      let gifToLike = state.gifs[gifToLikeIndex];
+      gifToLike.Likes.push(action.payload);
+      return {
+        ...state,
+        gifs: state.gifs,
+      };
+    case UNLIKE_GIF:
+      let gifToUnlikeIndex = state.gifs.findIndex(
+        (gif) => gif.gifId === action.payload.gifId
+      );
+      let gifToUnlike = state.gifs[gifToUnlikeIndex];
+      let liketoRemoveIndex = gifToUnlike.Likes.findIndex(
+        (like) => like.userId === action.payload.userId
+      );
+      gifToUnlike.Likes.splice(liketoRemoveIndex, 1);
+      return {
+        ...state,
+        gifs: state.gifs,
+      };
+
     case LOADING_COMMENTS:
       return {
         ...state,
@@ -71,16 +96,6 @@ export default function (state = initialState, action) {
       return {
         ...state,
         comments: state.comments.concat(action.payload),
-      };
-    case LIKE_GIF:
-    case UNLIKE_GIF:
-      index = state.gifs.findIndex((gif) => gif.gifId === action.payload.gifId);
-      state.gifs[index] = action.payload;
-      if (state.gif.gifId === action.payload.gifId) {
-        state.gif = action.payload;
-      }
-      return {
-        ...state,
       };
 
     default:

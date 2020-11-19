@@ -3,7 +3,6 @@ import thunk from "redux-thunk";
 
 import userReducer from "./reducers/userReducer";
 import gifReducer from "./reducers/gifReducer";
-import uiReducer from "./reducers/uiReducer";
 
 const initialState = {};
 
@@ -12,7 +11,6 @@ const middleware = [thunk];
 const reducers = combineReducers({
   user: userReducer,
   gifs: gifReducer,
-  UI: uiReducer,
 });
 
 const composeEnhancers =

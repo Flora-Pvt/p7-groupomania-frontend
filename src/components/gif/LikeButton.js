@@ -38,14 +38,12 @@ export class LikeButton extends Component {
 
 LikeButton.propTypes = {
   user: PropTypes.object.isRequired,
-  gifId: PropTypes.number.isRequired,
   likeGif: PropTypes.func.isRequired,
   unlikeGif: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  // gifId: state.gifs.gif.gifId
 });
 
 const mapActionsToProps = {

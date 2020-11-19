@@ -1,7 +1,5 @@
 import {
   SET_USER,
-  SET_ERRORS,
-  CLEAR_ERRORS,
   SET_UNAUTHENTICATED,
   LOADING_USER,
 } from "../types";
@@ -14,15 +12,9 @@ export const loginUser = (userData, history) => (dispatch) => {
       localStorage.setItem("userId", JSON.stringify(auth.data.userId));
       setAuthorizationHeader(auth);
       dispatch(getUserData());
-      dispatch({ type: CLEAR_ERRORS });
       history.push("/");
     })
-    .catch((err) => {
-      dispatch({
-        type: SET_ERRORS,
-        payload: err.data,
-      });
-    });
+    .catch((err) => console.log(err.data));
 };
 
 export const signupUser = (newUserData, history) => (dispatch) => {
@@ -32,15 +24,9 @@ export const signupUser = (newUserData, history) => (dispatch) => {
       localStorage.setItem("userId", JSON.stringify(auth.data.userId));
       setAuthorizationHeader(auth);
       dispatch(getUserData());
-      dispatch({ type: CLEAR_ERRORS });
       history.push("/");
     })
-    .catch((err) => {
-      dispatch({
-        type: SET_ERRORS,
-        payload: err.data,
-      });
-    });
+    .catch((err) => console.log(err.data));
 };
 
 export const getUserData = () => (dispatch) => {
@@ -67,12 +53,7 @@ export const updateUser = (userEdit) => (dispatch) => {
     .then(() => {
       dispatch(getUserData());
     })
-    .catch((err) => {
-      dispatch({
-        type: SET_ERRORS,
-        payload: err.data,
-      });
-    });
+    .catch((err) => console.log(err.data));
 };
 
 export const logoutUser = () => (dispatch) => {

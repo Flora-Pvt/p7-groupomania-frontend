@@ -104,10 +104,13 @@ export const unlikeGif = (gifId) => (dispatch) => {
         userId: userId,
       },
     })
-    .then((res) => {
+    .then(() => {
       dispatch({
         type: UNLIKE_GIF,
-        payload: res.data,
+        payload: {
+          gifId: gifId,
+          userId: userId,
+        },
       });
     })
     .catch((err) => console.log(err));
