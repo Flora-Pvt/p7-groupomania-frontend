@@ -18,12 +18,12 @@ const styles = (theme) => ({
   flexBar: {
     justifyContent: "space-between",
   },
-  icone: {
+  icon: {
     maxHeight: 30,
   },
-  row:{
+  row: {
     display: "flex",
-  }
+  },
 });
 
 export class Navbar extends Component {
@@ -45,7 +45,7 @@ export class Navbar extends Component {
                   edge="start"
                   src={IconGroupomania}
                   alt="logo d'une planète suivi du texte Groupomania"
-                  className={classes.icone}
+                  className={classes.icon}
                 />
               </Link>
               <div className={classes.row} edge="end">
@@ -57,14 +57,12 @@ export class Navbar extends Component {
             </Fragment>
           ) : (
             <Fragment>
-              <Button component={Link} to="/" color="inherit">
-                <img
-                  edge="start"
-                  src={IconGroupomania}
-                  alt="logo d'une planète suivi du texte Groupomania"
-                  className={classes.icone}
-                />
-              </Button>
+              <img
+                edge="start"
+                src={IconGroupomania}
+                alt="logo d'une planète suivi du texte Groupomania"
+                className={classes.icon}
+              />
               <div edge="end">
                 <Button component={Link} to="/login" color="inherit">
                   Login

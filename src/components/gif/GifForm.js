@@ -35,6 +35,7 @@ export class GifForm extends Component {
   state = {
     title: "",
     image: "",
+    fileInput: React.createRef(),
     open: false,
   };
 
@@ -52,17 +53,17 @@ export class GifForm extends Component {
     });
   };
 
+  handleAddImage = () => {
+    const fileInput = this.state.fileInput.current;
+    fileInput.click();
+  };
+
   handleImageLoaded = (event) => {
     this.setState({
       image: event.target.files[0],
     });
   };
-
-  handleAddImage = () => {
-    const fileInput = document.getElementById("image");
-    fileInput.click();
-  };
-
+  
   handleSubmit = () => {
     const userId = localStorage.getItem("userId");
     const title = JSON.stringify(this.state.title);
@@ -109,12 +110,12 @@ export class GifForm extends Component {
                 fullWidth
               />
               <input
-                id="image"
+                ref={this.state.fileInput}                
                 name="image"
                 type="file"
                 label="Image"
                 hidden="hidden"
-                accept="image/*"
+                accept="image/*, video/*"
                 files={this.state.image}
                 onChange={this.handleImageLoaded}
               />

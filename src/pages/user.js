@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-import AppIcon from "../images/icon-transparent.png";
 import EditUser from "../components/user/EditUser";
 
 // Material UI
@@ -24,11 +23,11 @@ const styles = (theme) => ({
   ...theme.styling,
   container: {
     maxWidth: "60%",
-    margin: "auto"
+    margin: "auto",
   },
   avatar: {
     width: 70,
-    height: 70
+    height: 70,
   },
   actions: {
     justifyContent: "space-between",
@@ -63,11 +62,7 @@ export class User extends Component {
           <CardHeader
             className={classes.cardheader}
             avatar={
-              avatar ? (
-                <Avatar src={avatar} alt="avatar" className={classes.avatar} />
-              ) : (
-                <Avatar src={AppIcon} alt="avatar" className={classes.avatar} />
-              )
+              <Avatar src={avatar} alt="avatar" className={classes.avatar} />
             }
             title={firstName + " " + lastName}
             subheader={officePosition + " - " + email}

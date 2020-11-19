@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import AppIcon from "../images/icon-transparent.png";
 
 // Material UI
 import Grid from "@material-ui/core/Grid";
@@ -52,12 +51,7 @@ class login extends Component {
 
     return (
       <Grid container spacing={10} className={classes.form}>
-        <Grid item className={classes.flex}>
-          <img
-            src={AppIcon}
-            alt="logo d'une planète"
-            className={classes.media}
-          />
+        <Grid item className={classes.title}>
           <Typography variant="h4">Log in</Typography>
         </Grid>
         <Grid item>

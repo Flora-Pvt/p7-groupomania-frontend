@@ -52,7 +52,6 @@ export class OneGif extends Component {
 
 OneGif.propTypes = {
   useParams: PropTypes.func.isRequired,
-  getOneGif: PropTypes.func.isRequired,
   gifs: PropTypes.object.isRequired,
   getComments: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,

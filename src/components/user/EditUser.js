@@ -2,7 +2,6 @@ import React, { Component, Fragment } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 import IconButton from '@material-ui/core/IconButton';
-import AppIcon from "../../images/icon-transparent.png";
 
 // Material UI
 import Avatar from "@material-ui/core/Avatar";
@@ -30,6 +29,7 @@ export class userEdit extends Component {
   state = {
     avatar: "",
     officePosition: "",
+    fileInput: React.createRef(),
     open: false,
   };
 
@@ -42,6 +42,11 @@ export class userEdit extends Component {
     });
   };
 
+  componentDidMount() {
+    const { credentials } = this.props;
+    this.mapUserDetailsToState(credentials);
+  }
+  
   handleOpen = () => {
     this.setState({ open: true });
     this.mapUserDetailsToState(this.props.credentials);
@@ -51,26 +56,21 @@ export class userEdit extends Component {
     this.setState({ open: false });
   };
 
-  componentDidMount() {
-    const { credentials } = this.props;
-    this.mapUserDetailsToState(credentials);
-  }
-
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
   };
 
-  handleImageChange = (event) => {
+  handleAddImage = () => {
+    const fileInput = this.state.fileInput.current;
+    fileInput.click();
+  };
+
+  handleImageLoaded = (event) => {
     this.setState({
       avatar: event.target.files[0],
     });
-  };
-
-  handleEditPicture = () => {
-    const fileInput = document.getElementById("image");
-    fileInput.click();
   };
 
   handleSubmit = () => {
@@ -105,20 +105,20 @@ export class userEdit extends Component {
           <DialogContent>
             <form encType="multipart/form-data">
               <div className={classes.flexEditImage}>
-                <Avatar src={this.state.avatar ? this.state.avatar : AppIcon} />
+                <Avatar src={this.state.avatar} />
                 <input
-                  id="image"
+                  ref={this.state.fileInput}
                   name="image"
                   type="file"
                   label="Image d'avatar"
                   hidden="hidden"
                   accept="image/*"
                   files={this.state.avatar}
-                  onChange={this.handleImageChange}
+                  onChange={this.handleImageLoaded}
                 />
                 <IconButton
                   title="Editer votre avatar"
-                  onClick={this.handleEditPicture}
+                  onClick={this.handleAddImage}
                   className="button"
                 >
                   <EditIcon color="secondary" />

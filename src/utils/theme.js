@@ -17,7 +17,7 @@ const themeObject = createMuiTheme({
     flexDirection: "column",
     alignItems: "center",
   },
-  flex: {
+  title: {
     display: "flex",
     alignItems: "center",
     marginTop: 20,

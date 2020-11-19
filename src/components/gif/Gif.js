@@ -18,14 +18,6 @@ import { connect } from "react-redux";
 import { getOneGif } from "../../redux/actions/gifActions";
 
 const styles = {
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "start",
-    width: 700,
-    margin: "auto",
-    marginBottom: 20,
-  },
   header: {
     width: "95%",
   },
@@ -55,33 +47,52 @@ export class Gif extends Component {
   };
 
   render() {
-    dayjs.extend(relativeTime);
-
     const {
       classes,
-      gif: {
-        gifId,
-        title,
-        url,
-        createdAt,
-        Likes,
-        Comments,
-        userId,
-        User,
-      },
+      gif: { gifId, title, url, createdAt, Likes, Comments, userId, User },
       user: { authenticated },
     } = this.props;
+
+    dayjs.extend(relativeTime);
+
+    function getExtension(url) {
+      const fileName = url.split(".");
+      return fileName[fileName.length - 1];
+    }
+
+    function isImage(url) {
+      const extension = getExtension(url);
+      switch (extension.toLowerCase()) {
+        case "jpg":
+        case "webp":
+        case "png":
+          return true;
+        default:
+          return false;
+      }
+    }
+
+    function isVideo(url) {
+      var ext = getExtension(url);
+      switch (ext.toLowerCase()) {
+        case "avi":
+        case "mpeg":
+        case "webm":
+          return true;
+        default:
+          return false;
+      }
+    }
 
     const deleteButton = authenticated &&
       JSON.parse(localStorage.getItem("userId")) === userId && (
         <DeleteButton gifId={gifId} className={classes.delete} />
       );
 
-      const gifMarkup = User ? (<Fragment className={classes.root}>
+    const gifMarkup = User ? (
+      <Fragment>
         <CardHeader
-          avatar={
-            <Avatar src={User.avatar} alt="avatar" className={classes.avatar} />
-          }
+          avatar={<Avatar src={User.avatar} alt="avatar" />}
           action={deleteButton}
           title={title}
           subheader={
@@ -95,8 +106,18 @@ export class Gif extends Component {
           color="inherit"
           className={classes.header}
         />
-        <Link to={"/gif/" + gifId} onClick={this.handleClick} >
-          <img src={url} alt="GIF" id={gifId} className={classes.media} />
+        <Link
+          to={"/gif/" + gifId}
+          onClick={this.handleClick}
+          className={classes.media}
+        >
+          {isImage(url) ? (
+            <img src={url} alt="GIF" id={gifId} />
+          ) : isVideo(url) ? (
+            <video controls autoPlay loop muted src={url} />
+          ) : (
+            <p>Impossible de charger le média</p>
+          )}
         </Link>
         <CardActions disableSpacing>
           <LikeButton gifId={gifId} />
@@ -110,11 +131,12 @@ export class Gif extends Component {
           </Link>
           <span>{Comments.length}</span>
         </CardActions>
-      </Fragment>) : (<Fragment className={classes.root}>Impossible d'afficher le GIF</Fragment>)
-
-    return (
-    <Fragment>{gifMarkup}</Fragment>
+      </Fragment>
+    ) : (
+      <Fragment>Impossible d'afficher le GIF</Fragment>
     );
+
+    return <Fragment>{gifMarkup}</Fragment>;
   }
 }
 

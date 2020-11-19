@@ -18,8 +18,13 @@ const styles = {
     width: 700,
   },
   root: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "start",
+    width: 700,
+    margin: "auto",
     marginBottom: 20,
-  }
+  },
 };
 
 export class home extends Component {

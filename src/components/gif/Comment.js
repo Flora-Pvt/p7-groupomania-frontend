@@ -37,12 +37,7 @@ export class Comment extends Component {
         <Fragment>
           {" "}
           {comments.map((comment) => {
-            const {
-              commentId,
-              content,
-              createdAt,
-              User,
-            } = comment;
+            const { commentId, content, createdAt, User } = comment;
             return (
               <Fragment key={commentId}>
                 <ListItem alignItems="flex-start">
@@ -58,9 +53,9 @@ export class Comment extends Component {
                           className={classes.inline}
                           color="textPrimary"
                         >
-                          {User.firstName} {User.lastName} -
+                          {User.firstName} {User.lastName}
                         </Typography>
-                        {dayjs(createdAt).fromNow()}
+                        {" - "} {dayjs(createdAt).fromNow()}
                       </React.Fragment>
                     }
                     primary={content}
