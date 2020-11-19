@@ -29,7 +29,6 @@ const styles = (theme) => ({
 export class CommentForm extends Component {
   state = {
     content: "",
-    open: false,
   };
 
   handleChange = (event) => {
@@ -40,6 +39,7 @@ export class CommentForm extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    
     const gifId = this.props.gifId;
     const userId = JSON.parse(localStorage.getItem("userId"));
     const content = this.state.content;
@@ -50,6 +50,10 @@ export class CommentForm extends Component {
     };
 
     this.props.postComment(gifId, newComment);
+
+    this.setState({
+      content: "",
+    });
   };
 
   render() {

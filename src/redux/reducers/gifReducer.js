@@ -62,6 +62,7 @@ export default function (state = initialState, action) {
       };
     case POST_COMMENT:
       return {
+        ...state,
         comments: state.comments.concat(action.payload),
       };
     case LIKE_GIF:

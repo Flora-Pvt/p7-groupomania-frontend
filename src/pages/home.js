@@ -48,5 +48,5 @@ const mapStateToProps = (state) => ({
 });
 
 export default connect
-  (mapStateToProps, { getGifs })((withStyles(styles))(home)
+  (mapStateToProps, { getGifs })(withStyles(styles)(home)
 );

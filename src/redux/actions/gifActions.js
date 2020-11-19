@@ -10,7 +10,6 @@ import {
   SET_COMMENTS,
   LOADING_COMMENTS,
   POST_COMMENT,
-  LOADING_UI,
 } from "../types";
 import axios from "axios";
 
@@ -135,15 +134,18 @@ export const getComments = (gifId) => (dispatch) => {
 
 // Post a comment
 export const postComment = (gifId, newComment) => (dispatch) => {
-  dispatch({ type: LOADING_UI });
-  console.log(gifId, newComment);
   axios
     .post("/comments/" + gifId, newComment)
     .then((res) => {
-      dispatch({
-        type: POST_COMMENT,
-        payload: res.data,
-      });
+      axios
+        .get("/comments/comment/" + res.data.commentId)
+        .then((comment) => {
+          dispatch({
+            type: POST_COMMENT,
+            payload: comment.data,
+          });
+        })
+        .catch((err) => console.log(err));
     })
     .catch((err) => console.log(err));
 };
