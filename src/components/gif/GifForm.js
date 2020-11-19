@@ -73,6 +73,11 @@ export class GifForm extends Component {
     newGif.append("userId", userId);
     newGif.append("title", title);
     this.props.postGif(newGif);
+
+    this.setState({
+      title: "",
+      image: "",
+    });
     this.handleClose();
   };
 
@@ -141,12 +146,11 @@ GifForm.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  UI: state.UI,
-});
-
 const mapActionsToProps = {
   postGif,
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(GifForm));
+export default connect(
+  null,
+  mapActionsToProps
+)(withStyles(styles)(GifForm));

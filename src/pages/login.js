@@ -9,7 +9,6 @@ import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 // Redux
 import { connect } from "react-redux";
@@ -27,12 +26,6 @@ class login extends Component {
       password: "",
       errors: {},
     };
-  }
-
-  componentDidUpdate(nextProps) {
-    if (nextProps.UI.errors) {
-      this.setState({ errors: nextProps.UI.errors });
-    }
   }
 
   handleSubmit = (event) => {
@@ -54,7 +47,6 @@ class login extends Component {
   render() {
     const {
       classes,
-      UI: { loading },
     } = this.props;
     const { errors } = this.state;
 
@@ -107,13 +99,9 @@ class login extends Component {
               type="submit"
               variant="contained"
               color="primary"
-              disabled={loading}
               className={classes.button}
             >
               Login
-              {loading && (
-                <CircularProgress size={30} className={classes.progress} />
-              )}
             </Button>
             <p>
               Don't have an account ? login{" "}
@@ -132,12 +120,10 @@ login.propTypes = {
   classes: PropTypes.object.isRequired,
   loginUser: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
-  UI: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  UI: state.UI,
 });
 
 const mapActionsToProps = {

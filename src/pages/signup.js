@@ -10,7 +10,6 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
-import CircularProgress from "@material-ui/core/CircularProgress";
 
 // Redux
 import { connect } from "react-redux";
@@ -32,12 +31,6 @@ class signup extends Component {
       password: "",
       errors: {},
     };
-  }
-
-  componentDidUpdate(nextProps) {
-    if (nextProps.UI.errors) {
-      this.setState({ errors: nextProps.UI.errors });
-    }
   }
 
   handleChange = (event) => {
@@ -81,7 +74,6 @@ class signup extends Component {
   render() {
     const {
       classes,
-      UI: { loading },
     } = this.props;
     const { errors } = this.state;
 
@@ -173,22 +165,13 @@ class signup extends Component {
               value={this.state.password}
               onChange={this.handleChange}
             />
-            {errors.general && (
-              <Typography variant="body2" className={classes.customErrors}>
-                {errors.general}
-              </Typography>
-            )}
             <Button
               type="submit"
               variant="contained"
               color="primary"
-              disabled={loading}
               className={classes.button}
             >
               Signup
-              {loading && (
-                <CircularProgress size={30} className={classes.progress} />
-              )}
             </Button>
             <p>
               You have an account ? sign up{" "}
@@ -206,13 +189,11 @@ class signup extends Component {
 signup.propTypes = {
   classes: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  UI: PropTypes.object.isRequired,
   signupUser: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  UI: state.UI,
 });
 
 const mapActionsToProps = {

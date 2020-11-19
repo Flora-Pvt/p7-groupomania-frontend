@@ -87,13 +87,11 @@ CommentForm.propTypes = {
   gifId: PropTypes.number.isRequired,
   authenticated: PropTypes.bool.isRequired,
   postComment: PropTypes.func.isRequired,
-  UI: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   authenticated: state.user.authenticated,
-  UI: state.UI,
 });
 
 export default connect(mapStateToProps, { postComment })(

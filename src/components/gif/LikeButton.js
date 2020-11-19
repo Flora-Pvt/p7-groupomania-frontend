@@ -45,7 +45,7 @@ LikeButton.propTypes = {
 
 const mapStateToProps = (state) => ({
   user: state.user,
-  gifId: state.gifs.gif.gifId
+  // gifId: state.gifs.gif.gifId
 });
 
 const mapActionsToProps = {

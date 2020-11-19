@@ -24,7 +24,7 @@ export const getGifs = () => (dispatch) => {
         payload: res.data,
       });
     })
-    .catch((err) =>
+    .catch(() =>
       dispatch({
         type: SET_GIFS,
         payload: [],
