@@ -6,7 +6,7 @@ import StarIcon from "@material-ui/icons/Star";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 // Redux
 import { connect } from "react-redux";
-import { likeGif, unlikeGif } from "../../redux/network/gifNetwork";
+import { likeGif, unlikeGif } from "../../redux/actions/gifActions";
 
 export class LikeButton extends Component {
   likedGif = () => {

@@ -16,7 +16,7 @@ import Button from "@material-ui/core/Button";
 
 // Redux
 import { connect } from "react-redux";
-import { updateUser } from "../../redux/network/userNetwork";
+import { updateUser } from "../../redux/actions/userActions";
 
 const styles = (theme) => ({
   ...theme.styling,

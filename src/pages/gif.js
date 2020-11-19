@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
+import Container from "@material-ui/core/Container";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 import dayjs from "dayjs";
@@ -14,7 +15,7 @@ import CardActions from "@material-ui/core/CardActions";
 
 // Redux
 import { connect } from "react-redux";
-import { getComments } from "../redux/network/gifNetwork";
+import { getComments } from "../redux/actions/gifActions";
 
 const styles = (theme) => ({
   ...theme.styling,
@@ -39,18 +40,15 @@ export class OneGif extends Component {
     const {
       classes,
       gif: { gifId, title, url, createdAt, User, Comments, Likes, loading },
-    } = this.props;
+    } = this.props;    
 
-    console.log(Likes)
-
-    if (!loading) {
-      this.props.getComments(gifId);
-    }
+    
+    if (Comments) { this.props.getComments(gifId)}
 
     const gifMarkup = loading ? (
       <p>Chargement...</p>
     ) : User ? (
-      <Fragment>
+      <Card className={classes.root}>
         <CardHeader
           avatar={<Avatar src={User.avatar} alt="avatar" />}
           title={title}
@@ -70,12 +68,12 @@ export class OneGif extends Component {
         </CardActions>
         <CommentForm gifId={gifId} />
         <Comment comments={Comments} />
-      </Fragment>
+      </Card>
     ) : (
       <p>Impossible de charger le GIF.</p>
     );
 
-    return <Card className={classes.root}>{gifMarkup}</Card>;
+    return <Container>{gifMarkup}</Container>;
   }
 }
 
@@ -85,7 +83,7 @@ OneGif.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  gifId: state.gifs.gif.gifId,
+  //gifId: state.gifs.gifId,
   gif: state.gifs.gif,
 });
 

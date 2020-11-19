@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 
 // Redux
 import { connect } from "react-redux";
-import { postComment } from "../../redux/network/gifNetwork";
+import { postComment } from "../../redux/actions/gifActions";
 
 const styles = (theme) => ({
   ...theme.styling,

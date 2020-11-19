@@ -27,7 +27,7 @@ export default function (state = initialState, action) {
         ...state,
         loading: true,
       };
-    case SET_GIFS:
+    case SET_GIFS:      
       return {
         ...state,
         gifs: action.payload,
@@ -47,10 +47,7 @@ export default function (state = initialState, action) {
     case POST_GIF:
       return {
         ...state,
-        gif: {
-          ...state.gif,
-          comments: [action.payload, ...state.gif.comments],
-        },
+        gifs: state.gifs.concat(action.payload),
       };
     case LOADING_COMMENTS:
       return {
@@ -65,8 +62,7 @@ export default function (state = initialState, action) {
       };
     case POST_COMMENT:
       return {
-        ...state,
-        gifs: [action.payload, ...state.gifs],
+        comments: state.comments.concat(action.payload),
       };
     case LIKE_GIF:
     case UNLIKE_GIF:
@@ -82,7 +78,7 @@ export default function (state = initialState, action) {
       };
     case DELETE_GIF:
       index = state.gifs.findIndex((gif) => gif.gifId === action.payload);
-      state.gifs.splice(index, 1);
+      state.gifs.splice(index, 1)    
       return {
         ...state,
       };

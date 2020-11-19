@@ -11,7 +11,7 @@ import Button from "@material-ui/core/Button";
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
 
 import { connect } from "react-redux";
-import { deleteGif } from "../../redux/network/gifNetwork";
+import { deleteGif } from "../../redux/actions/gifActions";
 
 const styles = {
   deleteButton: {

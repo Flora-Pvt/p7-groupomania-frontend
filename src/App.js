@@ -7,7 +7,7 @@ import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import { Provider } from "react-redux";
 import store from "./redux/store";
 import { SET_AUTHENTICATED, SET_UNAUTHENTICATED } from "./redux/types";
-import { getUserData } from "./redux/network/userNetwork";
+import { getUserData } from "./redux/actions/userActions";
 
 // Components
 import Navbar from "./components/layout/Navbar";
@@ -20,9 +20,13 @@ import gif from "./pages/gif";
 import user from "./pages/user";
 import login from "./pages/login";
 import signup from "./pages/signup";
+
 import axios from "axios";
 
 const theme = themeObject;
+
+axios.defaults.baseURL =
+  'http://localhost:4000/api';
 
 if (JSON.parse(localStorage.getItem("token"))) {
   const token = JSON.parse(localStorage.getItem("token"));

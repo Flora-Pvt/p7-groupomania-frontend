@@ -11,7 +11,7 @@ import axios from "axios";
 export const loginUser = (userData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   axios
-    .post("http://localhost:4000/api/auth/login", userData)
+    .post("/auth/login", userData)
     .then((auth) => {
       localStorage.setItem("userId", JSON.stringify(auth.data.userId));
       setAuthorizationHeader(auth);
@@ -30,7 +30,7 @@ export const loginUser = (userData, history) => (dispatch) => {
 export const signupUser = (newUserData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   axios
-    .post("http://localhost:4000/api/auth/signup", newUserData)
+    .post("/auth/signup", newUserData)
     .then((auth) => {
       localStorage.setItem("userId", JSON.stringify(auth.data.userId));
       setAuthorizationHeader(auth);
@@ -50,7 +50,7 @@ export const getUserData = () => (dispatch) => {
   dispatch({ type: LOADING_USER });
   const userId = JSON.parse(localStorage.getItem("userId"));
   axios
-    .get("http://localhost:4000/api/auth/" + userId)
+    .get("/auth/" + userId)
     .then((res) => {
       dispatch({
         type: SET_USER,
@@ -66,7 +66,7 @@ export const updateUser = (userEdit) => (dispatch) => {
   const userId = JSON.parse(localStorage.getItem("userId"));
 
   axios
-    .put("http://localhost:4000/api/auth/" + userId, userEdit)
+    .put("/auth/" + userId, userEdit)
     .then(() => {
       dispatch(getUserData());
     })

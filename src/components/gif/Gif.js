@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -16,14 +16,14 @@ import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 
 // Redux
 import { connect } from "react-redux";
-import { getOneGif } from "../../redux/network/gifNetwork";
+import { getOneGif } from "../../redux/actions/gifActions";
 
 const styles = {
   root: {
     display: "flex",
     flexDirection: "column",
     alignItems: "start",
-    maxWidth: 700,
+    width: 700,
     margin: "auto",
     marginBottom: 20,
   },
@@ -68,7 +68,7 @@ export class Gif extends Component {
         Likes,
         Comments,
         userId,
-        User: { firstName, lastName, avatar },
+        User,
       },
       user: { authenticated },
     } = this.props;
@@ -78,19 +78,18 @@ export class Gif extends Component {
         <DeleteButton gifId={gifId} className={classes.delete} />
       );
 
-    return (
-      <Card className={classes.root}>
+      const gifMarkup = User ? (<Card className={classes.root}>
         <CardHeader
           avatar={
-            <Avatar src={avatar} alt="avatar" className={classes.avatar} />
+            <Avatar src={User.avatar} alt="avatar" className={classes.avatar} />
           }
           action={deleteButton}
           title={title}
           subheader={
             "par " +
-            firstName +
+            User.firstName +
             " " +
-            lastName +
+            User.lastName +
             " - " +
             dayjs(createdAt).fromNow()
           }
@@ -112,7 +111,10 @@ export class Gif extends Component {
           </Link>
           <span>{Comments.length}</span>
         </CardActions>
-      </Card>
+      </Card>) : (<Card className={classes.root}>Impossible d'afficher le GIF</Card>)
+
+    return (
+    <Fragment>{gifMarkup}</Fragment>
     );
   }
 }

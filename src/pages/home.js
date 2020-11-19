@@ -8,7 +8,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 
 // Redux
 import { connect } from "react-redux";
-import { getGifs } from "../redux/network/gifNetwork";
+import { getGifs } from "../redux/actions/gifActions";
 
 const styles = {
   container: {

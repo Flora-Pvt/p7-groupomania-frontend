@@ -10,26 +10,25 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import AddIcon from "@material-ui/icons/Add";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 
 // Redux
 import { connect } from "react-redux";
-import { postGif } from "../../redux/network/gifNetwork";
+import { postGif } from "../../redux/actions/gifActions";
 
 const styles = (theme) => ({
   ...theme.styling,
   button: {
-    color: "white"
-  }, 
+    color: "white",
+  },
   addImage: {
     width: "100%",
     minHeight: 250,
     border: "solid black 1px",
     borderRadius: 0,
-    marginTop: 30
-  }
+    marginTop: 30,
+  },
 });
 
 export class GifForm extends Component {
@@ -44,7 +43,7 @@ export class GifForm extends Component {
   };
 
   handleClose = () => {
-    this.setState({open: false})
+    this.setState({ open: false });
   };
 
   handleChange = (event) => {
@@ -68,7 +67,7 @@ export class GifForm extends Component {
     const userId = localStorage.getItem("userId");
     const title = JSON.stringify(this.state.title);
     const image = this.state.image;
-    
+
     const newGif = new FormData();
     newGif.append("image", image);
     newGif.append("userId", userId);
@@ -78,17 +77,11 @@ export class GifForm extends Component {
   };
 
   render() {
-    const {
-      classes,
-      UI: { loading },
-    } = this.props;
+    const { classes } = this.props;
 
     return (
       <Fragment>
-        <Button 
-          onClick={this.handleOpen}
-          className={classes.button}
-        >
+        <Button onClick={this.handleOpen} className={classes.button}>
           <AddIcon />
           Nouveau GIF
         </Button>
@@ -135,12 +128,6 @@ export class GifForm extends Component {
             </Button>
             <Button onClick={this.handleSubmit} color="primary">
               Enregistrer
-              {loading && (
-                <CircularProgress
-                  size={30}
-                  className={classes.progressSpinner}
-                />
-              )}
             </Button>
           </DialogActions>
         </Dialog>
@@ -151,7 +138,6 @@ export class GifForm extends Component {
 
 GifForm.propTypes = {
   postGif: PropTypes.func.isRequired,
-  UI: PropTypes.object.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
@@ -159,6 +145,8 @@ const mapStateToProps = (state) => ({
   UI: state.UI,
 });
 
-export default connect(mapStateToProps, { postGif })(
-  withStyles(styles)(GifForm)
-);
+const mapActionsToProps = {
+  postGif,
+};
+
+export default connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(GifForm));

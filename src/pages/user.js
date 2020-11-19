@@ -18,7 +18,7 @@ import Paper from "@material-ui/core/Paper";
 
 // Redux
 import { connect } from "react-redux";
-import { logoutUser } from "../redux/network/userNetwork";
+import { logoutUser } from "../redux/actions/userActions";
 
 const styles = (theme) => ({
   ...theme.styling,

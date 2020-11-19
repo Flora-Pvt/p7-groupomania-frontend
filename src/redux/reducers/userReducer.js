@@ -12,8 +12,6 @@ const initialState = {
   authenticated: false,
   loading: false,
   credentials: {},
-  gifs: [],
-  comments: [],
   likes: [],
 };
 
