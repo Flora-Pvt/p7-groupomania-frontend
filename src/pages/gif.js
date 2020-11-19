@@ -1,17 +1,13 @@
 import React, { Component } from "react";
-import Container from "@material-ui/core/Container";
-import withStyles from "@material-ui/core/styles/withStyles";
+import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-import dayjs from "dayjs";
-import LikeButton from "../components/gif/LikeButton";
+import Gif from "../components/gif/Gif";
 import Comment from "../components/gif/Comment";
 import CommentForm from "../components/gif/CommentForm";
 
 // Material UI
+import withStyles from "@material-ui/core/styles/withStyles";
 import Card from "@material-ui/core/Card";
-import CardHeader from "@material-ui/core/CardHeader";
-import Avatar from "@material-ui/core/Avatar";
-import CardActions from "@material-ui/core/CardActions";
 
 // Redux
 import { connect } from "react-redux";
@@ -23,73 +19,53 @@ const styles = (theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "start",
-    maxWidth: 800,
+    maxWidth: 700,
     margin: "auto",
-  },
-  media: {
-    alignSelf: "center",
-    maxWidth: 800,
-  },
-  actions: {
-    marginLeft: "5%",
   },
 });
 
+
+
 export class OneGif extends Component {
+  componentDidMount() {
+    let gifId = this.props.match.params.id;
+    this.props.getComments(gifId);
+  }
   render() {
-    const {
-      classes,
-      gif: { gifId, title, url, createdAt, User, Comments, Likes, loading },
-    } = this.props;    
+    let gifId = this.props.match.params.id;
+    let index = this.props.gifs.gifs.findIndex((gif) => gif.gifId == gifId);
 
-    
-    if (Comments) { this.props.getComments(gifId)}
+    const { classes } = this.props;
+    const gif = this.props.gifs.gifs[index];
 
-    const gifMarkup = loading ? (
-      <p>Chargement...</p>
-    ) : User ? (
+    const gifMarkup = gif && <Gif gif={gif} key={gif.gifId} />;
+
+    return (
       <Card className={classes.root}>
-        <CardHeader
-          avatar={<Avatar src={User.avatar} alt="avatar" />}
-          title={title}
-          subheader={
-            "@" +
-            User.firstName +
-            User.lastName +
-            " - " +
-            dayjs(createdAt).format("le DD.MM.YYYY à H:mm")
-          }
-          color="inherit"
-        />
-        <img src={url} alt="GIF" className={classes.media} />
-        <CardActions className={classes.actions}>
-          <LikeButton />
-          <span>{Likes.length}</span>
-        </CardActions>
-        <CommentForm gifId={gifId} />
-        <Comment comments={Comments} />
+        {gifMarkup}
+        <CommentForm gifId={gif.gifId} />
+        <Comment comments={gif.Comments} />
       </Card>
-    ) : (
-      <p>Impossible de charger le GIF.</p>
     );
-
-    return <Container>{gifMarkup}</Container>;
   }
 }
 
 OneGif.propTypes = {
-  gif: PropTypes.object.isRequired,
+  useParams: PropTypes.func.isRequired,
+  getOneGif: PropTypes.func.isRequired,
+  gifs: PropTypes.object.isRequired,
+  getComments: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
-const mapStateToProps = (state) => ({
-  //gifId: state.gifs.gifId,
-  gif: state.gifs.gif,
-});
-
 const mapActionsToProps = {
+  useParams,
   getComments,
 };
+
+const mapStateToProps = (state) => ({
+  gifs: state.gifs,
+});
 
 export default connect(
   mapStateToProps,

@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { likeGif, unlikeGif } from "../../redux/actions/gifActions";
 
 export class LikeButton extends Component {
+
   likedGif = () => {
     if (
       this.props.user.likes &&
@@ -38,6 +39,7 @@ export class LikeButton extends Component {
 
 LikeButton.propTypes = {
   user: PropTypes.object.isRequired,
+  gifId: PropTypes.number.isRequired,
   likeGif: PropTypes.func.isRequired,
   unlikeGif: PropTypes.func.isRequired,
 };

@@ -65,7 +65,7 @@ export const postGif = (newGif) => (dispatch) => {
 export const deleteGif = (gifId) => (dispatch) => {
   axios
     .delete("/gifs/" + gifId)
-    .then((res) => {
+    .then(() => {
       dispatch({
         type: DELETE_GIF,
         payload: gifId,
@@ -77,12 +77,10 @@ export const deleteGif = (gifId) => (dispatch) => {
 // Like GIF
 export const likeGif = (gifId) => (dispatch) => {
   const userId = JSON.parse(localStorage.getItem("userId"));
-
   const like = {
     gifId: gifId,
     userId: userId,
   };
-
   axios
     .post("/likes/" + gifId, like)
     .then((res) => {
@@ -97,7 +95,6 @@ export const likeGif = (gifId) => (dispatch) => {
 // Unlike GIF
 export const unlikeGif = (gifId) => (dispatch) => {
   const userId = JSON.parse(localStorage.getItem("userId"));
-
   axios
     .delete("/likes/" + gifId, {
       data: {

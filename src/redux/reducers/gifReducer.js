@@ -66,6 +66,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         gifs: state.gifs,
+        gif: state.gif,
       };
     case UNLIKE_GIF:
       let gifToUnlikeIndex = state.gifs.findIndex(
@@ -79,6 +80,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         gifs: state.gifs,
+        gif: state.gif,
       };
 
     case LOADING_COMMENTS:

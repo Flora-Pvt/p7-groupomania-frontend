@@ -5,6 +5,7 @@ import Gif from "../components/gif/Gif";
 
 // Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
+import Card from "@material-ui/core/Card";
 
 // Redux
 import { connect } from "react-redux";
@@ -14,7 +15,11 @@ const styles = {
   container: {
     display: "flex",
     flexDirection: "column-reverse",
+    width: 700,
   },
+  root: {
+    marginBottom: 20,
+  }
 };
 
 export class home extends Component {
@@ -26,11 +31,13 @@ export class home extends Component {
     const { classes } = this.props;
     const { gifs } = this.props.gifs;
     const recentGifsMarkup = gifs.map((gif) => (
+      <Card className={classes.root}>
       <Gif gif={gif} key={gif.gifId} />
+      </Card>
     ));
 
     return (
-      <Container maxWidth="lg" className={classes.container} >
+      <Container className={classes.container} >
         {recentGifsMarkup}
       </Container>
     );

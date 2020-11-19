@@ -8,7 +8,6 @@ import LikeButton from "./LikeButton";
 
 // Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
-import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
 import Avatar from "@material-ui/core/Avatar";
 import CardActions from "@material-ui/core/CardActions";
@@ -78,7 +77,7 @@ export class Gif extends Component {
         <DeleteButton gifId={gifId} className={classes.delete} />
       );
 
-      const gifMarkup = User ? (<Card className={classes.root}>
+      const gifMarkup = User ? (<Fragment className={classes.root}>
         <CardHeader
           avatar={
             <Avatar src={User.avatar} alt="avatar" className={classes.avatar} />
@@ -111,7 +110,7 @@ export class Gif extends Component {
           </Link>
           <span>{Comments.length}</span>
         </CardActions>
-      </Card>) : (<Card className={classes.root}>Impossible d'afficher le GIF</Card>)
+      </Fragment>) : (<Fragment className={classes.root}>Impossible d'afficher le GIF</Fragment>)
 
     return (
     <Fragment>{gifMarkup}</Fragment>
