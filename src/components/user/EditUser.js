@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
-import MyButton from "../../utils/MyButton";
+import IconButton from '@material-ui/core/IconButton';
 import AppIcon from "../../images/icon-transparent.png";
 
 // Material UI
@@ -88,13 +88,13 @@ export class userEdit extends Component {
 
     return (
       <Fragment>
-        <MyButton
-          tip="Editer votre profil"
+        <IconButton
+          title="Editer votre profil"
           onClick={this.handleOpen}
           className={classes.button}
         >
           <EditIcon color="secondary" />
-        </MyButton>
+        </IconButton>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -116,13 +116,13 @@ export class userEdit extends Component {
                   files={this.state.avatar}
                   onChange={this.handleImageChange}
                 />
-                <MyButton
-                  tip="Editer votre avatar"
+                <IconButton
+                  title="Editer votre avatar"
                   onClick={this.handleEditPicture}
                   className="button"
                 >
                   <EditIcon color="secondary" />
-                </MyButton>
+                </IconButton>
               </div>
               <TextField
                 name="officePosition"
