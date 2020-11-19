@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import AppIcon from "../images/icon-transparent.png";
 import EditUser from "../components/user/EditUser";
-import MyButton from "../utils/MyButton";
 
 // Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -12,6 +11,7 @@ import CardHeader from "@material-ui/core/CardHeader";
 import CardActions from "@material-ui/core/CardActions";
 import Avatar from "@material-ui/core/Avatar";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import Paper from "@material-ui/core/Paper";
@@ -74,9 +74,9 @@ export class User extends Component {
             color="inherit"
           />
           <CardActions className={classes.actions}>
-            <MyButton tip="Se déconnecter" onClick={this.handleLogout}>
+            <IconButton title="Se déconnecter" onClick={this.handleLogout}>
               <ExitToAppIcon aria-label="Se déconnecter" color="secondary" />
-            </MyButton>
+            </IconButton>
             <EditUser />
           </CardActions>
         </Card>

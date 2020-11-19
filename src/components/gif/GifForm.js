@@ -123,15 +123,15 @@ export class GifForm extends Component {
                 onClick={this.handleAddImage}
                 className={classes.addImage}
               >
-                <AddPhotoAlternateIcon color="primary" />
+                <AddPhotoAlternateIcon color="secondary" />
               </IconButton>
             </form>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.handleClose} color="secondary">
               Annuler
             </Button>
-            <Button onClick={this.handleSubmit} color="primary">
+            <Button onClick={this.handleSubmit} color="secondary">
               Enregistrer
             </Button>
           </DialogActions>

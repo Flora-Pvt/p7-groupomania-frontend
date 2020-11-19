@@ -1,5 +1,8 @@
+/* eslint-disable import/no-anonymous-default-export */
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
 import userReducer from "./reducers/userReducer";
 import gifReducer from "./reducers/gifReducer";
@@ -18,7 +21,14 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-const enhancer = composeEnhancers(applyMiddleware(...middleware));
-const store = createStore(reducers, initialState, enhancer);
+const persistConfig = {
+  key: "root",
+  storage,
+};
 
-export default store;
+const persistedReducer = persistReducer(persistConfig, reducers);
+
+const enhancer = composeEnhancers(applyMiddleware(...middleware));
+
+export const store = createStore(persistedReducer, initialState, enhancer);
+export const persistor = persistStore(store);
