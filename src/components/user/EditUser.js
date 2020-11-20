@@ -19,20 +19,6 @@ import { updateUser } from "../../redux/actions/userActions";
 
 const styles = (theme) => ({
   ...theme.styling,
-  flexEditImage: {
-    display: "flex",
-    marginBottom: 20,
-  },
-  addImage: {
-    marginLeft: -19,
-  },
-  miniature: {
-    width: 40,
-    height: 40,
-    overflow: "hidden",
-    borderRadius: "50%",
-    objectFit: "cover",
-  },
 });
 
 export class userEdit extends Component {
@@ -117,7 +103,7 @@ export class userEdit extends Component {
           <DialogTitle>Modifier vos informations</DialogTitle>
           <DialogContent>
             <form encType="multipart/form-data">
-              <div className={classes.flexEditImage}>
+              <div className={classes.flexEditAvatar}>
                 <input
                   ref={this.state.fileInput}
                   name="image"
@@ -132,20 +118,20 @@ export class userEdit extends Component {
                 <img
                   ref={this.state.fileOutput}
                   alt="avatar miniature"
-                  className={classes.miniature}
+                  className={classes.avatar}
                 />
               ) : (
                 <img
                   ref={this.state.fileOutput}
                   src={Logo}
                   alt="logo de groupomania représenté par une planète"
-                  className={classes.miniature}
+                  className={classes.avatar}
                 />
               )}
                 <IconButton
                   title="Editer votre avatar"
                   onClick={this.handleAddImage}
-                  className={classes.addImage}
+                  className={classes.addAvatarButton}
                 >
                   <EditIcon color="secondary" />
                 </IconButton>

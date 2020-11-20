@@ -1,31 +1,19 @@
 import React, { Component } from "react";
-import Container from "@material-ui/core/Container";
 import PropTypes from "prop-types";
 import Gif from "../components/gif/Gif";
 
 // Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
+import Container from "@material-ui/core/Container";
 import Card from "@material-ui/core/Card";
 
 // Redux
 import { connect } from "react-redux";
 import { getGifs } from "../redux/actions/gifActions";
 
-const styles = {
-  container: {
-    display: "flex",
-    flexDirection: "column-reverse",
-    width: 700,
-  },
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "start",
-    width: 700,
-    margin: "auto",
-    marginBottom: 20,
-  },
-};
+const styles = (theme) => ({
+  ...theme.styling,
+});
 
 export class home extends Component {
   componentDidMount() {
@@ -36,7 +24,7 @@ export class home extends Component {
     const { classes } = this.props;
     const { gifs } = this.props.gifs;
     const recentGifsMarkup = gifs.map((gif) => (
-      <Card className={classes.root}  key={gif.gifId}>
+      <Card className={classes.card}  key={gif.gifId}>
       <Gif gif={gif} />
       </Card>
     ));

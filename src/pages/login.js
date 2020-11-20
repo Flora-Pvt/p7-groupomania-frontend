@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 // Material UI
+import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
@@ -58,7 +58,7 @@ class login extends Component {
           <form
             onSubmit={this.handleSubmit}
             noValidate
-            className={classes.root}
+            className={classes.form}
           >
             <TextField
               className={classes.field}
@@ -84,16 +84,10 @@ class login extends Component {
               value={this.state.password}
               onChange={this.handleChange}
             />
-            {errors.general && (
-              <Typography variant="body2" className={classes.customErrors}>
-                {errors.general}
-              </Typography>
-            )}
             <Button
               type="submit"
               variant="contained"
               color="primary"
-              className={classes.button}
             >
               Login
             </Button>
@@ -111,9 +105,9 @@ class login extends Component {
 }
 
 login.propTypes = {
-  classes: PropTypes.object.isRequired,
   loginUser: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({

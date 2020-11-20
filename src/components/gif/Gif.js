@@ -18,23 +18,9 @@ import ChatBubbleOutlineIcon from "@material-ui/icons/ChatBubbleOutline";
 import { connect } from "react-redux";
 import { getOneGif } from "../../redux/actions/gifActions";
 
-const styles = {
-  flexHeader: {
-    width: "100%",
-    display: "flex",
-    justifyContent: "space-between"
-  },
-  media: {
-    alignSelf: "center",
-    maxWidth: 700,
-  },
-  chatIcon: {
-    marginLeft: 10,
-    paddingTop: 5,
-    heigth: 33,
-    width: 24,
-  },
-};
+const styles = (theme) => ({
+  ...theme.styling,
+});
 
 export class Gif extends Component {
   handleClick = (event) => {
@@ -89,53 +75,61 @@ export class Gif extends Component {
 
     const deleteButton = authenticated &&
       JSON.parse(localStorage.getItem("userId")) === userId && (
-        <DeleteButton gifId={gifId} className={classes.delete} />
+        <DeleteButton gifId={gifId} />
       );
 
-      const editButton = authenticated &&
+    const editButton = authenticated &&
       JSON.parse(localStorage.getItem("userId")) === userId && (
-        <EditGif gifId={gifId} className={classes.modify} />
+        <EditGif gifId={gifId} title={title} />
       );
-
+ 
     const gifMarkup = User ? (
       <Fragment>
-        <div className={classes.flexHeader}>
-        <CardHeader
-          avatar={<Avatar src={User.avatar} alt="avatar" />}
-          title={title}
-          subheader={
-            "par " +
-            User.firstName +
-            " " +
-            User.lastName +
-            " - " +
-            dayjs(createdAt).fromNow()
-          }
-          color="inherit"
-          className={classes.header}
-        />
-        <CardActions disableSpacing>{editButton}{deleteButton}</CardActions>
+        <div className={classes.header}>
+          <CardHeader
+            avatar={<Avatar src={User.avatar} alt="avatar" />}
+            title={title}
+            subheader={
+              "par " +
+              User.firstName +
+              " " +
+              User.lastName +
+              " - " +
+              dayjs(createdAt).fromNow()
+            }
+          />
+          <CardActions disableSpacing >
+            {editButton}
+            {deleteButton}
+          </CardActions>
         </div>
         <Link
           to={"/gif/" + gifId}
           onClick={this.handleClick}
-          className={classes.media}
+          className={classes.mediaAlign}
         >
           {isImage(url) ? (
-            <img src={url} alt="GIF" id={gifId} />
+            <img src={url} alt="GIF" id={gifId} className={classes.media} />
           ) : isVideo(url) ? (
-            <video controls autoPlay loop muted src={url} />
+            <video
+              controls
+              autoPlay
+              loop
+              muted
+              src={url}
+              className={classes.media}
+            />
           ) : (
             <p>Impossible de charger le média</p>
           )}
         </Link>
-        <CardActions disableSpacing>
+        <CardActions disableSpacing >
           <LikeButton gifId={gifId} />
           <span>{Likes.length}</span>
           <Link
             to={"/gif/" + gifId}
             onClick={this.handleClick}
-            className={classes.chatIcon}
+            className={classes.button}
           >
             <ChatBubbleOutlineIcon id={gifId} />
           </Link>

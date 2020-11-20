@@ -19,30 +19,6 @@ import { updateGif } from "../../redux/actions/gifActions";
 
 const styles = (theme) => ({
   ...theme.styling,
-  flexEditImage: {
-    display: "flex",
-    marginBottom: 20,
-  },
-  addImage: {
-    marginLeft: -19,
-  },
-  addImageBlock: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    minHeight: 400,
-    border: "solid black 1px",
-    borderRadius: 0,
-    marginTop: 30,
-  },
-  miniature: {
-    width: "80%",
-    height: "80%",
-    objectFit: "cover",
-    border: "solid transparent 1px",
-  },
 });
 
 export class EditGif extends Component {
@@ -55,7 +31,7 @@ export class EditGif extends Component {
   };
 
   handleOpen = () => {
-    this.setState({ open: true });
+    this.setState({ open: true, title: this.props.title });
   };
 
   handleClose = () => {
@@ -75,7 +51,7 @@ export class EditGif extends Component {
 
   handleImageLoaded = (event) => {
     const fileOutput = this.state.fileOutput.current;
-    fileOutput.src = URL.createObjectURL(event.target.files[0])
+    fileOutput.src = URL.createObjectURL(event.target.files[0]);
     this.setState({
       image: event.target.files[0],
     });
@@ -121,7 +97,6 @@ export class EditGif extends Component {
                 label="Titre du GIF"
                 value={this.state.title}
                 onChange={this.handleChange}
-                className={classes.TextField}
                 fullWidth
               />
               <input
@@ -137,7 +112,7 @@ export class EditGif extends Component {
               <IconButton
                 title="Ajouter l'image du GIF"
                 onClick={this.handleAddImage}
-                className={classes.addImageBlock}
+                className={classes.addImgBlock}
               >
                 {this.state.fileOutput.src !== undefined ? (
                   <img
@@ -154,7 +129,7 @@ export class EditGif extends Component {
                 )}
                 <AddPhotoAlternateIcon
                   color="secondary"
-                  className={classes.addImageBtn}
+                  className={classes.addImgBtn}
                 />
               </IconButton>
             </form>
@@ -174,14 +149,12 @@ export class EditGif extends Component {
 }
 
 EditGif.propTypes = {
-  updateGif: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
+  updateGif: PropTypes.func.isRequired,  
   gifId: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 const mapActionsToProps = { updateGif };
 
-export default connect(
-  null,
-  mapActionsToProps
-)(withStyles(styles)(EditGif));
+export default connect(null, mapActionsToProps)(withStyles(styles)(EditGif));

@@ -15,15 +15,6 @@ import { connect } from "react-redux";
 
 const styles = (theme) => ({
   ...theme.styling,
-  flexBar: {
-    justifyContent: "space-between",
-  },
-  icon: {
-    maxHeight: 30,
-  },
-  row: {
-    display: "flex",
-  },
 });
 
 export class Navbar extends Component {
@@ -37,7 +28,7 @@ export class Navbar extends Component {
     } = this.props;
     return (
       <AppBar position="fixed">
-        <ToolBar className={classes.flexBar}>
+        <ToolBar className={classes.flexNavbar}>
           {authenticated ? (
             <Fragment>
               <Link to="/" aria-label="chemin vers la page d'accueil">
@@ -45,7 +36,7 @@ export class Navbar extends Component {
                   edge="start"
                   src={IconGroupomania}
                   alt="logo d'une planète suivi du texte Groupomania"
-                  className={classes.icon}
+                  className={classes.logo}
                 />
               </Link>
               <div className={classes.row} edge="end">
@@ -61,7 +52,7 @@ export class Navbar extends Component {
                 edge="start"
                 src={IconGroupomania}
                 alt="logo d'une planète suivi du texte Groupomania"
-                className={classes.icon}
+                className={classes.logo}
               />
               <div edge="end">
                 <Button component={Link} to="/login" color="inherit">

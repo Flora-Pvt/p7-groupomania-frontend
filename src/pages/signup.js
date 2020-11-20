@@ -18,16 +18,6 @@ import { signupUser } from "../redux/actions/userActions";
 
 const styles = (theme) => ({
   ...theme.styling,
-  addImage: {
-    marginLeft: -19,
-  },
-  miniature: {
-    width: 40,
-    height: 40,
-    overflow: "hidden",
-    borderRadius: "50%",
-    objectFit: "cover",
-  },
 });
 
 class signup extends Component {
@@ -99,7 +89,7 @@ class signup extends Component {
           <form
             encType="multipart/form-data"
             onSubmit={this.handleSubmit}
-            className={classes.root}
+            className={classes.form}
           >
             <Grid container direction="row" justify="flex-start">
               <input
@@ -116,20 +106,20 @@ class signup extends Component {
                 <img
                   ref={this.state.fileOutput}
                   alt="avatar miniature"
-                  className={classes.miniature}
+                  className={classes.avatar}
                 />
               ) : (
                 <img
                   ref={this.state.fileOutput}
                   src={Logo}
                   alt="logo de groupomania représenté par une planète"
-                  className={classes.miniature}
+                  className={classes.avatar}
                 />
               )}
               <IconButton
                 title="Ajouter l'image du GIF"
                 onClick={this.handleAddImage}
-                className={classes.addImage}
+                className={classes.addAvatarButton}
               >
                 <AddPhotoAlternateIcon color="secondary" />
               </IconButton>
@@ -198,7 +188,6 @@ class signup extends Component {
               type="submit"
               variant="contained"
               color="primary"
-              className={classes.button}
             >
               Signup
             </Button>

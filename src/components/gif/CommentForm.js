@@ -14,16 +14,6 @@ import { postComment } from "../../redux/actions/gifActions";
 
 const styles = (theme) => ({
   ...theme.styling,
-  field: {
-    paddingBottom: 0,
-    width: "90%",
-    alignSelf: "center",
-  },
-  buttons: {
-    justifyContent: "flex-end",
-    paddingTop: 0,
-    width: "95%",
-  }
 });
 
 export class CommentForm extends Component {
@@ -60,7 +50,7 @@ export class CommentForm extends Component {
     const { classes, authenticated } = this.props;
     const commentFormMarkup = authenticated ? (
       <Fragment>
-          <CardContent className={classes.field}>
+          <CardContent className={classes.commentField}>
             <form encType="multipart/form-data">
               <TextField
                 name="content"
@@ -72,7 +62,7 @@ export class CommentForm extends Component {
               />
             </form>
           </CardContent>
-          <CardActions className={classes.buttons}>
+          <CardActions className={classes.commentButton}>
             <Button onClick={this.handleSubmit} color="secondary">
               Poster
             </Button>

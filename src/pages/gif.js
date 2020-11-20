@@ -15,16 +15,7 @@ import { getComments } from "../redux/actions/gifActions";
 
 const styles = (theme) => ({
   ...theme.styling,
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "start",
-    maxWidth: 700,
-    margin: "auto",
-  },
 });
-
-
 
 export class OneGif extends Component {
   componentDidMount() {
@@ -41,7 +32,7 @@ export class OneGif extends Component {
     const gifMarkup = gif && <Gif gif={gif} key={gif.gifId} />;
 
     return (
-      <Card className={classes.root}>
+      <Card className={classes.card}>
         {gifMarkup}
         <CommentForm gifId={gif.gifId} />
         <Comment comments={gif.Comments} />

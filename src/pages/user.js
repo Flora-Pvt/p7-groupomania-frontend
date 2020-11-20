@@ -19,8 +19,7 @@ import Paper from "@material-ui/core/Paper";
 import { connect } from "react-redux";
 import { logoutUser } from "../redux/actions/userActions";
 
-const styles = (theme) => ({
-  ...theme.styling,
+const styles = {
   container: {
     maxWidth: "60%",
     margin: "auto",
@@ -29,10 +28,10 @@ const styles = (theme) => ({
     width: 70,
     height: 70,
   },
-  actions: {
+  buttons: {
     justifyContent: "space-between",
   },
-});
+};
 
 export class User extends Component {
   handleLogout = () => {
@@ -60,15 +59,13 @@ export class User extends Component {
       authenticated ? (
         <Card key={userId} className={classes.container}>
           <CardHeader
-            className={classes.cardheader}
             avatar={
               <Avatar src={avatar} alt="avatar" className={classes.avatar} />
             }
             title={firstName + " " + lastName}
             subheader={officePosition + " - " + email}
-            color="inherit"
           />
-          <CardActions className={classes.actions}>
+          <CardActions className={classes.buttons}>
             <IconButton title="Se déconnecter" onClick={this.handleLogout}>
               <ExitToAppIcon aria-label="Se déconnecter" color="secondary" />
             </IconButton>
@@ -76,12 +73,12 @@ export class User extends Component {
           </CardActions>
         </Card>
       ) : (
-        <Paper className={classes.paper}>
+        <Paper>
           <Typography variant="body2" align="center">
             Impossible de trouver l'utilisateur, merci de vous connecter à
             nouveau
           </Typography>
-          <div className={classes.buttons}>
+          <div>
             <Button
               variant="contained"
               color="primary"

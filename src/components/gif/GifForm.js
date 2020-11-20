@@ -1,17 +1,17 @@
 import React, { Component, Fragment } from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 
 // Material UI
+import withStyles from "@material-ui/core/styles/withStyles";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import IconButton from "@material-ui/core/IconButton";
 import AddIcon from "@material-ui/icons/Add";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
 
 // Redux
 import { connect } from "react-redux";
@@ -19,29 +19,6 @@ import { postGif } from "../../redux/actions/gifActions";
 
 const styles = (theme) => ({
   ...theme.styling,
-  button: {
-    color: "white",
-  },
-  addImageBlock: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-    minHeight: 400,
-    border: "solid black 1px",
-    borderRadius: 0,
-    marginTop: 30,
-  },
-  miniature: {
-    width: "80%",
-    height: "80%",
-    objectFit: "cover",
-    border: "solid transparent 1px",
-  },
-  addImageBtn: {
-    alignSelf: "flex-end",
-  },
 });
 
 export class GifForm extends Component {
@@ -103,7 +80,7 @@ export class GifForm extends Component {
 
     return (
       <Fragment>
-        <Button onClick={this.handleOpen} className={classes.button}>
+        <Button onClick={this.handleOpen} className={classes.postButton}>
           <AddIcon />
           Nouveau GIF
         </Button>
@@ -122,7 +99,6 @@ export class GifForm extends Component {
                 label="Titre du GIF"
                 value={this.state.title}
                 onChange={this.handleChange}
-                className={classes.TextField}
                 fullWidth
               />
               <input
@@ -138,7 +114,7 @@ export class GifForm extends Component {
               <IconButton
                 title="Ajouter l'image du GIF"
                 onClick={this.handleAddImage}
-                className={classes.addImageBlock}
+                className={classes.addImgBlock}
               >
                 {this.state.fileOutput.src !== undefined ? (
                   <img
@@ -155,7 +131,7 @@ export class GifForm extends Component {
                 )}
                 <AddPhotoAlternateIcon
                   color="secondary"
-                  className={classes.addImageBtn}
+                  className={classes.addImgButton}
                 />
               </IconButton>
             </form>

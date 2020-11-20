@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 
 // Material UI
+import withStyles from "@material-ui/core/styles/withStyles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -11,6 +12,10 @@ import DeleteOutline from "@material-ui/icons/DeleteOutline";
 
 import { connect } from "react-redux";
 import { deleteGif } from "../../redux/actions/gifActions";
+
+const styles = (theme) => ({
+  ...theme.styling,
+});
 
 export class DeleteButton extends Component {
   state = {
@@ -31,12 +36,14 @@ export class DeleteButton extends Component {
   };
 
   render() {
+    const { classes } = this.props;
 
     return (
       <Fragment>
         <IconButton
           title="Supprimer le GIF"
           onClick={this.handleOpen}
+          className={classes.button}
         >
           <DeleteOutline />
         </IconButton>
@@ -66,6 +73,7 @@ export class DeleteButton extends Component {
 DeleteButton.propTypes = {
   deleteGif: PropTypes.func.isRequired,
   gifId: PropTypes.number.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
-export default connect(null, { deleteGif })(DeleteButton)
+export default connect(null, { deleteGif })(withStyles(styles)(DeleteButton))
