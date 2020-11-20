@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
+import EditGif from "./EditGif";
 import DeleteButton from "./DeleteButton";
 import LikeButton from "./LikeButton";
 
@@ -18,8 +19,10 @@ import { connect } from "react-redux";
 import { getOneGif } from "../../redux/actions/gifActions";
 
 const styles = {
-  header: {
-    width: "95%",
+  flexHeader: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between"
   },
   media: {
     alignSelf: "center",
@@ -89,11 +92,16 @@ export class Gif extends Component {
         <DeleteButton gifId={gifId} className={classes.delete} />
       );
 
+      const editButton = authenticated &&
+      JSON.parse(localStorage.getItem("userId")) === userId && (
+        <EditGif gifId={gifId} className={classes.modify} />
+      );
+
     const gifMarkup = User ? (
       <Fragment>
+        <div className={classes.flexHeader}>
         <CardHeader
           avatar={<Avatar src={User.avatar} alt="avatar" />}
-          action={deleteButton}
           title={title}
           subheader={
             "par " +
@@ -106,6 +114,8 @@ export class Gif extends Component {
           color="inherit"
           className={classes.header}
         />
+        <CardActions disableSpacing>{editButton}{deleteButton}</CardActions>
+        </div>
         <Link
           to={"/gif/" + gifId}
           onClick={this.handleClick}

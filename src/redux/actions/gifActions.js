@@ -61,6 +61,18 @@ export const postGif = (newGif) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
+// Update a GIF
+export const updateGif = (gifId, gifDetails) => (dispatch) => {
+  // dispatch({ type: LOADING_GIFS });
+
+  axios
+    .put("/gifs/" + gifId, gifDetails)
+    .then(() => {
+      dispatch(getGifs());
+    })
+    .catch((err) => console.log(err.data));
+};
+
 // Delete GIF
 export const deleteGif = (gifId) => (dispatch) => {
   axios

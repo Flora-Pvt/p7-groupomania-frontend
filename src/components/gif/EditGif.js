@@ -1,26 +1,30 @@
 import React, { Component, Fragment } from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 
 // Material UI
+import withStyles from "@material-ui/core/styles/withStyles";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import AddIcon from "@material-ui/icons/Add";
-import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
-import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import EditIcon from "@material-ui/icons/Edit";
+import Button from "@material-ui/core/Button";
+import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 
 // Redux
 import { connect } from "react-redux";
-import { postGif } from "../../redux/actions/gifActions";
+import { updateGif } from "../../redux/actions/gifActions";
 
 const styles = (theme) => ({
   ...theme.styling,
-  button: {
-    color: "white",
+  flexEditImage: {
+    display: "flex",
+    marginBottom: 20,
+  },
+  addImage: {
+    marginLeft: -19,
   },
   addImageBlock: {
     display: "flex",
@@ -39,12 +43,9 @@ const styles = (theme) => ({
     objectFit: "cover",
     border: "solid transparent 1px",
   },
-  addImageBtn: {
-    alignSelf: "flex-end",
-  },
 });
 
-export class GifForm extends Component {
+export class EditGif extends Component {
   state = {
     title: "",
     image: "",
@@ -74,7 +75,7 @@ export class GifForm extends Component {
 
   handleImageLoaded = (event) => {
     const fileOutput = this.state.fileOutput.current;
-    fileOutput.src = URL.createObjectURL(event.target.files[0]);
+    fileOutput.src = URL.createObjectURL(event.target.files[0])
     this.setState({
       image: event.target.files[0],
     });
@@ -85,16 +86,11 @@ export class GifForm extends Component {
     const title = JSON.stringify(this.state.title);
     const image = this.state.image;
 
-    const newGif = new FormData();
-    newGif.append("image", image);
-    newGif.append("userId", userId);
-    newGif.append("title", title);
-    this.props.postGif(newGif);
-
-    this.setState({
-      title: "",
-      image: "",
-    });
+    const gifDetails = new FormData();
+    gifDetails.append("image", image);
+    gifDetails.append("userId", userId);
+    gifDetails.append("title", title);
+    this.props.updateGif(this.props.gifId, gifDetails);
     this.handleClose();
   };
 
@@ -103,10 +99,13 @@ export class GifForm extends Component {
 
     return (
       <Fragment>
-        <Button onClick={this.handleOpen} className={classes.button}>
-          <AddIcon />
-          Nouveau GIF
-        </Button>
+        <IconButton
+          title="Editer votre GIF"
+          onClick={this.handleOpen}
+          className={classes.button}
+        >
+          <EditIcon />
+        </IconButton>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -174,13 +173,15 @@ export class GifForm extends Component {
   }
 }
 
-GifForm.propTypes = {
-  postGif: PropTypes.func.isRequired,
+EditGif.propTypes = {
+  updateGif: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
+  gifId: PropTypes.number.isRequired,
 };
 
-const mapActionsToProps = {
-  postGif,
-};
+const mapActionsToProps = { updateGif };
 
-export default connect(null, mapActionsToProps)(withStyles(styles)(GifForm));
+export default connect(
+  null,
+  mapActionsToProps
+)(withStyles(styles)(EditGif));
