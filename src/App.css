@@ -19,3 +19,20 @@ a {
 a:hover {
   color: orangered;
 }
+
+/* overriding for GIF cards displaying on phones */ 
+@media screen and (max-width: 600px) {
+  span.MuiCardHeader-title {
+    font-size: 14px;
+  }
+  span.MuiCardHeader-subheader {
+    font-size: 11px;
+  }
+  svg.MuiSvgIcon-root {
+    height: 15px;
+    margin: 0
+  }
+  svg.LikeButton-star-4034 {
+    height: 20px;
+  }
+}

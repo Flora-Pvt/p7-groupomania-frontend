@@ -43,7 +43,7 @@ export class DeleteButton extends Component {
         <IconButton
           title="Supprimer le GIF"
           onClick={this.handleOpen}
-          className={classes.button}
+          className={classes.upButton}
         >
           <DeleteOutline />
         </IconButton>

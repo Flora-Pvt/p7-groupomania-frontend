@@ -78,7 +78,7 @@ export class EditGif extends Component {
         <IconButton
           title="Editer votre GIF"
           onClick={this.handleOpen}
-          className={classes.button}
+          className={classes.upButton}
         >
           <EditIcon />
         </IconButton>

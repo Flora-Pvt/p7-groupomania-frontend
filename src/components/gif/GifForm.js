@@ -19,11 +19,6 @@ import { postGif } from "../../redux/actions/gifActions";
 
 const styles = (theme) => ({
   ...theme.styling,
-  postButton: {
-    [theme.breakpoints.down('sm')]: {
-      fontSize: 10,
-      color: "white"
-    }},
 });
 
 export class GifForm extends Component {

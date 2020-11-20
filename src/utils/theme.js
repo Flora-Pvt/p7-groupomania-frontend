@@ -1,4 +1,7 @@
 import createMuiTheme from "@material-ui/core/styles/createMuiTheme";
+import createBreakpoints from "@material-ui/core/styles/createBreakpoints";
+
+const breakpoints = createBreakpoints({});
 
 const themeObject = createMuiTheme({
   palette: {
@@ -16,10 +19,13 @@ const themeObject = createMuiTheme({
     // Navbar
     flexNavbar: {
       justifyContent: "space-between",
-      alignItems: "center"
+      alignItems: "center",
     },
     logo: {
       maxHeight: 30,
+      [breakpoints.down("sm")]: {
+        maxHeight: 20,
+      },
     },
     row: {
       display: "flex",
@@ -32,6 +38,10 @@ const themeObject = createMuiTheme({
       width: 500,
       margin: "auto",
       marginBottom: 20,
+      [breakpoints.down("sm")]: {
+        width: "100%",
+        margin: "auto",
+      },
     },
     title: {
       alignSelf: "center",
@@ -57,7 +67,7 @@ const themeObject = createMuiTheme({
       textDecoration: "underline",
     },
 
-    // GIF cards 
+    // GIF cards
     container: {
       display: "flex",
       flexDirection: "column-reverse",
@@ -69,11 +79,21 @@ const themeObject = createMuiTheme({
       width: "60%",
       margin: "auto",
       marginBottom: 20,
+      [breakpoints.down("sm")]: {
+        width: "100%",
+      },
     },
     header: {
       width: "100%",
       display: "flex",
       justifyContent: "space-between",
+    },
+    upButton: {
+      padding: "0 1px 0 8px",
+      [breakpoints.down("sm")]: {
+        padding: 0,
+        alignSelf: "flex-start",
+      },
     },
     mediaAlign: {
       alignSelf: "center",
@@ -95,6 +115,9 @@ const themeObject = createMuiTheme({
     // forms for GIFS (post, edit)
     postButton: {
       color: "white",
+      [breakpoints.down("sm")]: {
+        fontSize: 10,
+      },
     },
     addImgBlock: {
       display: "flex",
@@ -106,6 +129,9 @@ const themeObject = createMuiTheme({
       border: "solid black 1px",
       borderRadius: 0,
       marginTop: 30,
+      [breakpoints.down("sm")]: {
+        minHeight: 200,
+      },
     },
     miniature: {
       width: "80%",

@@ -13,11 +13,6 @@ import { getGifs } from "../redux/actions/gifActions";
 
 const styles = (theme) => ({
   ...theme.styling,
-  card: {
-    [theme.breakpoints.down('sm')]: {
-      width: "100%",
-      marginBottom: 20,
-    }}
 });
 
 export class home extends Component {
