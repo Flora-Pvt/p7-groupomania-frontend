@@ -15,6 +15,10 @@ import { getComments } from "../redux/actions/gifActions";
 
 const styles = (theme) => ({
   ...theme.styling,
+  card: {
+    [theme.breakpoints.down('sm')]: {
+      width: "100%",
+    }}
 });
 
 export class OneGif extends Component {

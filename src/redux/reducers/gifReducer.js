@@ -57,6 +57,7 @@ export default function (state = initialState, action) {
         gifs: state.gifs,
       };
 
+      //likes reducers
     case LIKE_GIF:
       let gifToLikeIndex = state.gifs.findIndex(
         (gif) => gif.gifId === action.payload.gifId
@@ -83,6 +84,7 @@ export default function (state = initialState, action) {
         gif: state.gif,
       };
 
+      //comments reducers
     case LOADING_COMMENTS:
       return {
         ...state,

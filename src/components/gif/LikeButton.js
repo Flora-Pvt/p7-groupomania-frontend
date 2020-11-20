@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import PropTypes from "prop-types";
 
 // Material UI
@@ -36,19 +36,23 @@ export class LikeButton extends Component {
     const { classes } = this.props;
 
     const likeButton = this.likedGif() ? (
-      <StarIcon color="secondary" onClick={this.unlikeGif} className={classes.star} />
-    ) : (
-      <StarBorderIcon onClick={this.likeGif} className={classes.star} />
-    );
-    return (
       <IconButton
-        title="Ajouter ou retirer une étoile"
-        onClick={this.handleOpen}
+        onClick={this.unlikeGif}
+        title="Retirer une étoile"
         className={classes.button}
       >
-        {likeButton}
+        <StarIcon color="secondary" className={classes.star} />
+      </IconButton>
+    ) : (
+      <IconButton
+        onClick={this.likeGif}
+        title="Ajouter une étoile"
+        className={classes.button}
+      >
+        <StarBorderIcon className={classes.star} />
       </IconButton>
     );
+    return <Fragment>{likeButton}</Fragment>;
   }
 }
 

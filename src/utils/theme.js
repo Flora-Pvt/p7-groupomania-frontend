@@ -16,6 +16,7 @@ const themeObject = createMuiTheme({
     // Navbar
     flexNavbar: {
       justifyContent: "space-between",
+      alignItems: "center"
     },
     logo: {
       maxHeight: 30,
@@ -28,7 +29,7 @@ const themeObject = createMuiTheme({
     form: {
       display: "flex",
       flexDirection: "column",
-      width: "50%",
+      width: 500,
       margin: "auto",
       marginBottom: 20,
     },
@@ -65,7 +66,7 @@ const themeObject = createMuiTheme({
       display: "flex",
       flexDirection: "column",
       alignItems: "start",
-      width: 800,
+      width: "60%",
       margin: "auto",
       marginBottom: 20,
     },

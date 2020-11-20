@@ -18,6 +18,11 @@ import { signupUser } from "../redux/actions/userActions";
 
 const styles = (theme) => ({
   ...theme.styling,
+  form: {
+    [theme.breakpoints.down('sm')]: {
+      width: "100%",
+      margin:"auto"
+    }},
 });
 
 class signup extends Component {

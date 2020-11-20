@@ -5,7 +5,7 @@ import {
   SET_UNAUTHENTICATED,
   LOADING_USER,
   LIKE_GIF,
-  UNLIKE_GIF
+  UNLIKE_GIF,
 } from "../types";
 
 const initialState = {
@@ -24,16 +24,16 @@ export default function (state = initialState, action) {
       };
     case SET_UNAUTHENTICATED:
       return initialState;
+    case LOADING_USER:
+      return {
+        ...state,
+        loading: true,
+      };
     case SET_USER:
       return {
         authenticated: true,
         loading: false,
         ...action.payload,
-      };
-    case LOADING_USER:
-      return {
-        ...state,
-        loading: true,
       };
     case LIKE_GIF:
       return {
@@ -46,12 +46,12 @@ export default function (state = initialState, action) {
           },
         ],
       };
-      case UNLIKE_GIF:
+    case UNLIKE_GIF:
       return {
         ...state,
         likes: state.likes.filter(
           (like) => like.gifId !== action.payload.gifId
-        )
+        ),
       };
     default:
       return state;

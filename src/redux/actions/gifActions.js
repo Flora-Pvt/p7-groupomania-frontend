@@ -63,8 +63,6 @@ export const postGif = (newGif) => (dispatch) => {
 
 // Update a GIF
 export const updateGif = (gifId, gifDetails) => (dispatch) => {
-  // dispatch({ type: LOADING_GIFS });
-
   axios
     .put("/gifs/" + gifId, gifDetails)
     .then(() => {

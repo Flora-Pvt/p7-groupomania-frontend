@@ -19,19 +19,26 @@ import Paper from "@material-ui/core/Paper";
 import { connect } from "react-redux";
 import { logoutUser } from "../redux/actions/userActions";
 
-const styles = {
+const styles = (theme) => ({
   container: {
     maxWidth: "60%",
     margin: "auto",
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: "100%",
+    },
   },
   avatar: {
     width: 70,
     height: 70,
+    [theme.breakpoints.down("sm")]: {
+      width: 50,
+      height: 50,
+    },
   },
   buttons: {
     justifyContent: "space-between",
   },
-};
+});
 
 export class User extends Component {
   handleLogout = () => {

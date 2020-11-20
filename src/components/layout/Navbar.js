@@ -15,6 +15,10 @@ import { connect } from "react-redux";
 
 const styles = (theme) => ({
   ...theme.styling,
+  logo: {
+    [theme.breakpoints.down('sm')]: {
+      maxHeight: 20,
+    }},
 });
 
 export class Navbar extends Component {
