@@ -36,8 +36,8 @@ export class home extends Component {
     const { classes } = this.props;
     const { gifs } = this.props.gifs;
     const recentGifsMarkup = gifs.map((gif) => (
-      <Card className={classes.root}>
-      <Gif gif={gif} key={gif.gifId} />
+      <Card className={classes.root}  key={gif.gifId}>
+      <Gif gif={gif} />
       </Card>
     ));
 

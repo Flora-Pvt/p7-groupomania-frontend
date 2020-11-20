@@ -1,15 +1,15 @@
 import React, { Component } from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import Logo from "../images/icon-transparent.png";
 
 // Material UI
+import withStyles from "@material-ui/core/styles/withStyles";
 import Grid from "@material-ui/core/Grid";
-import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
+import Button from "@material-ui/core/Button";
 import AddPhotoAlternateIcon from "@material-ui/icons/AddPhotoAlternate";
 
 // Redux
@@ -21,13 +21,22 @@ const styles = (theme) => ({
   addImage: {
     marginLeft: -19,
   },
+  miniature: {
+    width: 40,
+    height: 40,
+    overflow: "hidden",
+    borderRadius: "50%",
+    objectFit: "cover",
+  },
 });
 
 class signup extends Component {
   constructor() {
     super();
     this.state = {
-      image: "",
+      avatar: "",
+      fileInput: React.createRef(),
+      fileOutput: React.createRef(),
       firstName: "",
       lastName: "",
       officePosition: "",
@@ -43,21 +52,23 @@ class signup extends Component {
     });
   };
 
-  handleImageLoaded = (event) => {
-    this.setState({
-      image: event.target.files[0],
-    });
+  handleAddImage = () => {
+    const fileInput = this.state.fileInput.current;
+    fileInput.click();
   };
 
-  handleAddImage = () => {
-    const fileInput = document.getElementById("image");
-    fileInput.click();
+  handleImageLoaded = (event) => {
+    const fileOutput = this.state.fileOutput.current;
+    fileOutput.src = URL.createObjectURL(event.target.files[0]);
+    this.setState({
+      avatar: event.target.files[0],
+    });
   };
 
   handleSubmit = (event) => {
     event.preventDefault();
 
-    const image = this.state.image;
+    const image = this.state.avatar;
     const firstName = JSON.stringify(this.state.firstName);
     const lastName = JSON.stringify(this.state.lastName);
     const officePosition = JSON.stringify(this.state.officePosition);
@@ -92,16 +103,29 @@ class signup extends Component {
           >
             <Grid container direction="row" justify="flex-start">
               <input
-                id="image"
+                ref={this.state.fileInput}
                 name="image"
                 type="file"
                 label="Image"
                 hidden="hidden"
                 accept="image/*"
-                files={this.state.image}
+                files={this.state.avatar}
                 onChange={this.handleImageLoaded}
               />
-              <Avatar />
+              {this.state.fileOutput.src !== undefined ? (
+                <img
+                  ref={this.state.fileOutput}
+                  alt="avatar miniature"
+                  className={classes.miniature}
+                />
+              ) : (
+                <img
+                  ref={this.state.fileOutput}
+                  src={Logo}
+                  alt="logo de groupomania représenté par une planète"
+                  className={classes.miniature}
+                />
+              )}
               <IconButton
                 title="Ajouter l'image du GIF"
                 onClick={this.handleAddImage}

@@ -1,15 +1,15 @@
 import React, { Component, Fragment } from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
-import IconButton from '@material-ui/core/IconButton';
+import Logo from "../../images/icon-transparent.png";
 
 // Material UI
-import Avatar from "@material-ui/core/Avatar";
+import withStyles from "@material-ui/core/styles/withStyles";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
 import Button from "@material-ui/core/Button";
 
@@ -23,13 +23,24 @@ const styles = (theme) => ({
     display: "flex",
     marginBottom: 20,
   },
+  addImage: {
+    marginLeft: -19,
+  },
+  miniature: {
+    width: 40,
+    height: 40,
+    overflow: "hidden",
+    borderRadius: "50%",
+    objectFit: "cover",
+  },
 });
 
 export class userEdit extends Component {
   state = {
     avatar: "",
-    officePosition: "",
     fileInput: React.createRef(),
+    fileOutput: React.createRef(),
+    officePosition: "",
     open: false,
   };
 
@@ -46,7 +57,7 @@ export class userEdit extends Component {
     const { credentials } = this.props;
     this.mapUserDetailsToState(credentials);
   }
-  
+
   handleOpen = () => {
     this.setState({ open: true });
     this.mapUserDetailsToState(this.props.credentials);
@@ -68,6 +79,8 @@ export class userEdit extends Component {
   };
 
   handleImageLoaded = (event) => {
+    const fileOutput = this.state.fileOutput.current;
+    fileOutput.src = URL.createObjectURL(event.target.files[0])
     this.setState({
       avatar: event.target.files[0],
     });
@@ -105,7 +118,6 @@ export class userEdit extends Component {
           <DialogContent>
             <form encType="multipart/form-data">
               <div className={classes.flexEditImage}>
-                <Avatar src={this.state.avatar} />
                 <input
                   ref={this.state.fileInput}
                   name="image"
@@ -116,10 +128,24 @@ export class userEdit extends Component {
                   files={this.state.avatar}
                   onChange={this.handleImageLoaded}
                 />
+                {this.state.fileOutput.src !== undefined ? (
+                <img
+                  ref={this.state.fileOutput}
+                  alt="avatar miniature"
+                  className={classes.miniature}
+                />
+              ) : (
+                <img
+                  ref={this.state.fileOutput}
+                  src={Logo}
+                  alt="logo de groupomania représenté par une planète"
+                  className={classes.miniature}
+                />
+              )}
                 <IconButton
                   title="Editer votre avatar"
                   onClick={this.handleAddImage}
-                  className="button"
+                  className={classes.addImage}
                 >
                   <EditIcon color="secondary" />
                 </IconButton>

@@ -22,12 +22,25 @@ const styles = (theme) => ({
   button: {
     color: "white",
   },
-  addImage: {
+  addImageBlock: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     width: "100%",
-    minHeight: 250,
+    minHeight: 400,
     border: "solid black 1px",
     borderRadius: 0,
     marginTop: 30,
+  },
+  miniature: {
+    width: "80%",
+    height: "80%",
+    objectFit: "cover",
+    border: "solid transparent 1px",
+  },
+  addImageBtn: {
+    alignSelf: "flex-end",
   },
 });
 
@@ -36,6 +49,7 @@ export class GifForm extends Component {
     title: "",
     image: "",
     fileInput: React.createRef(),
+    fileOutput: React.createRef(),
     open: false,
   };
 
@@ -59,11 +73,13 @@ export class GifForm extends Component {
   };
 
   handleImageLoaded = (event) => {
+    const fileOutput = this.state.fileOutput.current;
+    fileOutput.src = URL.createObjectURL(event.target.files[0]);
     this.setState({
       image: event.target.files[0],
     });
   };
-  
+
   handleSubmit = () => {
     const userId = localStorage.getItem("userId");
     const title = JSON.stringify(this.state.title);
@@ -110,7 +126,7 @@ export class GifForm extends Component {
                 fullWidth
               />
               <input
-                ref={this.state.fileInput}                
+                ref={this.state.fileInput}
                 name="image"
                 type="file"
                 label="Image"
@@ -120,11 +136,27 @@ export class GifForm extends Component {
                 onChange={this.handleImageLoaded}
               />
               <IconButton
-                tip="Ajouter l'image du GIF"
+                title="Ajouter l'image du GIF"
                 onClick={this.handleAddImage}
-                className={classes.addImage}
+                className={classes.addImageBlock}
               >
-                <AddPhotoAlternateIcon color="secondary" />
+                {this.state.fileOutput.src !== undefined ? (
+                  <img
+                    ref={this.state.fileOutput}
+                    alt="GIF miniature"
+                    className={classes.miniature}
+                  />
+                ) : (
+                  <img
+                    ref={this.state.fileOutput}
+                    alt=""
+                    className={classes.miniature}
+                  />
+                )}
+                <AddPhotoAlternateIcon
+                  color="secondary"
+                  className={classes.addImageBtn}
+                />
               </IconButton>
             </form>
           </DialogContent>
@@ -151,7 +183,4 @@ const mapActionsToProps = {
   postGif,
 };
 
-export default connect(
-  null,
-  mapActionsToProps
-)(withStyles(styles)(GifForm));
+export default connect(null, mapActionsToProps)(withStyles(styles)(GifForm));
