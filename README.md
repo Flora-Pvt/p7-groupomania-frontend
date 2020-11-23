@@ -21,12 +21,12 @@ Ensuite cloner le projet frontend, et sur ce dosser frontend entrez dans votre t
 
 Sur la page d'accueil s'affichent tous les GIFS partagés par les utilisateurs, on peut ajouter des étoiles à ceux-ci, et ajouter son nouveau GIF :
 
-![page d'accueil](https://raw.githubusercontent.com/Flora-Pvt/p7-groupomania-frontend/master/public/images/groupomania-home.png)
+![page d'accueil](https://raw.githubusercontent.com/Flora-Pvt/p7-groupomania-frontend/main/public/images/groupomania-home.jpg)
 
 Sur la page d'un GIF, s'affiche ses détails, notamment les commentaires de tous les utilisateurs sur ce GIF :
 
-![page d'un GIF](https://raw.githubusercontent.com/Flora-Pvt/p7-groupomania-frontend/master/public/images/groupomania-gif.jpg)
+![page d'un GIF](https://raw.githubusercontent.com/Flora-Pvt/p7-groupomania-frontend/main/public/images/groupomania-gif.png)
 
 Sur la page de l'utilisateur, celui-ci peut consulter son profil, le modifier ou se déconnecter.
 
-![page d'accueil](https://raw.githubusercontent.com/Flora-Pvt/p7-groupomania-frontend/master/public/images/groupomania-user.png)
+![page d'accueil](https://raw.githubusercontent.com/Flora-Pvt/p7-groupomania-frontend/main/public/images/groupomania-user.png)
