@@ -1,35 +1,33 @@
 import React, { Component, Fragment } from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
-import MyButton from "../../utils/MyButton";
-import AppIcon from "../../images/icon-transparent.png";
+import Logo from "../../images/icon-transparent.png";
 
 // Material UI
-import Avatar from "@material-ui/core/Avatar";
+import withStyles from "@material-ui/core/styles/withStyles";
 import TextField from "@material-ui/core/TextField";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import IconButton from "@material-ui/core/IconButton";
 import EditIcon from "@material-ui/icons/Edit";
 import Button from "@material-ui/core/Button";
 
 // Redux
 import { connect } from "react-redux";
-import { updateUser } from "../../redux/network/userNetwork";
+import { updateUser } from "../../redux/actions/userActions";
 
 const styles = (theme) => ({
   ...theme.styling,
-  flexEditImage: {
-    display: "flex",
-    marginBottom: 20,
-  },
 });
 
 export class userEdit extends Component {
   state = {
     avatar: "",
+    fileInput: React.createRef(),
+    fileOutput: React.createRef(),
     officePosition: "",
+    errors: "",
     open: false,
   };
 
@@ -42,19 +40,19 @@ export class userEdit extends Component {
     });
   };
 
+  componentDidMount() {
+    const { credentials } = this.props;
+    this.mapUserDetailsToState(credentials);
+  }
+
   handleOpen = () => {
     this.setState({ open: true });
     this.mapUserDetailsToState(this.props.credentials);
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ open: false, errors: "" });
   };
-
-  componentDidMount() {
-    const { credentials } = this.props;
-    this.mapUserDetailsToState(credentials);
-  }
 
   handleChange = (event) => {
     this.setState({
@@ -62,25 +60,32 @@ export class userEdit extends Component {
     });
   };
 
-  handleImageChange = (event) => {
+  handleAddImage = () => {
+    const fileInput = this.state.fileInput.current;
+    fileInput.click();
+  };
+
+  handleImageLoaded = (event) => {
+    const fileOutput = this.state.fileOutput.current;
+    fileOutput.src = URL.createObjectURL(event.target.files[0]);
     this.setState({
       avatar: event.target.files[0],
     });
   };
 
-  handleEditPicture = () => {
-    const fileInput = document.getElementById("image");
-    fileInput.click();
-  };
-
-  handleSubmit = () => {
-    const image = this.state.avatar;
-    const officePosition = this.state.officePosition;
-    const userDetails = new FormData();
-    userDetails.append("image", image);
-    userDetails.append("officePosition", JSON.stringify(officePosition));
-    this.props.updateUser(userDetails);
-    this.handleClose();
+  handleSubmit = (event) => {
+    event.preventDefault();
+    if (!this.state.officePosition || this.state.officePosition === undefined) {
+      this.setState({ errors: "Vérifiez les données saisies" });
+    } else {
+      const image = this.state.avatar;
+      const officePosition = this.state.officePosition;
+      const userDetails = new FormData();
+      userDetails.append("image", image);
+      userDetails.append("officePosition", JSON.stringify(officePosition));
+      this.props.updateUser(userDetails);
+      this.handleClose();
+    }
   };
 
   render() {
@@ -88,13 +93,13 @@ export class userEdit extends Component {
 
     return (
       <Fragment>
-        <MyButton
-          tip="Editer votre profil"
+        <IconButton
+          title="Editer votre profil"
           onClick={this.handleOpen}
           className={classes.button}
         >
-          <EditIcon color="primary" />
-        </MyButton>
+          <EditIcon color="secondary" />
+        </IconButton>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -103,32 +108,47 @@ export class userEdit extends Component {
         >
           <DialogTitle>Modifier vos informations</DialogTitle>
           <DialogContent>
-            <form encType="multipart/form-data">
-              <div className={classes.flexEditImage}>
-                <Avatar src={this.state.avatar ? this.state.avatar : AppIcon} />
+            <form encType="multipart/form-data" noValidate>
+              <span style={{ color: "red" }}>{this.state.errors}</span>
+              <div className={classes.flexEditAvatar}>
                 <input
-                  id="image"
+                  ref={this.state.fileInput}
                   name="image"
                   type="file"
                   label="Image d'avatar"
                   hidden="hidden"
                   accept="image/*"
                   files={this.state.avatar}
-                  onChange={this.handleImageChange}
+                  onChange={this.handleImageLoaded}
                 />
-                <MyButton
-                  tip="Editer votre avatar"
-                  onClick={this.handleEditPicture}
-                  className="button"
+                {this.state.fileOutput.src !== undefined ? (
+                  <img
+                    ref={this.state.fileOutput}
+                    alt="avatar miniature"
+                    className={classes.avatar}
+                  />
+                ) : (
+                  <img
+                    ref={this.state.fileOutput}
+                    src={Logo}
+                    alt="logo de groupomania représenté par une planète"
+                    className={classes.avatar}
+                  />
+                )}
+                <IconButton
+                  title="Editer votre avatar"
+                  onClick={this.handleAddImage}
+                  className={classes.addAvatarButton}
                 >
-                  <EditIcon color="primary" />
-                </MyButton>
+                  <EditIcon color="secondary" />
+                </IconButton>
               </div>
               <TextField
+                required
                 name="officePosition"
                 type="text"
                 label="Rôle dans l'entreprise"
-                className={classes.TextField}
+                className={classes.field}
                 value={this.state.officePosition}
                 onChange={this.handleChange}
                 fullWidth
@@ -136,10 +156,10 @@ export class userEdit extends Component {
             </form>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.handleClose} color="secondary">
               Annuler
             </Button>
-            <Button onClick={this.handleSubmit} color="primary">
+            <Button onClick={this.handleSubmit} color="secondary">
               Sauvegarder
             </Button>
           </DialogActions>

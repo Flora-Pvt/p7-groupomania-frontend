@@ -1,27 +1,23 @@
 import React, { Component, Fragment } from "react";
-import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
-import MyButton from "../../utils/MyButton";
 
 // Material UI
+import withStyles from "@material-ui/core/styles/withStyles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
+import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
 
 import { connect } from "react-redux";
-import { deleteGif } from "../../redux/network/gifNetwork";
+import { deleteGif } from "../../redux/actions/gifActions";
 
-const styles = {
-  deleteButton: {
-    position: "absolute",
-    left: "90%",
-    top: "10%",
-  },
-};
+const styles = (theme) => ({
+  ...theme.styling,
+});
 
-export class DeleteGif extends Component {
+export class DeleteButton extends Component {
   state = {
     open: false,
   };
@@ -35,22 +31,22 @@ export class DeleteGif extends Component {
   };
 
   deleteGif = () => {
-    console.log(this.props)
     this.props.deleteGif(this.props.gifId);
     this.setState({ open: false });
   };
 
   render() {
     const { classes } = this.props;
+
     return (
       <Fragment>
-        <MyButton
-          tip="Supprimer le GIF"
+        <IconButton
+          title="Supprimer le GIF"
           onClick={this.handleOpen}
-          className={classes.deleteButton}
+          className={classes.upButton}
         >
           <DeleteOutline />
-        </MyButton>
+        </IconButton>
         <Dialog
           open={this.state.open}
           onClose={this.handleClose}
@@ -61,10 +57,10 @@ export class DeleteGif extends Component {
             Vous êtes sûr de vouloir supprimer votre GIF ?
           </DialogTitle>
           <DialogActions>
-            <Button onClick={this.handleClose} color="primary">
+            <Button onClick={this.handleClose} color="secondary">
               Annuler
             </Button>
-            <Button onClick={this.deleteGif} color="primary">
+            <Button onClick={this.deleteGif} color="secondary">
               Supprimer
             </Button>
           </DialogActions>
@@ -74,10 +70,10 @@ export class DeleteGif extends Component {
   }
 }
 
-DeleteGif.propTypes = {
+DeleteButton.propTypes = {
   deleteGif: PropTypes.func.isRequired,
   gifId: PropTypes.number.isRequired,
   classes: PropTypes.object.isRequired,
 };
 
-export default connect(null, { deleteGif })(withStyles(styles)(DeleteGif));
+export default connect(null, { deleteGif })(withStyles(styles)(DeleteButton));

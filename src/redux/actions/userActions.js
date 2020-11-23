@@ -1,56 +1,39 @@
 import {
   SET_USER,
-  SET_ERRORS,
-  CLEAR_ERRORS,
-  LOADING_UI,
   SET_UNAUTHENTICATED,
   LOADING_USER,
 } from "../types";
 import axios from "axios";
 
 export const loginUser = (userData, history) => (dispatch) => {
-  dispatch({ type: LOADING_UI });
   axios
-    .post("http://localhost:4000/api/auth/login", userData)
+    .post("/auth/login", userData)
     .then((auth) => {
       localStorage.setItem("userId", JSON.stringify(auth.data.userId));
       setAuthorizationHeader(auth);
       dispatch(getUserData());
-      dispatch({ type: CLEAR_ERRORS });
       history.push("/");
     })
-    .catch((err) => {
-      dispatch({
-        type: SET_ERRORS,
-        payload: err.data,
-      });
-    });
+    .catch((err) => console.log(err.data));
 };
 
 export const signupUser = (newUserData, history) => (dispatch) => {
-  dispatch({ type: LOADING_UI });
   axios
-    .post("http://localhost:4000/api/auth/signup", newUserData)
+    .post("/auth/signup", newUserData)
     .then((auth) => {
       localStorage.setItem("userId", JSON.stringify(auth.data.userId));
       setAuthorizationHeader(auth);
       dispatch(getUserData());
-      dispatch({ type: CLEAR_ERRORS });
       history.push("/");
     })
-    .catch((err) => {
-      dispatch({
-        type: SET_ERRORS,
-        payload: err.data,
-      });
-    });
+    .catch((err) => console.log(err.data));
 };
 
 export const getUserData = () => (dispatch) => {
   dispatch({ type: LOADING_USER });
   const userId = JSON.parse(localStorage.getItem("userId"));
   axios
-    .get("http://localhost:4000/api/auth/" + userId)
+    .get("/auth/" + userId)
     .then((res) => {
       dispatch({
         type: SET_USER,
@@ -66,16 +49,11 @@ export const updateUser = (userEdit) => (dispatch) => {
   const userId = JSON.parse(localStorage.getItem("userId"));
 
   axios
-    .put("http://localhost:4000/api/auth/" + userId, userEdit)
+    .put("/auth/" + userId, userEdit)
     .then(() => {
       dispatch(getUserData());
     })
-    .catch((err) => {
-      dispatch({
-        type: SET_ERRORS,
-        payload: err.data,
-      });
-    });
+    .catch((err) => console.log(err.data));
 };
 
 export const logoutUser = () => (dispatch) => {

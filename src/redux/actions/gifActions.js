@@ -2,15 +2,14 @@ import {
   SET_GIFS,
   SET_GIF,
   LOADING_GIFS,
+  LOADING_GIF,
   POST_GIF,
   DELETE_GIF,
   LIKE_GIF,
   UNLIKE_GIF,
+  SET_COMMENTS,
+  LOADING_COMMENTS,
   POST_COMMENT,
-  LOADING_UI,
-  STOP_LOADING_UI,
-  SET_ERRORS,
-  CLEAR_ERRORS,
 } from "../types";
 import axios from "axios";
 
@@ -18,14 +17,14 @@ import axios from "axios";
 export const getGifs = () => (dispatch) => {
   dispatch({ type: LOADING_GIFS });
   axios
-    .get("http://localhost:4000/api/gifs")
+    .get("/gifs")
     .then((res) => {
       dispatch({
         type: SET_GIFS,
         payload: res.data,
       });
     })
-    .catch((err) =>
+    .catch(() =>
       dispatch({
         type: SET_GIFS,
         payload: [],
@@ -35,16 +34,13 @@ export const getGifs = () => (dispatch) => {
 
 // Get one GIF
 export const getOneGif = (gifId) => (dispatch) => {
-  dispatch({ type: LOADING_UI });
+  dispatch({ type: LOADING_GIF });
   axios
-    .get("http://localhost:4000/api/gifs/" + gifId)
+    .get("/gifs/" + gifId)
     .then((res) => {
       dispatch({
         type: SET_GIF,
         payload: res.data,
-      });
-      dispatch({
-        type: STOP_LOADING_UI,
       });
     })
     .catch((err) => console.log(err));
@@ -52,48 +48,53 @@ export const getOneGif = (gifId) => (dispatch) => {
 
 // Post a GIF
 export const postGif = (newGif) => (dispatch) => {
-  dispatch({ type: LOADING_UI });
   axios
-    .post("http://localhost:4000/api/gifs", newGif)
+    .post("/gifs", newGif)
     .then((res) => {
-      dispatch({
-        type: POST_GIF,
-        payload: res.data,
+      axios.get("/gifs/" + res.data.gifId).then((gif) => {
+        dispatch({
+          type: POST_GIF,
+          payload: gif.data,
+        });
       });
-      dispatch(dispatch(clearErrors()))
     })
-    .catch((err) =>
-      dispatch({
-        type: SET_ERRORS,
-        payload: err.data,
-      })
-    );
+    .catch((err) => console.log(err));
+};
+
+// Update a GIF
+export const updateGif = (gifId, gifDetails) => (dispatch) => {
+  axios
+    .put("/gifs/" + gifId, gifDetails)
+    .then(() => {
+      dispatch(getGifs());
+    })
+    .catch((err) => console.log(err.data));
 };
 
 // Delete GIF
 export const deleteGif = (gifId) => (dispatch) => {
+  
   axios
-    .delete("http://localhost:4000/api/gifs/" + gifId)
-    .then((res) => {
+    .delete("/gifs/" + gifId)
+    .then(() => {
       dispatch({
         type: DELETE_GIF,
         payload: gifId,
       });
     })
+
     .catch((err) => console.log(err));
 };
 
 // Like GIF
 export const likeGif = (gifId) => (dispatch) => {
   const userId = JSON.parse(localStorage.getItem("userId"));
-
   const like = {
     gifId: gifId,
     userId: userId,
   };
-
   axios
-    .post("http://localhost:4000/api/likes/" + gifId, like)
+    .post("/likes/" + gifId, like)
     .then((res) => {
       dispatch({
         type: LIKE_GIF,
@@ -106,43 +107,57 @@ export const likeGif = (gifId) => (dispatch) => {
 // Unlike GIF
 export const unlikeGif = (gifId) => (dispatch) => {
   const userId = JSON.parse(localStorage.getItem("userId"));
-
   axios
-    .delete("http://localhost:4000/api/likes/" + gifId, {
+    .delete("/likes/" + gifId, {
       data: {
         userId: userId,
       },
     })
-    .then((res) => {
+    .then(() => {
       dispatch({
         type: UNLIKE_GIF,
-        payload: res.data,
+        payload: {
+          gifId: gifId,
+          userId: userId,
+        },
       });
     })
     .catch((err) => console.log(err));
 };
 
-// Post a comment
-export const postComment = (gifId, newComment) => (dispatch) => {
-  dispatch({ type: LOADING_UI });
-  console.log(gifId, newComment)
+// Get all comments
+export const getComments = (gifId) => (dispatch) => {
+  dispatch({ type: LOADING_COMMENTS });
   axios
-    .post("http://localhost:4000/api/comments/" + gifId, newComment)
+    .get("/comments/" + gifId)
     .then((res) => {
       dispatch({
-        type: POST_COMMENT,
+        type: SET_COMMENTS,
         payload: res.data,
       });
-      dispatch(clearErrors());
     })
-    .catch((err) =>
+    .catch(() =>
       dispatch({
-        type: SET_ERRORS,
-        payload: err.data,
+        type: SET_COMMENTS,
+        payload: [],
       })
     );
 };
 
-export const clearErrors = () => (dispatch) => {
-  dispatch({ type: CLEAR_ERRORS });
+// Post a comment
+export const postComment = (gifId, newComment) => (dispatch) => {
+  axios
+    .post("/comments/" + gifId, newComment)
+    .then((res) => {
+      axios
+        .get("/comments/comment/" + res.data.commentId)
+        .then((comment) => {
+          dispatch({
+            type: POST_COMMENT,
+            payload: comment.data,
+          });
+        })
+        .catch((err) => console.log(err));
+    })
+    .catch((err) => console.log(err));
 };

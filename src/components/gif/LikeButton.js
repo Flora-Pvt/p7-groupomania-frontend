@@ -1,15 +1,18 @@
 import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
-import MyButton from "../../utils/MyButton";
 import PropTypes from "prop-types";
 
 // Material UI
+import withStyles from "@material-ui/core/styles/withStyles";
+import IconButton from "@material-ui/core/IconButton";
 import StarIcon from "@material-ui/icons/Star";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
-
 // Redux
 import { connect } from "react-redux";
-import { likeGif, unlikeGif } from "../../redux/network/gifNetwork";
+import { likeGif, unlikeGif } from "../../redux/actions/gifActions";
+
+const styles = (theme) => ({
+  ...theme.styling,
+});
 
 export class LikeButton extends Component {
   likedGif = () => {
@@ -30,24 +33,24 @@ export class LikeButton extends Component {
   };
 
   render() {
-    const {
-      user: { authenticated },
-    } = this.props;
+    const { classes } = this.props;
 
-    const likeButton = !authenticated ? (
-      <Link to="/login">
-        <MyButton tip="Aimer">
-          <StarBorderIcon color="primary" />
-        </MyButton>
-      </Link>
-    ) : this.likedGif() ? (
-      <MyButton tip="Ne plus aimer" onClick={this.unlikeGif}>
-        <StarIcon color="primary" />
-      </MyButton>
+    const likeButton = this.likedGif() ? (
+      <IconButton
+        onClick={this.unlikeGif}
+        title="Retirer une étoile"
+        className={classes.button}
+      >
+        <StarIcon color="secondary" className={classes.star} />
+      </IconButton>
     ) : (
-      <MyButton tip="Aimer" onClick={this.likeGif}>
-        <StarBorderIcon color="primary" />
-      </MyButton>
+      <IconButton
+        onClick={this.likeGif}
+        title="Ajouter une étoile"
+        className={classes.button}
+      >
+        <StarBorderIcon className={classes.star} />
+      </IconButton>
     );
     return <Fragment>{likeButton}</Fragment>;
   }
@@ -58,6 +61,7 @@ LikeButton.propTypes = {
   gifId: PropTypes.number.isRequired,
   likeGif: PropTypes.func.isRequired,
   unlikeGif: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -69,4 +73,7 @@ const mapActionsToProps = {
   unlikeGif,
 };
 
-export default connect(mapStateToProps, mapActionsToProps)(LikeButton);
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(withStyles(styles)(LikeButton));

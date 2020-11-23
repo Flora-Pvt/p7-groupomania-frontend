@@ -5,9 +5,10 @@ import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 
 // Redux
 import { Provider } from "react-redux";
-import store from "./redux/store";
+import { PersistGate } from "redux-persist/integration/react";
+import { persistor, store } from "./redux/store";
 import { SET_AUTHENTICATED, SET_UNAUTHENTICATED } from "./redux/types";
-import { getUserData } from "./redux/network/userNetwork";
+import { getUserData } from "./redux/actions/userActions";
 
 // Components
 import Navbar from "./components/layout/Navbar";
@@ -20,9 +21,12 @@ import gif from "./pages/gif";
 import user from "./pages/user";
 import login from "./pages/login";
 import signup from "./pages/signup";
+
 import axios from "axios";
 
 const theme = themeObject;
+
+axios.defaults.baseURL = "http://localhost:4000/api";
 
 if (JSON.parse(localStorage.getItem("token"))) {
   const token = JSON.parse(localStorage.getItem("token"));
@@ -39,30 +43,32 @@ if (JSON.parse(localStorage.getItem("token"))) {
 class App extends Component {
   render() {
     return (
-      <MuiThemeProvider theme={theme}>
-        <Provider store={store}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
           <Router>
-            <Navbar />
-            <div className="container">
-              <Switch>
-                <Route exact path="/" component={home} />
-              </Switch>
-              <Switch>
-                <AuthRoute exact path="/gif" component={gif} />
-              </Switch>
-              <Switch>
-                <AuthRoute exact path="/user" component={user} />
-              </Switch>
-              <Switch>
-                <AuthRoute exact path="/login" component={login} />
-              </Switch>
-              <Switch>
-                <AuthRoute exact path="/signup" component={signup} />
-              </Switch>
-            </div>
+            <MuiThemeProvider theme={theme}>
+              <Navbar />
+              <div className="container">
+                <Switch>
+                  <Route exact path="/" component={home} />
+                </Switch>
+                <Switch>
+                  <Route exact path="/gif/:id" component={gif} />
+                </Switch>
+                <Switch>
+                  <Route exact path="/user" component={user} />
+                </Switch>
+                <Switch>
+                  <AuthRoute exact path="/login" component={login} />
+                </Switch>
+                <Switch>
+                  <AuthRoute exact path="/signup" component={signup} />
+                </Switch>
+              </div>
+            </MuiThemeProvider>
           </Router>
-        </Provider>
-      </MuiThemeProvider>
+        </PersistGate>
+      </Provider>
     );
   }
 }

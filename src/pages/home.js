@@ -1,36 +1,39 @@
 import React, { Component } from "react";
-import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
-
 import Gif from "../components/gif/Gif";
-import User from "../components/user/User";
 
+// Material UI
+import withStyles from "@material-ui/core/styles/withStyles";
+import Container from "@material-ui/core/Container";
+import Card from "@material-ui/core/Card";
+
+// Redux
 import { connect } from "react-redux";
-import { getGifs } from "../redux/network/gifNetwork";
+import { getGifs } from "../redux/actions/gifActions";
+
+const styles = (theme) => ({
+  ...theme.styling,
+});
 
 export class home extends Component {
-  
   componentDidMount() {
     this.props.getGifs();
   }
 
   render() {
-    const { gifs, loading } = this.props.gifs;
-    let recentGifsMarkup = !loading ? (
-      gifs.map((gif) => <Gif gif={gif} key={gif.gifId} />)
-    ) : (
-      <p>Loading...</p>
-    );
+    const { classes } = this.props;
+    const { gifs } = this.props.gifs;
+
+    const recentGifsMarkup = gifs.map((gif) => (
+      <Card className={classes.card}  key={gif.gifId}>
+      <Gif gif={gif} />
+      </Card>
+    ));
 
     return (
-      <Grid container>
-        <Grid item sm={3} xs={12}>
-          <User />
-        </Grid>
-        <Grid item sm={8} xs={12}>
-          {recentGifsMarkup}
-        </Grid>
-      </Grid>
+      <Container className={classes.container} >
+        {recentGifsMarkup}
+      </Container>
     );
   }
 }
@@ -38,10 +41,13 @@ export class home extends Component {
 home.propTypes = {
   getGifs: PropTypes.func.isRequired,
   gifs: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => ({
   gifs: state.gifs,
 });
 
-export default connect(mapStateToProps, { getGifs })(home);
+export default connect
+  (mapStateToProps, { getGifs })(withStyles(styles)(home)
+);
