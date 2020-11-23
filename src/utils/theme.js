@@ -148,6 +148,10 @@ const themeObject = createMuiTheme({
       paddingBottom: 0,
       width: "90%",
       alignSelf: "center",
+      '& input:invalid + fieldset': {
+        borderColor: 'red',
+        borderWidth: 2,
+      },
     },
     commentButton: {
       justifyContent: "flex-end",

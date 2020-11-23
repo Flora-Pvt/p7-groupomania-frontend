@@ -6,7 +6,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogTitle from "@material-ui/core/DialogTitle";
-import IconButton from '@material-ui/core/IconButton';
+import IconButton from "@material-ui/core/IconButton";
 import Button from "@material-ui/core/Button";
 import DeleteOutline from "@material-ui/icons/DeleteOutline";
 
@@ -76,4 +76,4 @@ DeleteButton.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default connect(null, { deleteGif })(withStyles(styles)(DeleteButton))
+export default connect(null, { deleteGif })(withStyles(styles)(DeleteButton));

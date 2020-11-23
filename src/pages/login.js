@@ -23,19 +23,9 @@ class login extends Component {
     this.state = {
       email: "",
       password: "",
-      errors: {},
+      errors: "",
     };
   }
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-
-    const userData = {
-      email: this.state.email,
-      password: this.state.password,
-    };
-    this.props.loginUser(userData, this.props.history);
-  };
 
   handleChange = (event) => {
     this.setState({
@@ -43,11 +33,26 @@ class login extends Component {
     });
   };
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    if (
+      !this.state.email ||
+      this.state.email === undefined ||
+      !this.state.password ||
+      this.state.password === undefined
+    ) {
+      this.setState({ errors: "Vérifiez les données saisies" });
+    } else {
+      const userData = {
+        email: this.state.email,
+        password: this.state.password,
+      };
+      this.props.loginUser(userData, this.props.history);
+    }
+  };
+
   render() {
-    const {
-      classes,
-    } = this.props;
-    const { errors } = this.state;
+    const { classes } = this.props;
 
     return (
       <Grid container spacing={10} className={classes.form}>
@@ -60,35 +65,30 @@ class login extends Component {
             noValidate
             className={classes.form}
           >
+            <span style={{ color: "red" }}>{this.state.errors}</span>
             <TextField
+              required
               className={classes.field}
               id="email"
               name="email"
               type="email"
-              label="Adresse mail*"
+              label="Adresse mail"
               variant="outlined"
-              helperText={errors.email}
-              error={errors.email ? true : false}
               value={this.state.email}
               onChange={this.handleChange}
             />
             <TextField
+              required
               className={classes.field}
               id="password"
               name="password"
               type="password"
-              label="Mot de passe*"
+              label="Mot de passe"
               variant="outlined"
-              helperText={errors.password}
-              error={errors.password ? true : false}
               value={this.state.password}
               onChange={this.handleChange}
             />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-            >
+            <Button type="submit" variant="contained" color="primary">
               Login
             </Button>
             <p>

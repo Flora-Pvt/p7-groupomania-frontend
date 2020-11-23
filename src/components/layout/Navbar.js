@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import IconGroupomania from "../../images/iconWhite.svg";
-import GifForm from "../gif/GifForm";
+import AddGif from "../gif/AddGif";
 
 // Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -43,7 +43,7 @@ export class Navbar extends Component {
                 <Link to="/user" aria-label="chemin vers la page de profil">
                   <Avatar title="Voir mon profil" src={avatar} alt="avatar" />
                 </Link>
-                <GifForm />
+                <AddGif />
               </div>
             </Fragment>
           ) : (

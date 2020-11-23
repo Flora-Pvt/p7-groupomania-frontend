@@ -73,6 +73,7 @@ export const updateGif = (gifId, gifDetails) => (dispatch) => {
 
 // Delete GIF
 export const deleteGif = (gifId) => (dispatch) => {
+  
   axios
     .delete("/gifs/" + gifId)
     .then(() => {
@@ -81,6 +82,7 @@ export const deleteGif = (gifId) => (dispatch) => {
         payload: gifId,
       });
     })
+
     .catch((err) => console.log(err));
 };
 

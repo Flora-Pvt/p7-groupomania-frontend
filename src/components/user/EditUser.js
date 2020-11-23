@@ -27,6 +27,7 @@ export class userEdit extends Component {
     fileInput: React.createRef(),
     fileOutput: React.createRef(),
     officePosition: "",
+    errors: "",
     open: false,
   };
 
@@ -50,7 +51,7 @@ export class userEdit extends Component {
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ open: false, errors: "" });
   };
 
   handleChange = (event) => {
@@ -66,20 +67,25 @@ export class userEdit extends Component {
 
   handleImageLoaded = (event) => {
     const fileOutput = this.state.fileOutput.current;
-    fileOutput.src = URL.createObjectURL(event.target.files[0])
+    fileOutput.src = URL.createObjectURL(event.target.files[0]);
     this.setState({
       avatar: event.target.files[0],
     });
   };
 
-  handleSubmit = () => {
-    const image = this.state.avatar;
-    const officePosition = this.state.officePosition;
-    const userDetails = new FormData();
-    userDetails.append("image", image);
-    userDetails.append("officePosition", JSON.stringify(officePosition));
-    this.props.updateUser(userDetails);
-    this.handleClose();
+  handleSubmit = (event) => {
+    event.preventDefault();
+    if (!this.state.officePosition || this.state.officePosition === undefined) {
+      this.setState({ errors: "Vérifiez les données saisies" });
+    } else {
+      const image = this.state.avatar;
+      const officePosition = this.state.officePosition;
+      const userDetails = new FormData();
+      userDetails.append("image", image);
+      userDetails.append("officePosition", JSON.stringify(officePosition));
+      this.props.updateUser(userDetails);
+      this.handleClose();
+    }
   };
 
   render() {
@@ -102,7 +108,8 @@ export class userEdit extends Component {
         >
           <DialogTitle>Modifier vos informations</DialogTitle>
           <DialogContent>
-            <form encType="multipart/form-data">
+            <form encType="multipart/form-data" noValidate>
+              <span style={{ color: "red" }}>{this.state.errors}</span>
               <div className={classes.flexEditAvatar}>
                 <input
                   ref={this.state.fileInput}
@@ -115,19 +122,19 @@ export class userEdit extends Component {
                   onChange={this.handleImageLoaded}
                 />
                 {this.state.fileOutput.src !== undefined ? (
-                <img
-                  ref={this.state.fileOutput}
-                  alt="avatar miniature"
-                  className={classes.avatar}
-                />
-              ) : (
-                <img
-                  ref={this.state.fileOutput}
-                  src={Logo}
-                  alt="logo de groupomania représenté par une planète"
-                  className={classes.avatar}
-                />
-              )}
+                  <img
+                    ref={this.state.fileOutput}
+                    alt="avatar miniature"
+                    className={classes.avatar}
+                  />
+                ) : (
+                  <img
+                    ref={this.state.fileOutput}
+                    src={Logo}
+                    alt="logo de groupomania représenté par une planète"
+                    className={classes.avatar}
+                  />
+                )}
                 <IconButton
                   title="Editer votre avatar"
                   onClick={this.handleAddImage}
@@ -137,10 +144,11 @@ export class userEdit extends Component {
                 </IconButton>
               </div>
               <TextField
+                required
                 name="officePosition"
                 type="text"
                 label="Rôle dans l'entreprise"
-                className={classes.TextField}
+                className={classes.field}
                 value={this.state.officePosition}
                 onChange={this.handleChange}
                 fullWidth

@@ -21,12 +21,13 @@ const styles = (theme) => ({
   ...theme.styling,
 });
 
-export class GifForm extends Component {
+export class AddGif extends Component {
   state = {
     title: "",
     image: "",
     fileInput: React.createRef(),
     fileOutput: React.createRef(),
+    errors: "",
     open: false,
   };
 
@@ -35,7 +36,7 @@ export class GifForm extends Component {
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ open: false, errors: "" });
   };
 
   handleChange = (event) => {
@@ -57,22 +58,27 @@ export class GifForm extends Component {
     });
   };
 
-  handleSubmit = () => {
-    const userId = localStorage.getItem("userId");
-    const title = JSON.stringify(this.state.title);
-    const image = this.state.image;
+  handleSubmit = (event) => {
+    event.preventDefault();
+    if (!this.state.title || this.state.title === undefined || !this.state.image || this.state.image === undefined) {
+      this.setState({ errors: "Vérifiez les données saisies" });
+    } else {
+      const userId = localStorage.getItem("userId");
+      const title = JSON.stringify(this.state.title);
+      const image = this.state.image;
 
-    const newGif = new FormData();
-    newGif.append("image", image);
-    newGif.append("userId", userId);
-    newGif.append("title", title);
-    this.props.postGif(newGif);
+      const newGif = new FormData();
+      newGif.append("image", image);
+      newGif.append("userId", userId);
+      newGif.append("title", title);
+      this.props.postGif(newGif);
 
-    this.setState({
-      title: "",
-      image: "",
-    });
-    this.handleClose();
+      this.setState({
+        title: "",
+        image: "",
+      });
+      this.handleClose();
+    }
   };
 
   render() {
@@ -92,15 +98,18 @@ export class GifForm extends Component {
         >
           <DialogTitle>Ajouter votre GIF !</DialogTitle>
           <DialogContent>
-            <form encType="multipart/form-data">
+            <form encType="multipart/form-data" noValidate>
+            <span style={{ color: "red" }}>{this.state.errors}</span>
               <TextField
+                required
                 name="title"
                 type="text"
                 label="Titre du GIF"
                 value={this.state.title}
                 onChange={this.handleChange}
+                className={classes.field}
                 fullWidth
-              />
+              />              
               <input
                 ref={this.state.fileInput}
                 name="image"
@@ -150,7 +159,7 @@ export class GifForm extends Component {
   }
 }
 
-GifForm.propTypes = {
+AddGif.propTypes = {
   postGif: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
 };
@@ -159,4 +168,4 @@ const mapActionsToProps = {
   postGif,
 };
 
-export default connect(null, mapActionsToProps)(withStyles(styles)(GifForm));
+export default connect(null, mapActionsToProps)(withStyles(styles)(AddGif));

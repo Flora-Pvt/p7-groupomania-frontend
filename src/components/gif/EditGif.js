@@ -27,6 +27,7 @@ export class EditGif extends Component {
     image: "",
     fileInput: React.createRef(),
     fileOutput: React.createRef(),
+    errors: "",
     open: false,
   };
 
@@ -35,7 +36,7 @@ export class EditGif extends Component {
   };
 
   handleClose = () => {
-    this.setState({ open: false });
+    this.setState({ open: false, errors: "" });
   };
 
   handleChange = (event) => {
@@ -57,7 +58,11 @@ export class EditGif extends Component {
     });
   };
 
-  handleSubmit = () => {
+  handleSubmit = (event) => {
+    event.preventDefault();
+    if (!this.state.title || this.state.title === undefined) {
+      this.setState({ errors: "Vérifiez les données saisies" });
+    } else {
     const userId = localStorage.getItem("userId");
     const title = JSON.stringify(this.state.title);
     const image = this.state.image;
@@ -68,7 +73,7 @@ export class EditGif extends Component {
     gifDetails.append("title", title);
     this.props.updateGif(this.props.gifId, gifDetails);
     this.handleClose();
-  };
+  };}
 
   render() {
     const { classes } = this.props;
@@ -90,13 +95,15 @@ export class EditGif extends Component {
         >
           <DialogTitle>Ajouter votre GIF !</DialogTitle>
           <DialogContent>
-            <form encType="multipart/form-data">
+            <form encType="multipart/form-data" noValidate >
+            <span style={{ color: "red" }}>{this.state.errors}</span>
               <TextField
                 name="title"
                 type="text"
                 label="Titre du GIF"
                 value={this.state.title}
                 onChange={this.handleChange}
+                required
                 fullWidth
               />
               <input

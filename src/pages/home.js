@@ -23,6 +23,7 @@ export class home extends Component {
   render() {
     const { classes } = this.props;
     const { gifs } = this.props.gifs;
+
     const recentGifsMarkup = gifs.map((gif) => (
       <Card className={classes.card}  key={gif.gifId}>
       <Gif gif={gif} />

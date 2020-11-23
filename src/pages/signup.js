@@ -32,7 +32,7 @@ class signup extends Component {
       officePosition: "",
       email: "",
       password: "",
-      errors: {},
+      errors: "",
     };
   }
 
@@ -57,28 +57,44 @@ class signup extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    if (
+      !this.state.avatar ||
+      this.state.avatar === undefined ||
+      !this.state.firstName ||
+      this.state.firstName === undefined ||
+      !this.state.lastName ||
+      this.state.lastName === undefined ||
+      !this.state.officePosition ||
+      this.state.officePosition === undefined ||
+      !this.state.email ||
+      this.state.email === undefined ||
+      !this.state.password ||
+      this.state.password === undefined
+    ) {
+      this.setState({ errors: "Vérifiez les données saisies" });
+    } else {
+      this.setState({ errors: "" });
+      const image = this.state.avatar;
+      const firstName = JSON.stringify(this.state.firstName);
+      const lastName = JSON.stringify(this.state.lastName);
+      const officePosition = JSON.stringify(this.state.officePosition);
+      const email = JSON.stringify(this.state.email);
+      const password = JSON.stringify(this.state.password);
 
-    const image = this.state.avatar;
-    const firstName = JSON.stringify(this.state.firstName);
-    const lastName = JSON.stringify(this.state.lastName);
-    const officePosition = JSON.stringify(this.state.officePosition);
-    const email = JSON.stringify(this.state.email);
-    const password = JSON.stringify(this.state.password);
+      const newUserData = new FormData();
+      newUserData.append("image", image);
+      newUserData.append("firstName", firstName);
+      newUserData.append("lastName", lastName);
+      newUserData.append("officePosition", officePosition);
+      newUserData.append("email", email);
+      newUserData.append("password", password);
 
-    const newUserData = new FormData();
-    newUserData.append("image", image);
-    newUserData.append("firstName", firstName);
-    newUserData.append("lastName", lastName);
-    newUserData.append("officePosition", officePosition);
-    newUserData.append("email", email);
-    newUserData.append("password", password);
-
-    this.props.signupUser(newUserData, this.props.history);
+      this.props.signupUser(newUserData, this.props.history);
+    }
   };
 
   render() {
     const { classes } = this.props;
-    const { errors } = this.state;
 
     return (
       <Grid container spacing={10} className={classes.form}>
@@ -89,8 +105,10 @@ class signup extends Component {
           <form
             encType="multipart/form-data"
             onSubmit={this.handleSubmit}
+            noValidate
             className={classes.form}
           >
+            <span style={{ color: "red" }}>{this.state.errors}</span>
             <Grid container direction="row" justify="flex-start">
               <input
                 ref={this.state.fileInput}
@@ -125,70 +143,61 @@ class signup extends Component {
               </IconButton>
             </Grid>
             <TextField
+              required
               className={classes.field}
               id="firstName"
               name="firstName"
               type="text"
-              label="Prénom*"
+              label="Prénom"
               variant="outlined"
-              helperText={errors.firstName}
-              error={errors.firstName ? true : false}
               value={this.state.firstName}
               onChange={this.handleChange}
             />
             <TextField
+              required
               className={classes.field}
               id="lastName"
               name="lastName"
               type="text"
-              label="Nom*"
+              label="Nom"
               variant="outlined"
-              helperText={errors.lastName}
-              error={errors.lastName ? true : false}
               value={this.state.lastName}
               onChange={this.handleChange}
             />
             <TextField
+              required
               className={classes.field}
               id="officePosition"
               name="officePosition"
               type="text"
-              label="Rôle dans l'entreprise*"
+              label="Rôle dans l'entreprise"
               variant="outlined"
-              helperText={errors.officePosition}
-              error={errors.officePosition ? true : false}
               value={this.state.officePosition}
               onChange={this.handleChange}
             />
             <TextField
+              required
               className={classes.field}
               id="email"
               name="email"
               type="email"
-              label="Adresse mail*"
+              label="Adresse mail"
               variant="outlined"
-              helperText={errors.email}
-              error={errors.email ? true : false}
               value={this.state.email}
               onChange={this.handleChange}
             />
             <TextField
+              required
               className={classes.field}
               id="password"
               name="password"
               type="password"
-              label="Mot de passe*"
+              label="Mot de passe"
               variant="outlined"
-              helperText={errors.password}
-              error={errors.password ? true : false}
               value={this.state.password}
               onChange={this.handleChange}
             />
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-            >
+            <Button type="submit" variant="contained" color="primary">
               Signup
             </Button>
             <p>

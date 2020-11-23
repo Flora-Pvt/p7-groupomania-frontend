@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import PropTypes from "prop-types";
 import Gif from "../components/gif/Gif";
 import Comment from "../components/gif/Comment";
-import CommentForm from "../components/gif/CommentForm";
+import AddComment from "../components/gif/AddComment";
 
 // Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -22,22 +22,29 @@ export class OneGif extends Component {
     let gifId = this.props.match.params.id;
     this.props.getComments(gifId);
   }
+
   render() {
-    let gifId = this.props.match.params.id;
-    let index = this.props.gifs.gifs.findIndex((gif) => gif.gifId == gifId);
-
     const { classes } = this.props;
-    const gif = this.props.gifs.gifs[index];
+    let gifId = Number(this.props.match.params.id);
+    let index = this.props.gifs.gifs.findIndex((gif) => gif.gifId === gifId);
 
-    const gifMarkup = gif && <Gif gif={gif} key={gif.gifId} />;
+    if (this.props.gifs.gifs[index] === undefined) {
+      window.location.href = "/";
+      return null
 
-    return (
-      <Card className={classes.card}>
-        {gifMarkup}
-        <CommentForm gifId={gif.gifId} />
-        <Comment comments={gif.Comments} />
-      </Card>
-    );
+    } else {
+      const gif = this.props.gifs.gifs[index];
+
+      const gifMarkup = gif && <Gif gif={gif} key={gif.gifId} />;
+
+      return (
+        <Card className={classes.card}>
+          {gifMarkup}
+          <AddComment gifId={gif.gifId} />
+          <Comment comments={gif.Comments} />
+        </Card>
+      );
+    }
   }
 }
 
