@@ -21,25 +21,21 @@ const styles = (theme) => ({
 });
 
 class signup extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       avatar: "",
       fileInput: React.createRef(),
       fileOutput: React.createRef(),
-      firstName: "",
-      lastName: "",
-      officePosition: "",
-      email: "",
-      password: "",
-      errors: "",
+      fields: {},
+      errors: {},
     };
   }
 
-  handleChange = (event) => {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+  handleChange = (field, event) => {
+    let fields = this.state.fields;
+    fields[field] = event.target.value;
+    this.setState({ fields });
   };
 
   handleAddImage = () => {
@@ -55,39 +51,90 @@ class signup extends Component {
     });
   };
 
+  handleValidation() {
+    let fields = this.state.fields;
+    let errors = {};
+    let formIsValid = true;
+
+    if (!this.state.avatar || this.state.avatar === undefined) {
+      formIsValid = false;
+      errors["avatar"] = "Vérifiez l'image ajoutée";
+    }
+    if (
+      !fields["firstName"] ||
+      typeof fields["firstName"] === undefined ||
+      !fields["firstName"].match(
+        /^([a-zA-Z\u0080-\u024F]+(?: |-| |'))*[a-zA-Z\u0080-\u024F]*$/
+      )
+    ) {
+      formIsValid = false;
+      errors["firstName"] = "Vérifiez les données saisies";
+    }
+    if (
+      !fields["lastName"] ||
+      typeof fields["lastName"] === undefined ||
+      !fields["lastName"].match(
+        /^([a-zA-Z\u0080-\u024F]+(?: |-| |'))*[a-zA-Z\u0080-\u024F]*$/
+      )
+    ) {
+      formIsValid = false;
+      errors["lastName"] = "Vérifiez les données saisies";
+    }
+    if (
+      !fields["officePosition"] ||
+      typeof fields["officePosition"] === undefined
+    ) {
+      formIsValid = false;
+      errors["officePosition"] = "Vérifiez les données saisies";
+    }
+    if (
+      !fields["email"] ||
+      typeof fields["email"] === undefined ||
+      !fields["email"].match(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      )
+    ) {
+      formIsValid = false;
+      errors["email"] = "Votre email doit être valide";
+    }
+    if (
+      !fields["password"] ||
+      typeof fields["password"] === undefined ||
+      !fields["password"].match(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,50})/)
+    ) {
+      formIsValid = false;
+      errors["password"] =
+        "Le mot de passe doit être d'au moins 8 caractères, comporter une majuscule, une minuscule et un chiffre.";
+    }
+
+    this.setState({ errors: errors });
+    return formIsValid;
+  }
+
   handleSubmit = (event) => {
     event.preventDefault();
-    if (
-      !this.state.avatar ||
-      this.state.avatar === undefined ||
-      !this.state.firstName ||
-      this.state.firstName === undefined ||
-      !this.state.lastName ||
-      this.state.lastName === undefined ||
-      !this.state.officePosition ||
-      this.state.officePosition === undefined ||
-      !this.state.email ||
-      this.state.email === undefined ||
-      !this.state.password ||
-      this.state.password === undefined
-    ) {
-      this.setState({ errors: "Vérifiez les données saisies" });
-    } else {
+    if (this.handleValidation()) {
       this.setState({ errors: "" });
-      const image = this.state.avatar;
-      const firstName = JSON.stringify(this.state.firstName);
-      const lastName = JSON.stringify(this.state.lastName);
-      const officePosition = JSON.stringify(this.state.officePosition);
-      const email = JSON.stringify(this.state.email);
-      const password = JSON.stringify(this.state.password);
 
       const newUserData = new FormData();
-      newUserData.append("image", image);
-      newUserData.append("firstName", firstName);
-      newUserData.append("lastName", lastName);
-      newUserData.append("officePosition", officePosition);
-      newUserData.append("email", email);
-      newUserData.append("password", password);
+      newUserData.append("image", this.state.avatar);
+      newUserData.append(
+        "firstName",
+        JSON.stringify(this.state.fields["firstName"])
+      );
+      newUserData.append(
+        "lastName",
+        JSON.stringify(this.state.fields["lastName"])
+      );
+      newUserData.append(
+        "officePosition",
+        JSON.stringify(this.state.fields["officePosition"])
+      );
+      newUserData.append("email", JSON.stringify(this.state.fields["email"]));
+      newUserData.append(
+        "password",
+        JSON.stringify(this.state.fields["password"])
+      );
 
       this.props.signupUser(newUserData, this.props.history);
     }
@@ -104,11 +151,10 @@ class signup extends Component {
         <Grid item>
           <form
             encType="multipart/form-data"
-            onSubmit={this.handleSubmit}
+            onSubmit={this.handleSubmit.bind(this)}
             noValidate
             className={classes.form}
           >
-            <span style={{ color: "red" }}>{this.state.errors}</span>
             <Grid container direction="row" justify="flex-start">
               <input
                 ref={this.state.fileInput}
@@ -142,6 +188,7 @@ class signup extends Component {
                 <AddPhotoAlternateIcon color="secondary" />
               </IconButton>
             </Grid>
+            <span style={{ color: "red" }}>{this.state.errors["avatar"]}</span>
             <TextField
               required
               className={classes.field}
@@ -150,9 +197,12 @@ class signup extends Component {
               type="text"
               label="Prénom"
               variant="outlined"
-              value={this.state.firstName}
-              onChange={this.handleChange}
+              value={this.state.fields["firstName"]}
+              onChange={this.handleChange.bind(this, "firstName")}
             />
+            <span style={{ color: "red" }}>
+              {this.state.errors["firstName"]}
+            </span>
             <TextField
               required
               className={classes.field}
@@ -161,9 +211,12 @@ class signup extends Component {
               type="text"
               label="Nom"
               variant="outlined"
-              value={this.state.lastName}
-              onChange={this.handleChange}
+              value={this.state.fields["lastName"]}
+              onChange={this.handleChange.bind(this, "lastName")}
             />
+            <span style={{ color: "red" }}>
+              {this.state.errors["lastName"]}
+            </span>
             <TextField
               required
               className={classes.field}
@@ -172,9 +225,12 @@ class signup extends Component {
               type="text"
               label="Rôle dans l'entreprise"
               variant="outlined"
-              value={this.state.officePosition}
-              onChange={this.handleChange}
+              value={this.state.fields["officePosition"]}
+              onChange={this.handleChange.bind(this, "officePosition")}
             />
+            <span style={{ color: "red" }}>
+              {this.state.errors["officePosition"]}
+            </span>
             <TextField
               required
               className={classes.field}
@@ -184,8 +240,9 @@ class signup extends Component {
               label="Adresse mail"
               variant="outlined"
               value={this.state.email}
-              onChange={this.handleChange}
+              onChange={this.handleChange.bind(this, "email")}
             />
+            <span style={{ color: "red" }}>{this.state.errors["email"]}</span>
             <TextField
               required
               className={classes.field}
@@ -194,14 +251,17 @@ class signup extends Component {
               type="password"
               label="Mot de passe"
               variant="outlined"
-              value={this.state.password}
-              onChange={this.handleChange}
+              value={this.state.fields["password"]}
+              onChange={this.handleChange.bind(this, "password")}
             />
+            <span style={{ color: "red" }}>
+              {this.state.errors["password"]}
+            </span>
             <Button type="submit" variant="contained" color="primary">
               Signup
             </Button>
             <p>
-              You have an account ? sign up{" "}
+              You have an account ? login{" "}
               <Link to="/signup" className={classes.link}>
                 here
               </Link>

@@ -56,7 +56,7 @@ export class AddComment extends Component {
     const commentFormMarkup = authenticated ? (
       <Fragment>
         <CardContent className={classes.commentField}>
-          <form encType="multipart/form-data" noValidate>
+          <form onSubmit={this.handleSubmit} encType="multipart/form-data" noValidate>
           <span style={{ color: "red" }}>{this.state.errors}</span>
             <TextField
               required
@@ -70,7 +70,7 @@ export class AddComment extends Component {
           </form>
         </CardContent>
         <CardActions className={classes.commentButton}>
-          <Button onClick={this.handleSubmit} color="secondary">
+          <Button type="submit" color="secondary">
             Poster
           </Button>
         </CardActions>

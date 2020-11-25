@@ -108,7 +108,7 @@ export class userEdit extends Component {
         >
           <DialogTitle>Modifier vos informations</DialogTitle>
           <DialogContent>
-            <form encType="multipart/form-data" noValidate>
+            <form onSubmit={this.handleSubmit} encType="multipart/form-data" noValidate>
               <span style={{ color: "red" }}>{this.state.errors}</span>
               <div className={classes.flexEditAvatar}>
                 <input
@@ -159,7 +159,7 @@ export class userEdit extends Component {
             <Button onClick={this.handleClose} color="secondary">
               Annuler
             </Button>
-            <Button onClick={this.handleSubmit} color="secondary">
+            <Button type="submit" color="secondary">
               Sauvegarder
             </Button>
           </DialogActions>
