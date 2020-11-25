@@ -55,6 +55,8 @@ export class Gif extends Component {
         case "jpg":
         case "webp":
         case "png":
+        case "gif":
+        case "bmp":
           return true;
         default:
           return false;
@@ -67,6 +69,8 @@ export class Gif extends Component {
         case "avi":
         case "mpeg":
         case "webm":
+        case "mp4":
+        case "mov":
           return true;
         default:
           return false;
@@ -82,7 +86,7 @@ export class Gif extends Component {
       JSON.parse(localStorage.getItem("userId")) === userId && (
         <EditGif gifId={gifId} title={title} />
       );
- 
+
     const gifMarkup = User ? (
       <Fragment>
         <div className={classes.header}>
@@ -98,7 +102,7 @@ export class Gif extends Component {
               dayjs(createdAt).fromNow()
             }
           />
-          <CardActions disableSpacing >
+          <CardActions disableSpacing>
             {editButton}
             {deleteButton}
           </CardActions>
@@ -123,7 +127,7 @@ export class Gif extends Component {
             <p>Impossible de charger le média</p>
           )}
         </Link>
-        <CardActions disableSpacing >
+        <CardActions disableSpacing>
           <LikeButton gifId={gifId} />
           <span>{Likes.length}</span>
           <Link

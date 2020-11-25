@@ -92,7 +92,7 @@ class login extends Component {
               Login
             </Button>
             <p>
-              Don't have an account ? login{" "}
+              Don't have an account ? signup{" "}
               <Link to="/signup" className={classes.link}>
                 here
               </Link>

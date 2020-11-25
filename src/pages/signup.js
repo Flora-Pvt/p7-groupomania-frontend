@@ -71,7 +71,7 @@ class signup extends Component {
       !this.state.password ||
       this.state.password === undefined
     ) {
-      this.setState({ errors: "Vérifiez les données saisies" });
+      this.setState({ errors: "Vérifiez les données saisies (le mot de passe doit être d'au moins 8 caractères, comporter une majuscule, une minuscule et un chiffre)." });
     } else {
       this.setState({ errors: "" });
       const image = this.state.avatar;
@@ -201,7 +201,7 @@ class signup extends Component {
               Signup
             </Button>
             <p>
-              You have an account ? sign up{" "}
+              You have an account ? login{" "}
               <Link to="/signup" className={classes.link}>
                 here
               </Link>
