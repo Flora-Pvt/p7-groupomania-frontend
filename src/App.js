@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 import "./App.css";
 import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 
@@ -7,8 +8,8 @@ import { ThemeProvider as MuiThemeProvider } from "@material-ui/core/styles";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistor, store } from "./redux/store";
-import { SET_AUTHENTICATED, SET_UNAUTHENTICATED } from "./redux/types";
-import { getUserData } from "./redux/actions/userActions";
+import { SET_AUTHENTICATED } from "./redux/types";
+import { getUserData, logoutUser } from "./redux/actions/userActions";
 
 // Components
 import Navbar from "./components/layout/Navbar";
@@ -28,15 +29,17 @@ const theme = themeObject;
 
 axios.defaults.baseURL = "http://localhost:4000/api";
 
-if (JSON.parse(localStorage.getItem("token"))) {
-  const token = JSON.parse(localStorage.getItem("token"));
-  store.dispatch({ type: SET_AUTHENTICATED });
-  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  store.dispatch(getUserData());
-} else {
-  store.dispatch({ type: SET_UNAUTHENTICATED });
-  if (window.location.href !== "http://localhost:3000/login") {
+const token = JSON.parse(localStorage.getItem("token"));
+
+if (token) {
+  const decodedToken = jwt_decode(token);
+  if (decodedToken.exp === 0) {
+    store.dispatch(logoutUser());
     window.location.href = "/login";
+  } else {
+    store.dispatch({ type: SET_AUTHENTICATED });
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    store.dispatch(getUserData());
   }
 }
 
