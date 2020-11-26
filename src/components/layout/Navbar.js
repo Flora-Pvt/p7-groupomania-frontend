@@ -50,12 +50,14 @@ export class Navbar extends Component {
             </Fragment>
           ) : (
             <Fragment>
-              <img
-                edge="start"
-                src={IconGroupomania}
-                alt="logo d'une planète suivi du texte Groupomania"
-                className={classes.logo}
-              />
+              <h1>
+                <img
+                  edge="start"
+                  src={IconGroupomania}
+                  alt="logo d'une planète suivi du texte Groupomania"
+                  className={classes.logo}
+                />
+              </h1>
               <div edge="end">
                 <Button component={Link} to="/login" color="inherit">
                   Connexion

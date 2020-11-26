@@ -44,7 +44,7 @@ export class Gif extends Component {
     } = this.props;
 
     const altAvatar = "avatar de " + User.firstName;
-    const altImg = "GIF" + title;
+    const altImg = "GIF " + title;
 
     dayjs.extend(relativeTime);
     dayjs.extend(updateLocale);
@@ -133,6 +133,7 @@ export class Gif extends Component {
           to={"/gif/" + gifId}
           onClick={this.handleClick}
           className={classes.mediaAlign}
+          aria-label="lien vers les détails de ce GIF"
         >
           {isImage(url) ? (
             <img src={url} alt={altImg} id={gifId} className={classes.media} />
@@ -156,6 +157,7 @@ export class Gif extends Component {
             to={"/gif/" + gifId}
             onClick={this.handleClick}
             className={classes.mediaAlign}
+            aria-label="lien vers les détails de ce GIF"
           >
             <ChatBubbleOutlineIcon id={gifId} className={classes.button} />
           </Link>
