@@ -57,7 +57,7 @@ class login extends Component {
     return (
       <Grid container spacing={10} className={classes.form}>
         <Grid item className={classes.title}>
-          <Typography variant="h4">Log in</Typography>
+          <Typography variant="h4">Connexion</Typography>
         </Grid>
         <Grid item>
           <form
@@ -89,12 +89,12 @@ class login extends Component {
               onChange={this.handleChange}
             />
             <Button type="submit" onClick={this.handleSubmit} variant="contained" color="primary">
-              Login
+              Se connecter
             </Button>
             <p>
-              Don't have an account ? signup{" "}
+              Vous n'avez pas de compte ? inscrivez vous{" "}
               <Link to="/signup" className={classes.link}>
-                here
+                ici
               </Link>
             </p>
           </form>

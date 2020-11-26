@@ -147,7 +147,7 @@ class signup extends Component {
     return (
       <Grid container spacing={10} className={classes.form}>
         <Grid item className={classes.title}>
-          <Typography variant="h4">Sign up</Typography>
+          <Typography variant="h4">Inscription</Typography>
         </Grid>
         <Grid item>
           <form
@@ -182,7 +182,7 @@ class signup extends Component {
                 />
               )}
               <IconButton
-                title="Ajouter l'image du GIF"
+                title="Ajouter votre image d'avatar"
                 onClick={this.handleAddImage}
                 className={classes.addAvatarButton}
               >
@@ -254,12 +254,12 @@ class signup extends Component {
               {this.state.errors["password"]}
             </span>           
             <Button type="submit" onClick={this.handleSubmit} variant="contained" color="primary">
-              Signup
+              Créer un compte
             </Button>
             <p>
-              You have an account ? login{" "}
-              <Link to="/signup" className={classes.link}>
-                here
+              Vous avez déjà un compte ? connectez vous{" "}
+              <Link to="/login" className={classes.link}>
+                ici
               </Link>
             </p>
           </form>

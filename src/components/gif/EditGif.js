@@ -93,7 +93,7 @@ export class EditGif extends Component {
           fullWidth
           maxWidth="sm"
         >
-          <DialogTitle>Ajouter votre GIF !</DialogTitle>
+          <DialogTitle>Modifier votre GIF</DialogTitle>
           <DialogContent>
             <form onSubmit={this.handleSubmit} encType="multipart/form-data" noValidate >
             <span style={{ color: "red" }}>{this.state.errors}</span>
