@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
+import updateLocale from "dayjs/plugin/updateLocale";
 import relativeTime from "dayjs/plugin/relativeTime";
 import PropTypes from "prop-types";
 import EditGif from "./EditGif";
@@ -42,7 +43,25 @@ export class Gif extends Component {
       user: { authenticated },
     } = this.props;
 
-    dayjs.extend(relativeTime);
+    dayjs.extend(relativeTime)
+    dayjs.extend(updateLocale)
+    dayjs.updateLocale('en', {
+      relativeTime: {
+        future: "dans %s",
+        past: "il y a %s",
+        s: 'quelques secondes',
+        m: "une minute",
+        mm: "%d minutes",
+        h: "une heure",
+        hh: "%d heures",
+        d: "un jour",
+        dd: "%d jours",
+        M: "un mois",
+        MM: "%d mois",
+        y: "un an",
+        yy: "%d ans"
+      }
+    })
 
     function getExtension(url) {
       const fileName = url.split(".");
