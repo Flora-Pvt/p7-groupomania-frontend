@@ -43,13 +43,16 @@ export class Gif extends Component {
       user: { authenticated },
     } = this.props;
 
-    dayjs.extend(relativeTime)
-    dayjs.extend(updateLocale)
-    dayjs.updateLocale('en', {
+    const altAvatar = "avatar de " + User.firstName;
+    const altImg = "GIF" + title;
+
+    dayjs.extend(relativeTime);
+    dayjs.extend(updateLocale);
+    dayjs.updateLocale("en", {
       relativeTime: {
         future: "dans %s",
         past: "il y a %s",
-        s: 'quelques secondes',
+        s: "quelques secondes",
         m: "une minute",
         mm: "%d minutes",
         h: "une heure",
@@ -59,9 +62,9 @@ export class Gif extends Component {
         M: "un mois",
         MM: "%d mois",
         y: "un an",
-        yy: "%d ans"
-      }
-    })
+        yy: "%d ans",
+      },
+    });
 
     function getExtension(url) {
       const fileName = url.split(".");
@@ -110,7 +113,7 @@ export class Gif extends Component {
       <Fragment>
         <div className={classes.header}>
           <CardHeader
-            avatar={<Avatar src={User.avatar} alt="avatar" />}
+            avatar={<Avatar src={User.avatar} alt={altAvatar} />}
             title={title}
             subheader={
               "par " +
@@ -132,7 +135,7 @@ export class Gif extends Component {
           className={classes.mediaAlign}
         >
           {isImage(url) ? (
-            <img src={url} alt="GIF" id={gifId} className={classes.media} />
+            <img src={url} alt={altImg} id={gifId} className={classes.media} />
           ) : isVideo(url) ? (
             <video
               controls
@@ -152,9 +155,9 @@ export class Gif extends Component {
           <Link
             to={"/gif/" + gifId}
             onClick={this.handleClick}
-            className={classes.button}
+            className={classes.mediaAlign}
           >
-            <ChatBubbleOutlineIcon id={gifId} />
+            <ChatBubbleOutlineIcon id={gifId} className={classes.button} />
           </Link>
           <span>{Comments.length}</span>
         </CardActions>

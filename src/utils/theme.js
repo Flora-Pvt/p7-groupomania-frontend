@@ -4,13 +4,13 @@ import createBreakpoints from "@material-ui/core/styles/createBreakpoints";
 const breakpoints = createBreakpoints({});
 
 const themeObject = createMuiTheme({
-  palette: {
-    secondary: {
-      main: "#ef5350",
-      contrastText: "#fff",
-    },
+  palette: {    
     primary: {
       main: "#002984",
+      contrastText: "#fff",
+    },
+    secondary: {
+      main: "#E32B2B",
       contrastText: "#fff",
     },
   },
@@ -96,7 +96,7 @@ const themeObject = createMuiTheme({
         alignSelf: "flex-start",
       },
     },
-    mediaAlign: {
+    mediaAlign: {    
       alignSelf: "center",
     },
     media: {

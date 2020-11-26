@@ -32,12 +32,14 @@ export class Navbar extends Component {
           {authenticated ? (
             <Fragment>
               <Link to="/" aria-label="chemin vers la page d'accueil">
-                <img
-                  edge="start"
-                  src={IconGroupomania}
-                  alt="logo d'une planète suivi du texte Groupomania"
-                  className={classes.logo}
-                />
+                <h1>
+                  <img
+                    edge="start"
+                    src={IconGroupomania}
+                    alt="logo d'une planète suivi du texte Groupomania"
+                    className={classes.logo}
+                  />
+                </h1>
               </Link>
               <div className={classes.row} edge="end">
                 <Link to="/user" aria-label="chemin vers la page de profil">
