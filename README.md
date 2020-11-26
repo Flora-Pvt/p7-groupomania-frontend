@@ -10,9 +10,9 @@ React, Redux, axios, Material-UI.
 
 ## Prérequis avant de démarrer le projet
 
-Avoir clôné le dépôt GitHub suivant : https://github.com/Flora-Pvt/p7-groupomania-backend et suivi les instructions.
+Avoir cloné le dépôt GitHub suivant : https://github.com/Flora-Pvt/p7-groupomania-backend et suivi les instructions.
 
-Ensuite clôner le projet frontend, et sur ce dossier frontend entrez dans votre terminal `npm install` puis `npm run build` puis suivre les indications.
+Puis cloner ce dépôt, et dans le dossier frontend entrez dans votre terminal `npm install` puis `npm run build` et suivez les indications.
 
 
 ## Détails sur Groupomania

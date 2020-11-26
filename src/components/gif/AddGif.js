@@ -98,7 +98,7 @@ export class AddGif extends Component {
         >
           <DialogTitle>Ajouter votre GIF !</DialogTitle>
           <DialogContent>
-            <form encType="multipart/form-data" noValidate>
+            <form onSubmit={this.handleSubmit} encType="multipart/form-data" noValidate>
             <span style={{ color: "red" }}>{this.state.errors}</span>
               <TextField
                 required
@@ -149,11 +149,7 @@ export class AddGif extends Component {
             <Button onClick={this.handleClose} color="secondary">
               Annuler
             </Button>
-<<<<<<< Updated upstream
-            <Button onClick={this.handleSubmit} color="secondary">
-=======
             <Button type="submit" onClick={this.handleSubmit} color="secondary">
->>>>>>> Stashed changes
               Sauvegarder
             </Button>
           </DialogActions>
