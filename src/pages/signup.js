@@ -113,6 +113,7 @@ class signup extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
+    console.log(this.state.avatar)
     if (this.handleValidation()) {
       this.setState({ errors: "" });
 
@@ -188,10 +189,9 @@ class signup extends Component {
                 <AddPhotoAlternateIcon color="secondary" />
               </IconButton>
             </Grid>
-            <span style={{ color: "red" }}>{this.state.errors["avatar"]}</span>
+            <span className={classes.errors}>{this.state.errors["avatar"]}</span>
             <TextField
               required
-              className={classes.field}
               id="firstName"
               name="firstName"
               type="text"
@@ -200,12 +200,11 @@ class signup extends Component {
               value={this.state.fields["firstName"]}
               onChange={this.handleChange.bind(this, "firstName")}
             />
-            <span style={{ color: "red" }}>
+            <span className={classes.errors}>
               {this.state.errors["firstName"]}
             </span>
             <TextField
               required
-              className={classes.field}
               id="lastName"
               name="lastName"
               type="text"
@@ -214,12 +213,11 @@ class signup extends Component {
               value={this.state.fields["lastName"]}
               onChange={this.handleChange.bind(this, "lastName")}
             />
-            <span style={{ color: "red" }}>
+            <span className={classes.errors}>
               {this.state.errors["lastName"]}
             </span>
             <TextField
               required
-              className={classes.field}
               id="officePosition"
               name="officePosition"
               type="text"
@@ -228,12 +226,11 @@ class signup extends Component {
               value={this.state.fields["officePosition"]}
               onChange={this.handleChange.bind(this, "officePosition")}
             />
-            <span style={{ color: "red" }}>
+            <span className={classes.errors}>
               {this.state.errors["officePosition"]}
             </span>
             <TextField
               required
-              className={classes.field}
               id="email"
               name="email"
               type="email"
@@ -242,10 +239,9 @@ class signup extends Component {
               value={this.state.email}
               onChange={this.handleChange.bind(this, "email")}
             />
-            <span style={{ color: "red" }}>{this.state.errors["email"]}</span>
+            <span className={classes.errors}>{this.state.errors["email"]}</span>
             <TextField
               required
-              className={classes.field}
               id="password"
               name="password"
               type="password"
@@ -254,7 +250,7 @@ class signup extends Component {
               value={this.state.fields["password"]}
               onChange={this.handleChange.bind(this, "password")}
             />
-            <span style={{ color: "red" }}>
+            <span className={classes.errors}>
               {this.state.errors["password"]}
             </span>           
             <Button type="submit" onClick={this.handleSubmit} variant="contained" color="primary">

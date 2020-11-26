@@ -60,7 +60,8 @@ const themeObject = createMuiTheme({
       borderRadius: "50%",
       objectFit: "cover",
     },
-    field: {
+    errors: {
+      color: "red",
       marginBottom: 20,
     },
     link: {
