@@ -58,10 +58,10 @@ export class Navbar extends Component {
               />
               <div edge="end">
                 <Button component={Link} to="/login" color="inherit">
-                  Login
+                  Connexion
                 </Button>
                 <Button component={Link} to="/signup" color="inherit">
-                  Signup
+                  Inscription
                 </Button>
               </div>
             </Fragment>

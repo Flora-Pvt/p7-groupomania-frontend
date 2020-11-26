@@ -257,7 +257,7 @@ class signup extends Component {
               Créer un compte
             </Button>
             <p>
-              Vous avez déjà un compte ? connectez vous{" "}
+              Vous avez déjà un compte ? Connectez vous{" "}
               <Link to="/login" className={classes.link}>
                 ici
               </Link>

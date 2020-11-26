@@ -92,7 +92,7 @@ class login extends Component {
               Se connecter
             </Button>
             <p>
-              Vous n'avez pas de compte ? inscrivez vous{" "}
+              Vous n'avez pas de compte ? Inscrivez vous{" "}
               <Link to="/signup" className={classes.link}>
                 ici
               </Link>
