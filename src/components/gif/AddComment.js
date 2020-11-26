@@ -70,7 +70,11 @@ export class AddComment extends Component {
           </form>
         </CardContent>
         <CardActions className={classes.commentButton}>
+<<<<<<< Updated upstream
           <Button onClick={this.handleSubmit} color="secondary">
+=======
+          <Button type="submit" onClick={this.handleSubmit} color="secondary">
+>>>>>>> Stashed changes
             Poster
           </Button>
         </CardActions>

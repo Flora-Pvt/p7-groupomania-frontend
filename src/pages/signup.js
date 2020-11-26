@@ -197,7 +197,14 @@ class signup extends Component {
               value={this.state.password}
               onChange={this.handleChange}
             />
+<<<<<<< Updated upstream
             <Button type="submit" variant="contained" color="primary">
+=======
+            <span style={{ color: "red" }}>
+              {this.state.errors["password"]}
+            </span>
+            <Button type="submit" onClick={this.handleSubmit} variant="contained" color="primary">
+>>>>>>> Stashed changes
               Signup
             </Button>
             <p>

@@ -159,7 +159,11 @@ export class userEdit extends Component {
             <Button onClick={this.handleClose} color="secondary">
               Annuler
             </Button>
+<<<<<<< Updated upstream
             <Button onClick={this.handleSubmit} color="secondary">
+=======
+            <Button type="submit" onClick={this.handleSubmit} color="secondary">
+>>>>>>> Stashed changes
               Sauvegarder
             </Button>
           </DialogActions>

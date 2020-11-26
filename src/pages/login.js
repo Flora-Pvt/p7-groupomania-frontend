@@ -88,7 +88,7 @@ class login extends Component {
               value={this.state.password}
               onChange={this.handleChange}
             />
-            <Button type="submit" variant="contained" color="primary">
+            <Button type="submit" onClick={this.handleSubmit} variant="contained" color="primary">
               Login
             </Button>
             <p>
