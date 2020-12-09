@@ -113,7 +113,7 @@ class signup extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    console.log(this.state.avatar)
+
     if (this.handleValidation()) {
       this.setState({ errors: "" });
 
